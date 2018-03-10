@@ -1,0 +1,10 @@
+#!/bin/bash
+### The script starts the server with default settings 
+
+if pipenv &> /dev/null; then
+	pipenv run python manage.py runserver
+else
+	echo "Ooops, looks like pipenv is not installed."
+fi
+
+# -- END --
