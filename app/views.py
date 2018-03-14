@@ -9,7 +9,7 @@ animals find their ideal owners.
 At the moment, nothing special is here. In fact, it is not even an
 HTML page, just an HTTP response.
 But do not worry, in a few Sprints, it will be both functional, and
-beautiful! See You soon ^_^
+beautiful! See You soon ~~
 """
 
 
