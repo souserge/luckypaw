@@ -1,0 +1,43 @@
+{% load staticfiles %}
+<!DOCTYPE HTML>
+
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  {% block extra_head %}
+  {% endblock %}
+
+  {% block scripts %}
+  {% endblock %}
+
+  <!-- title may be moved to specific pages -->
+  <title>Lucky Paw</title>
+</head>
+
+<body>
+    <div id="site-wrapper">
+    
+      <header>
+        <h1>Lucky Paw</h1>
+    
+        <nav><ul>
+            <li id=""><a href="{% url "index" %}">Home</a></li>
+            <li id=""><a href="{% url "about" %}">About</a></li>
+            <li id=""><a href="{% url "search" %}">Search</a></li>
+            <li id=""><a href="{% url "contact" %}">Contact</a></li>
+
+          </ul></nav>
+    
+        <div id="underline-header"></div>
+      </header>
+    
+      {# The Document Body #}
+      <main id="content-wrapper">
+        {% block content %}
+        {% endblock content %}
+      </main>
+    
+      <footer></footer>
+    </div>
+    </body>
+    </html>
