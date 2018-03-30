@@ -11,3 +11,19 @@ main {
     padding: 90px 15px 0;
     margin-bottom: 80px;
 }
+
+.carousel-img {
+    opacity: 1;
+    transition-property: opacity;
+    transition-duration: 0.5s;
+}
+
+.carousel-img:hover {
+    opacity: 0.5;
+}
+
+.carousel-item {
+    background-color: #000000;
+    /* clip: rect(0px,60px,200px,0px); */
+    overflow: hidden;
+}
