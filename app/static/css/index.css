@@ -1,0 +1,24 @@
+.carousel-img {
+    opacity: 1;
+    transition-property: opacity;
+    transition-duration: 0.5s;
+}
+
+.carousel-img:hover {
+    opacity: 0.5;
+}
+
+.carousel-caption {
+    background-color: rgba(000, 000, 000, 0.7);
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.carousel-item {
+    background-color: #000000;
+}
+
+.caousel-indicators {
+    bottom: 0;
+}
