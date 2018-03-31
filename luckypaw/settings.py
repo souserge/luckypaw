@@ -33,6 +33,7 @@ else:
 
 INSTALLED_APPS = [
     'app',
+    'django_filters',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
