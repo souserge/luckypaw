@@ -1,45 +1,10 @@
 html {
-    height: 100%;
-}
-
-body {
+    position: relative;
     min-height: 100%;
 }
 
-#site-wrapper {
-    min-height: 100%;
+footer {
+    position: absolute;
+    bottom: 0;
     width: 100%;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-rows: 1fr auto;
-}
-
-main {
-    margin: 0;
-    padding: 0;
-}
-  
-/* footer {
-    grid-row-start: 2;
-    grid-row-end: 3;
-    width: 100%;
-    padding: 20px;
-    background-color: #343a40 !important;
-} */
-
-.carousel-img {
-    opacity: 1;
-    transition-property: opacity;
-    transition-duration: 0.5s;
-}
-
-.carousel-img:hover {
-    opacity: 0.5;
-}
-
-.carousel-item {
-    background-color: #000000;
-    /* clip: rect(0px,60px,200px,0px); */
-    overflow: hidden;
 }
