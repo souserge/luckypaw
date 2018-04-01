@@ -1,0 +1,13 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+  <form method="get">
+    {{ filter.form.as_p }}
+    <button type="submit">Search</button>
+  </form>
+  <ul>
+  {% for pet in filter.qs %}
+    <li>{{ pet.pet_name }} - {{ pet.pet_type }}</li>
+  {% endfor %}
+  </ul>
+{% endblock %}
