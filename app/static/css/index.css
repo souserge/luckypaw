@@ -1,4 +1,6 @@
 .carousel-img {
+    object-fit: cover;
+    min-height: 100%;
     opacity: 1;
     transition-property: opacity;
     transition-duration: 0.5s;
@@ -19,6 +21,6 @@
     background-color: #000000;
 }
 
-.caousel-indicators {
+.carousel-indicators {
     bottom: 0;
 }
