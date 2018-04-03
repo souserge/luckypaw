@@ -44,8 +44,16 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url "contact" %}">Support us</a>
             </li>
+            {% if request.user.is_authenticated %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url "contact" %}">login/register</a>
+              <a class="nav-link" href="{% url "contact" %}">Profile({{ user.username }})</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url "logout" %}">Logout</a>
+            </li>
+            {% else %}
+              <a class="nav-link" href="{% url "login" %}">Login/Register</a>
+            {% endif %}
             </li>
           </ul>
         </div>
