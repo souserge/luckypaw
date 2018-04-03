@@ -5,9 +5,30 @@
     {{ filter.form.as_p }}
     <button type="submit">Search</button>
   </form>
-  <ul>
-  {% for pet in filter.qs %}
-    <li>{{ pet.pet_name }} - {{ pet.pet_type }}</li>
-  {% endfor %}
-  </ul>
+  <table class="table table-bordered">
+      <thead>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Location</th>
+          <th>Age</th>
+          <th>Color</th>
+          <th>Gender</th>
+          <th>Size</th>
+          <th>Breed</th>
+      </thead>
+      <tbody>
+          {% for pet in filter.qs %}
+            <tr>
+              <td>{{ pet.pet_name }}</td>
+              <td>{{ pet.pet_type }}</td>
+              <td>{{ pet.pet_location }}</td>
+              <td>{{ pet.pet_age }}</td>
+              <td>{{ pet.pet_color }}</td>
+              <td>{{ pet.pet_gender }}</td>
+              <td>{{ pet.pet_size }}</td>
+              <td>{{ pet.pet_breed }}</td>
+            </tr>
+          {% endfor %}
+      </tbody>
+  </table>
 {% endblock %}
