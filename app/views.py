@@ -30,14 +30,6 @@ def index(request):
 def about(request):
     return render(request, 'app/about.html')
 
-# def search(request):
-#     return render(request, 'app/search.html')
-
-# def search(request):
-#     user_list = User.objects.all()
-#     user_filter = UserFilter(request.GET, queryset=user_list)
-#     return render(request, 'app/user_list.html', {'filter': user_filter})
-
 def search(request):
     pet_list = Pet.objects.all()
     pet_filter = PetFilter(request.GET, queryset=pet_list)
