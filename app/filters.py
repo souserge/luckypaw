@@ -11,9 +11,9 @@ from .models import Pet
 class PetFilter(django_filters.FilterSet):
 
     # pet_name = django_filters.CharFilter(name='pet_name', lookup_expr='icontains')
-    pet_type = django_filters.MultipleChoiceFilter(choices=Pet.pet_type_choice, widget=forms.CheckboxSelectMultiple)
+    # pet_type = django_filters.MultipleChoiceFilter(choices=Pet.pet_type_choice, widget=forms.CheckboxSelectMultiple)
     
     class Meta:
         model = Pet
-        fields = ['pet_name']
+        fields = ['pet_type', 'pet_location']
         
