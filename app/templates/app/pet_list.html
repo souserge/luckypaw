@@ -2,10 +2,12 @@
 
 {% block content %}
   <form method="get">
-    {{ filter.form.as_p }}
-    <button type="submit">Search</button>
+    <div class="form-group d-inline-block">
+    {{ filter.form }}
+    </div>
+    <button class="ml-1 btn btn-info" type="submit">Search</button>
   </form>
-  <table class="table table-bordered">
+  <table class="table table-stripped mt-2">
       <thead>
           <th>Name</th>
           <th>Type</th>
