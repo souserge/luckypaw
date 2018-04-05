@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
-from .filters import UserFilter
+from .models import Pet
+# from .filters import UserFilter 
+from .filters import PetFilter
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic.base import TemplateView
@@ -28,13 +30,15 @@ def index(request):
 def about(request):
     return render(request, 'app/about.html')
 
-# def search(request):
-#     return render(request, 'app/search.html')
-
 def search(request):
-    user_list = User.objects.all()
-    user_filter = UserFilter(request.GET, queryset=user_list)
-    return render(request, 'app/user_list.html', {'filter': user_filter})
+    pet_list = Pet.objects.all()
+    pet_filter = PetFilter(request.GET, queryset=pet_list)
+    return render(request, 'app/pet_list.html', {'filter': pet_filter})
 
 def contact(request):
     return render(request, 'app/contact.html')
+
+def login(request):
+    return render(request, 'app/login.html')
+
+

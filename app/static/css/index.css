@@ -1,24 +1,28 @@
 .carousel-img {
+    object-fit: cover;
+    min-height: 100%;
     opacity: 1;
     transition-property: opacity;
     transition-duration: 0.5s;
 }
 
-.carousel-img:hover {
+/* .carousel-img:hover {
     opacity: 0.5;
-}
+} */
 
 .carousel-caption {
-    background-color: rgba(000, 000, 000, 0.7);
+    background-color: rgba(0,0,0, 0.25);
+    /* background-color: rgba(252,218,201, 0.4); */
     right: 0;
     left: 0;
     bottom: 0;
+    /* color: #000000; */
 }
 
 .carousel-item {
     background-color: #000000;
 }
 
-.caousel-indicators {
+.carousel-indicators {
     bottom: 0;
 }

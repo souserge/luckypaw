@@ -1,0 +1,36 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+  <form method="get">
+    <div class="form-group d-inline-block">
+    {{ filter.form }}
+    </div>
+    <button class="ml-1 btn btn-info" type="submit">Search</button>
+  </form>
+  <table class="table table-stripped mt-2">
+      <thead>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Location</th>
+          <th>Age</th>
+          <th>Color</th>
+          <th>Gender</th>
+          <th>Size</th>
+          <th>Breed</th>
+      </thead>
+      <tbody>
+          {% for pet in filter.qs %}
+            <tr>
+              <td>{{ pet.pet_name }}</td>
+              <td>{{ pet.pet_type }}</td>
+              <td>{{ pet.pet_location }}</td>
+              <td>{{ pet.pet_age }}</td>
+              <td>{{ pet.pet_color }}</td>
+              <td>{{ pet.pet_gender }}</td>
+              <td>{{ pet.pet_size }}</td>
+              <td>{{ pet.pet_breed }}</td>
+            </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+{% endblock %}

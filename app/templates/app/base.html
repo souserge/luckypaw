@@ -6,9 +6,12 @@
   <meta charset="UTF-8">
 
   <script src="{% static 'lib/jquery.min.js' %}"></script>
-
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- <script src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script> -->
+  
   <link rel="stylesheet" href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}">
   <script src="{% static 'lib/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'lib/bootstrap/css/bootstrap-social.css' %}">
 
   <link rel="stylesheet" href="{% static 'css/base.css' %}">
 
@@ -24,7 +27,7 @@
 
 <body>
   <header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav id="mainNav" class="navbar navbar-expand-lg navbar-light">
       <div class="container">
         <a class="navbar-brand" href="{% url "index" %}"><h1>Lucky Paw</h1></a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,6 +39,9 @@
               <a class="nav-link" href="{% url "about" %}">About</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="{% url "search" %}">Search</a>
+              </li>
+            <li class="nav-item">
               <a class="nav-link" href="{% url "contact" %}">Contact</a>
             </li>
             <li class="nav-item">
@@ -44,8 +50,17 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url "contact" %}">Support us</a>
             </li>
+            {% if request.user.is_authenticated %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url "contact" %}">login/register</a>
+              <a class="nav-link" href="{% url "contact" %}">Profile({{ user.username }})</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url "logout" %}">Logout</a>
+            </li>
+            {% else %}
+              <a class="nav-link" data-toggle="modal" data-target="#loginModal" href="#">Login/Register</a>
+              {% include "app/login.html" %}   
+            {% endif %}
             </li>
           </ul>
         </div>
@@ -56,15 +71,15 @@
     {% endblock extra_header %}
   </header>
 
-  <main>
+  <main class="container my-4">
     {% block content %}
     {% endblock content %}
   </main>
 
   <div class="py-5"></div>
-  <footer class="py-3 bg-dark">
+  <footer class="py-3">
     <div class="container">
-      <p class="m-0 text-center text-white">Lucky Paw 2018</p>
+      <p class="m-0 text-center">Lucky Paw 2018</p>
     </div>
   </footer>
 </body>
