@@ -11,6 +11,8 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('search/', views.search, name='search'),
     path('contact/', views.contact, name='contact'),
+    path('blog/', views.blog, name='blog'),
+    path('support/', views.support_us, name='support'),
     path('login/', views.login_site, name='login'),
     #path('logout/', views.index, name='logout'),
     path('logout/', LogoutView.as_view(next_page=reverse_lazy('index')), name='logout'),

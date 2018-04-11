@@ -41,13 +41,19 @@ def search(request):
 def contact(request):
     return render(request, 'app/contact.html')
 
+def blog(request):
+    return render(request, 'app/blog.html')
+
+def support_us(request):
+    return render(request, 'app/support_us.html')
+
 def login_site(request):
     return render(request, 'app/login.html')
 
 
 class RegistrationFormView(FormView):
     form_class = RegistrationForm
-    template_name = 'main/index.html'
+    template_name = 'app/index.html'
     #success_url = 'main/home.html'
 
     def get(self, request, *args, **kwargs):
@@ -75,7 +81,7 @@ class RegistrationFormView(FormView):
             raw_password = register_form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('main:home')
+            return redirect('app:home')
         else:
             return self.render_to_response(
             self.get_context_data(
@@ -87,7 +93,7 @@ class RegistrationFormView(FormView):
 
 class LoginFormView(FormView):
     form_class = LoginForm
-    template_name = 'main/index.html'
+    template_name = 'app/index.html'
     #success_url = 'main/home.html'
 
     def get(self, request, *args, **kwargs):
@@ -113,7 +119,7 @@ class LoginFormView(FormView):
             raw_password = login_form.cleaned_data.get('password')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('main:home')
+            return redirect('app:home')
         else:
             return self.render_to_response(
             self.get_context_data(
