@@ -2,9 +2,12 @@ from django.contrib.auth.models import User
 from .models import Pet
 # from .filters import UserFilter 
 from .filters import PetFilter
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic.base import TemplateView
+from .forms import RegistrationForm, LoginForm
+from django.views.generic import FormView
+from django.contrib.auth import login, authenticate
 
 # Create your views here.
 
@@ -38,7 +41,83 @@ def search(request):
 def contact(request):
     return render(request, 'app/contact.html')
 
-def login(request):
+def login_site(request):
     return render(request, 'app/login.html')
 
 
+class RegistrationFormView(FormView):
+    form_class = RegistrationForm
+    template_name = 'main/index.html'
+    #success_url = 'main/home.html'
+
+    def get(self, request, *args, **kwargs):
+        register_form = self.form_class()
+        login_form = LoginForm()
+        return self.render_to_response(
+            self.get_context_data(
+                login_form=login_form,
+                register_form=register_form,
+            )
+        )
+
+
+    def post(self, request, *args, **kwargs):
+        register_form = self.form_class(request.POST)
+        login_form = LoginForm()
+        if register_form.is_valid():
+            register_form.save()
+            #return self.render_to_response(
+                #self.get_context_data(
+                #success=True
+            #)
+        #)
+            username = register_form.cleaned_data.get('username')
+            raw_password = register_form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('main:home')
+        else:
+            return self.render_to_response(
+            self.get_context_data(
+                login_form=login_form,
+                register_form=register_form,
+            )
+        )
+
+
+class LoginFormView(FormView):
+    form_class = LoginForm
+    template_name = 'main/index.html'
+    #success_url = 'main/home.html'
+
+    def get(self, request, *args, **kwargs):
+        login_form = self.form_class()
+        register_form = RegistrationForm()
+        return self.render_to_response(
+            self.get_context_data(
+                login_form=login_form,
+                register_form=register_form,
+            )
+        )
+
+    def post(self, request, *args, **kwargs):
+        login_form = self.form_class(data=request.POST)
+        register_form = RegistrationForm()
+        if login_form.is_valid():
+            #return self.render_to_response(
+            #    self.get_context_data(
+            #    success=True
+            #)
+        #)
+            username = login_form.cleaned_data.get('username')
+            raw_password = login_form.cleaned_data.get('password')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('main:home')
+        else:
+            return self.render_to_response(
+            self.get_context_data(
+                    login_form=login_form,
+                    register_form=register_form
+            )
+        )
