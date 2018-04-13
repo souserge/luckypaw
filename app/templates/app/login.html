@@ -11,13 +11,13 @@
         Lucky Paw can also be used for people who seek home for a pet.<br> <strong>If you are one of them, please use the button below to start making the world a better place!</strong>
       </div>
       <div class="modal-footer">
-          <!-- <form method="post" class="container">
+          <form method="post" action="{% url 'login_test' %}" class="container">
               {% csrf_token %}
               {{ form.as_p }}
           <button type="submit">Login with email</button>
           </form>
           <small class="d-block">Don't have an account? <a href="#">Register here.</a></small>
-         -->
+        
         <a class="btn btn-block btn-social btn-lg btn-google" href="{% url 'social:begin' 'google-oauth2' %}"><i class="fa fa-google"></i>Login with Google</a>
       </div>
     </div>
