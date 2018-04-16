@@ -17,6 +17,10 @@
           <th>Gender</th>
           <th>Size</th>
           <th>Breed</th>
+          <th>Spayed</th>
+          <th>Vaccinated</th>
+          <th>House Trained</th>
+          <th>Special Care</th>
       </thead>
       <tbody>
           {% for pet in filter.qs %}
@@ -29,6 +33,10 @@
               <td>{{ pet.pet_gender }}</td>
               <td>{{ pet.pet_size }}</td>
               <td>{{ pet.pet_breed }}</td>
+              <td>{{ pet.pet_spayed }}</td>
+              <td>{{ pet.pet_vaccinated }}</td>
+              <td>{{ pet.pet_housetrained }}</td>
+              <td>{{ pet.pet_specialcare }}</td>
             </tr>
           {% endfor %}
       </tbody>
