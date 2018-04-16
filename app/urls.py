@@ -18,4 +18,5 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(next_page=reverse_lazy('index')), name='logout'),
     path('auth/', include('social_django.urls', namespace='social')), 
     path('login/', views.LoginFormView.as_view(), name='login'),
+    path('register/', views.RegistrationFormView.as_view(), name='register'),
 ]

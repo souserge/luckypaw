@@ -47,21 +47,24 @@ def blog(request):
 def support_us(request):
     return render(request, 'app/support_us.html')
 
-def login_site(request):
-    return render(request, 'app/login.html')
+# def login_site(request):
+#     return render(request, 'app/login.html')
+
+def login_site(self, request, *args, **kwargs):
+    login_form = LoginForm(self.request.GET or None)
+    context = self.get_context_data(**kwargs)
+    context['login_form'] = login_form
+    return self.render_to_response(context)
 
 
 class RegistrationFormView(FormView):
     form_class = RegistrationForm
-    template_name = 'app/login.html'
-    #success_url = 'main/home.html'
+    template_name = 'app/user_register.html'
 
     def get(self, request, *args, **kwargs):
         register_form = self.form_class()
-        login_form = LoginForm()
         return self.render_to_response(
             self.get_context_data(
-                login_form=login_form,
                 register_form=register_form,
             )
         )
@@ -69,23 +72,16 @@ class RegistrationFormView(FormView):
 
     def post(self, request, *args, **kwargs):
         register_form = self.form_class(request.POST)
-        login_form = LoginForm()
         if register_form.is_valid():
             register_form.save()
-            #return self.render_to_response(
-                #self.get_context_data(
-                #success=True
-            #)
-        #)
             username = register_form.cleaned_data.get('username')
             raw_password = register_form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('app:index')
+            return redirect('index')
         else:
             return self.render_to_response(
             self.get_context_data(
-                login_form=login_form,
                 register_form=register_form,
             )
         )
@@ -93,37 +89,29 @@ class RegistrationFormView(FormView):
 
 class LoginFormView(FormView):
     form_class = LoginForm
-    template_name = 'app/login.html'
-    #success_url = 'main/home.html'
+    template_name = 'app/user_login.html'
 
     def get(self, request, *args, **kwargs):
         login_form = self.form_class()
-        register_form = RegistrationForm()
+
         return self.render_to_response(
             self.get_context_data(
-                login_form=login_form,
-                register_form=register_form,
+                login_form=login_form
             )
         )
 
     def post(self, request, *args, **kwargs):
         login_form = self.form_class(data=request.POST)
-        register_form = RegistrationForm()
+
         if login_form.is_valid():
-            #return self.render_to_response(
-            #    self.get_context_data(
-            #    success=True
-            #)
-        #)
             username = login_form.cleaned_data.get('username')
             raw_password = login_form.cleaned_data.get('password')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('app:index')
+            return redirect('index')
         else:
             return self.render_to_response(
             self.get_context_data(
                     login_form=login_form,
-                    register_form=register_form
             )
         )

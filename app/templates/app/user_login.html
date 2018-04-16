@@ -18,7 +18,7 @@
           <button type="submit">Login</button>
         </form>
         <small class="d-block">Don't have an account?
-          <a href="#">Register here.</a>
+          <a href="{% url 'register' %}">Register here.</a>
         </small>
         <hr>
         <a class="btn btn-block btn-social btn-md btn-google mt-2" href="{% url 'social:begin' 'google-oauth2' %}">
