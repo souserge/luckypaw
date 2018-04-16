@@ -53,7 +53,7 @@ def login_site(request):
 
 class RegistrationFormView(FormView):
     form_class = RegistrationForm
-    template_name = 'app/login_test.html'
+    template_name = 'app/login.html'
     #success_url = 'main/home.html'
 
     def get(self, request, *args, **kwargs):
@@ -93,7 +93,7 @@ class RegistrationFormView(FormView):
 
 class LoginFormView(FormView):
     form_class = LoginForm
-    template_name = 'app/login_test.html'
+    template_name = 'app/login.html'
     #success_url = 'main/home.html'
 
     def get(self, request, *args, **kwargs):
