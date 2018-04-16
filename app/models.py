@@ -3,6 +3,19 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
+class Supervisor(models.Model):
+    user = models.OneToOneField(User, related_name='user', on_delete=models.CASCADE)
+    city = models.CharField(max_length=50, default='', blank=True)
+    country = models.CharField(max_length=50, default='', blank=True)
+    email = models.CharField(max_length=50, default='', blank=True)
+    telephone = models.CharField(max_length=50, default='', blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+User.profile = property(lambda u: Supervisor.objects.get_or_create(user=u)[0])
+
+
 class Pet(models.Model):
     pet_id = models.AutoField(primary_key=True)
     pet_name = models.CharField(max_length=50, default ='No Name', blank=False)
@@ -23,6 +36,9 @@ class Pet(models.Model):
     pet_housetrained = models.BooleanField()
     pet_specialcare = models.BooleanField()
 
+    # One-to-Many relationship (one Supervisor can have multiple pets) 
+    # When a referenced object deleted, set FK to null
+    pet_supervisor = models.ForeignKey(Supervisor, on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return self.pet_name
