@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from .models import Pet
+from . import models
 # from .filters import UserFilter 
 from .filters import PetFilter
 from django.shortcuts import render, redirect
@@ -8,6 +8,7 @@ from django.views.generic.base import TemplateView
 from .forms import RegistrationForm, LoginForm
 from django.views.generic import FormView
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -34,7 +35,7 @@ def about(request):
     return render(request, 'app/about.html')
 
 def search(request):
-    pet_list = Pet.objects.all()
+    pet_list = models.Pet.objects.all()
     pet_filter = PetFilter(request.GET, queryset=pet_list)
     return render(request, 'app/pet_list.html', {'filter': pet_filter})
 
@@ -55,6 +56,17 @@ def login_site(self, request, *args, **kwargs):
     context = self.get_context_data(**kwargs)
     context['login_form'] = login_form
     return self.render_to_response(context)
+
+@login_required
+def user_profile(request, username):
+    user = User.objects.get(username=username)
+    supervisor = models.Supervisor.objects.get(user=user)
+    return render(request, 'app/user_profile.html', {'supervisor': supervisor, 'user': user})
+
+def pet_profile(request, pet_id):
+    pet = models.Pet.objects.get(pet_id=pet_id)
+    return render(request, 'app/pet_profile.html', {'pet': pet})
+
 
 
 class RegistrationFormView(FormView):

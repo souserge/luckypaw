@@ -11,10 +11,7 @@ class Supervisor(models.Model):
     telephone = models.CharField(max_length=50, default='', blank=True)
 
     def __str__(self):
-        return self.user.username
-
-User.profile = property(lambda u: Supervisor.objects.get_or_create(user=u)[0])
-
+        return self.user
 
 class Pet(models.Model):
     pet_id = models.AutoField(primary_key=True)
@@ -42,3 +39,6 @@ class Pet(models.Model):
 
     def __str__(self):
         return self.pet_name
+
+# User.profile = property(lambda u: Supervisor.objects.get_or_create(user=u)[0])
+# Pet.profile = property(lambda u: Pet.objects.get_or_create(pet=u)[0])
