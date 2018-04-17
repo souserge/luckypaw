@@ -23,7 +23,7 @@ class Supervisor(models.Model):
     super_photo = models.ImageField(upload_to='images', default='images/default_photo.jpg')
 
     def __str__(self):
-        return self.user
+        return self.user.username
 
 class Pet(models.Model):
     pet_id = models.AutoField(primary_key=True)
@@ -54,5 +54,4 @@ class Pet(models.Model):
     def __str__(self):
         return self.pet_name
 
-# User.profile = property(lambda u: Supervisor.objects.get_or_create(user=u)[0])
-# Pet.profile = property(lambda u: Pet.objects.get_or_create(pet=u)[0])
+User.supervisor = property(lambda u: Supervisor.objects.get_or_create(user=u)[0])

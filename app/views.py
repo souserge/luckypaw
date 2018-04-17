@@ -63,8 +63,8 @@ def login_site(self, request, *args, **kwargs):
 @login_required
 def user_profile(request, username):
     user = User.objects.get(username=username)
-    supervisor = models.Supervisor.objects.get(user=user)
-    return render(request, 'app/user_profile.html', {'supervisor': supervisor, 'user': user})
+    #supervisor = models.Supervisor.objects.get(user=user)
+    return render(request, 'app/user_profile.html', {'supervisor': user.supervisor, 'user': user})
 
 def pet_profile(request, pet_id):
     pet = models.Pet.objects.get(pet_id=pet_id)
