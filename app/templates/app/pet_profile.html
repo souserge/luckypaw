@@ -1,12 +1,26 @@
 {% extends 'app/base.html' %}
 {% load staticfiles %}
 
-
 {% block content %}
-
-<p><img src="{{ pet.pet_photo.url }}"></img></p>
-<p>Pet id: {{ pet.pet_id }}</p>
-<p>Pet name: {{ pet.pet_name }}</p>
-
-
+  <div class="container" id="photos">
+    <img src="{{ pet.pet_photo.url }}"></img>
+  </div>
+  <div class="container" id="description">
+        <p>{{ pet.pet_name }}</p>
+        <p>{{ pet.pet_type }}</p>
+        <p>{{ pet.pet_age }}</p>
+        <p>{{ pet.pet_color }}</p>
+        <p>{{ pet.pet_gender }}</p>
+        <p>{{ pet.pet_size }}</p>
+        <p>{{ pet.pet_breed }}</p>
+  </div>
+  <div class="container" id="contactInfo">
+        <p>{{ pet.pet_location }}</p>
+  </div>
+  <div class="container" id="stats">
+        <p>{{ pet.pet_spayed }}</p>
+        <p>{{ pet.pet_vaccinated }}</p>
+        <p>{{ pet.pet_housetrained }}</p>
+        <p>{{ pet.pet_specialcare }}</p>
+  </div>
 {% endblock %}
