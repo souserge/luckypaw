@@ -48,6 +48,9 @@ def blog(request):
 def support_us(request):
     return render(request, 'app/support_us.html')
 
+def thank_you(request):
+    return render(render, 'app/thank_you.html')
+
 # def login_site(request):
 #     return render(request, 'app/login.html')
 
