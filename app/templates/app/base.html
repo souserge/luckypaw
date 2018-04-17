@@ -18,7 +18,7 @@
   <script>
   $(() => {
     $("#loginModalButton").on("click", () => {
-      const $modalContainer = $("#loginModalContainer")
+      const $modalContainer = $("#loginRegisterModalContainer")
       $modalContainer.load($("#loginModalButton").attr("data-url"), () => {
         $("#loginModal").modal("show")
       })
@@ -34,6 +34,7 @@
 
   <!-- title may be moved to specific pages -->
   <title>Lucky Paw</title>
+  <link rel="icon" href="{% static 'images/logo.png' %}" type="image/ico" />
 </head>
 
 <body>
@@ -73,7 +74,7 @@
               </li>
             {% else %}
               <a class="nav-link" id="loginModalButton" data-url="{% url "login" %}" href="#login">Login/Register</a>
-              <div id="loginModalContainer"></div>
+              <div id="loginRegisterModalContainer"></div>
             {% endif %}
             </li>
           </ul>
