@@ -9,6 +9,7 @@
   </form>
   <table class="table table-stripped mt-2">
       <thead>
+          <th>ID</th>
           <th>Name</th>
           <th>Type</th>
           <th>Location</th>
@@ -25,6 +26,8 @@
       <tbody>
           {% for pet in filter.qs %}
             <tr>
+              <td>{{ pet.pet_id }}</td>
+              <td><a class="nav-link" href="{% url 'pet_profile' pet_id=pet.pet_id %}">{{ pet.pet_name }}</a></td>
               <td>{{ pet.pet_name }}</td>
               <td>{{ pet.pet_type }}</td>
               <td>{{ pet.pet_location }}</td>
