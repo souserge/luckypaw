@@ -40,7 +40,7 @@ class Pet(models.Model):
     pet_size = models.CharField(max_length=50, choices=pet_size_choice, blank=True)
     pet_breed = models.CharField(max_length=50, default='', blank=True)
     pet_photo = models.ImageField(upload_to='images', default='images/default_photo.jpg')
-    pet_gallery = models.OneToOneField(Gallery, related_name='pet_gallery', on_delete=models.PROTECT)
+    pet_gallery = models.OneToOneField(Gallery, related_name='pet_gallery', on_delete=models.SET_NULL, blank=True, null=True)
     #pet_needs_choice = (('Spayed/Neutered','Spayed/Neutered'),('Vaccinated','Vaccinated'),('Purebred','Purebred'),('House-trained','House-trained'))
     pet_spayed = models.BooleanField()
     pet_vaccinated = models.BooleanField()
