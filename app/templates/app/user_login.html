@@ -1,3 +1,15 @@
+<script>
+    $(() => {
+      $("#registerModalButton").on("click", () => {
+        const $modalContainer = $("#loginRegisterModalContainer")
+        $modalContainer.load($("#registerModalButton").attr("data-url"), () => {
+          $("#registerModal").modal("show")
+        })
+      })
+    })
+  </script>
+  
+
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
@@ -18,7 +30,7 @@
           <button type="submit">Login</button>
         </form>
         <small class="d-block">Don't have an account?
-          <a href="{% url 'register' %}">Register here.</a>
+          <button id="registerModalButton" data-url="{% url 'register' %}">Register here.</button>
         </small>
         <hr>
         <a class="btn btn-block btn-social btn-md btn-google mt-2" href="{% url 'social:begin' 'google-oauth2' %}">
