@@ -36,6 +36,10 @@
             <td>{{ pet.pet_size }}</td>
           </tr>
         </table>
+          <p class="lead">
+            <strong>About:</strong><br>
+            {{ pet.pet_description }}
+          </p>
       </div>
     </div>
   </div>
@@ -43,12 +47,28 @@
   <div class="col-lg-5">
     <div class="container col my-1" id="contactInfo">
       <h4>Contact Info</h4>
-      <iframe
-        width="100%"
-        height="400px"
-        frameborder="0" style="border:0; max-width: 100%;"
-        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAvN0mkItEWA_SN3dcT_Hsw_3eR5eAcTaw&q={{pet.pet_location}}" allowfullscreen>
-      </iframe>
+      <p>Location: {{ pet.pet_location }}</p>
+      <div class="mb-3 embed-responsive embed-responsive-16by9">
+        <iframe
+          class="embed-responsive-item"
+          frameborder="0" style="border:0; max-width: 100%;"
+          src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAvN0mkItEWA_SN3dcT_Hsw_3eR5eAcTaw&q={{pet.pet_location}}" allowfullscreen>
+        </iframe>
+      </div>
+      <p class="text-right">
+      <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+          Want to concact supervisor?
+      </a>
+      </p>
+      <div class="container mx-auto">
+      <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+            <p><a href="{% url 'user_profile' username=supervisor.user.username %}">{{ supervisor.user.get_full_name }}</a></p>
+            <p>Phone: {{ supervisor.telephone }}</p>
+            <p>Email: {{ supervisor.email }}</p> 
+        </div>
+      </div>
+    </div>
     </div>
     <div class="container col mt-5" id="stats">
       <h4>{{ pet.pet_name }}'s  Stats</h4>
@@ -56,7 +76,7 @@
         <tr>
           <td>
             {% if pet.pet_spayed %}
-              <i class="fa fa-check"></i>
+              <i style="color: green;" class="fa fa-check"></i>
             {% else %}
               <i class="fa fa-close"></i>
             {% endif %}
@@ -66,7 +86,7 @@
         <tr>
           <td>
             {% if pet.pet_vaccinated %}
-              <i class="fa fa-check"></i>
+              <i style="color: green;" class="fa fa-check"></i>
             {% else %}
               <i class="fa fa-close"></i>
             {% endif %}
@@ -76,7 +96,7 @@
         <tr>
           <td>
             {% if pet.pet_housetrained %}
-              <i class="fa fa-check"></i>
+              <i style="color: green;" class="fa fa-check"></i>
             {% else %}
               <i class="fa fa-close"></i>
             {% endif %}
@@ -86,7 +106,7 @@
 
         {% if pet.pet_specialcare %}
           <tr>
-            <td><i class="fa fa-exclamation"></i></td>
+            <td><i style="color: orange;" class="fa fa-exclamation"></i></td>
             <td>Needs special care</td>
           </tr>
         {% endif %}
