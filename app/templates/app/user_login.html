@@ -37,10 +37,9 @@
       <div class="modal-body">
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
-            *should be a login form*
             <form method="post" action="{% url 'login' %}">
               {% csrf_token %} {{ login_form.as_p }}
-              <button type="submit">Login</button>
+              <button class="btn btn-success" type="submit">Login</button>
             </form>
             <hr>
             <a class="btn btn-block btn-social btn-md btn-google mt-2" href="{% url 'social:begin' 'google-oauth2' %}">
@@ -48,10 +47,9 @@
             </a>
           </div>
           <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
-            *should be a register form*
             <form method="post" action="{% url 'register' %}">
               {% csrf_token %} {{ register_form.as_p }}
-              <button type="submit">Register</button>
+              <button class="btn  btn-success" type="submit">Register</button>
             </form>
           </div>
           <div class="tab-pane fade" id="why" role="tabpanel" aria-labelledby="why-tab">
