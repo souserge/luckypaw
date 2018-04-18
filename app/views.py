@@ -56,8 +56,10 @@ def thank_you(request):
 
 def login_site(self, request, *args, **kwargs):
     login_form = LoginForm(self.request.GET or None)
+    register_form = RegistrationForm(self.request.GET or None)
     context = self.get_context_data(**kwargs)
     context['login_form'] = login_form
+    context['register_form'] = register_form
     return self.render_to_response(context)
 
 @login_required
@@ -78,15 +80,18 @@ class RegistrationFormView(FormView):
 
     def get(self, request, *args, **kwargs):
         register_form = self.form_class()
+        login_form = LoginForm()
         return self.render_to_response(
             self.get_context_data(
-                register_form=register_form,
+                login_form=login_form,
+                register_form=register_form
             )
         )
 
 
     def post(self, request, *args, **kwargs):
         register_form = self.form_class(request.POST)
+        login_form = LoginForm()
         if register_form.is_valid():
             register_form.save()
             username = register_form.cleaned_data.get('username')
@@ -97,6 +102,7 @@ class RegistrationFormView(FormView):
         else:
             return self.render_to_response(
             self.get_context_data(
+                login_form=login_form,
                 register_form=register_form,
             )
         )
@@ -108,16 +114,17 @@ class LoginFormView(FormView):
 
     def get(self, request, *args, **kwargs):
         login_form = self.form_class()
-
+        register_form = RegistrationForm()
         return self.render_to_response(
             self.get_context_data(
-                login_form=login_form
+                login_form=login_form,
+                register_form=register_form,
             )
         )
 
     def post(self, request, *args, **kwargs):
         login_form = self.form_class(data=request.POST)
-
+        register_form = RegistrationForm()
         if login_form.is_valid():
             username = login_form.cleaned_data.get('username')
             raw_password = login_form.cleaned_data.get('password')
@@ -128,5 +135,6 @@ class LoginFormView(FormView):
             return self.render_to_response(
             self.get_context_data(
                     login_form=login_form,
+                    register_form=register_form
             )
         )
