@@ -20,7 +20,7 @@ class Supervisor(models.Model):
     country = models.CharField(max_length=50, default='', blank=True)
     email = models.CharField(max_length=50, default='', blank=True)
     telephone = models.CharField(max_length=50, default='', blank=True)
-    super_photo = models.ImageField(upload_to='images', default='images/default_photo.jpg')
+    super_photo = models.ImageField(upload_to='super_images', default='super_images/default_photo.jpg')
 
     def __str__(self):
         return self.user.username
@@ -39,7 +39,8 @@ class Pet(models.Model):
     pet_size_choice = (('Very Small','Very Small'), ('Small','Small'),('Medium','Medium'),('Large','Large'),('Very Large','Very Large'))
     pet_size = models.CharField(max_length=50, choices=pet_size_choice, blank=True)
     pet_breed = models.CharField(max_length=50, default='', blank=True)
-    pet_photo = models.ImageField(upload_to='images', default='images/default_photo.jpg')
+    pet_photo = models.ImageField(upload_to='pet_images', default='pet_images/default_photo.jpg')
+    pet_description = models.CharField(max_length=500, default='', blank=True)
     pet_gallery = models.OneToOneField(Gallery, related_name='pet_gallery', on_delete=models.SET_NULL, blank=True, null=True)
     #pet_needs_choice = (('Spayed/Neutered','Spayed/Neutered'),('Vaccinated','Vaccinated'),('Purebred','Purebred'),('House-trained','House-trained'))
     pet_spayed = models.BooleanField()
