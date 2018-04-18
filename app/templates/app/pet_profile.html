@@ -1,0 +1,121 @@
+{% extends 'app/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="row justify-content-around">
+  <div class="col-lg-7">
+    <div class="container my-1" id="photos">
+      <img class="img-fluid" style="max-width: 100%; min-height: 500px" src="{{ pet.pet_photo.url }}"></img>
+    </div>
+    <div class="container mt-3" id="description">
+      <div class="jumbotron">
+        <h3>{{ pet.pet_name }}</h3>
+        <table class="table">
+          <tr>
+            <th scope="row">Type</th>
+            <td>{{ pet.pet_type }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Breed</th>
+            <td>{{ pet.pet_breed }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Age</th>
+            <td>{{ pet.pet_age }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Color</th>
+            <td>{{ pet.pet_color }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Gender</th>
+            <td>{{ pet.pet_gender }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Size</th>
+            <td>{{ pet.pet_size }}</td>
+          </tr>
+        </table>
+          <p class="lead">
+            <strong>About:</strong><br>
+            {{ pet.pet_description }}
+          </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-5">
+    <div class="container col my-1" id="contactInfo">
+      <h4>Contact Info</h4>
+      <p>Location: {{ pet.pet_location }}</p>
+      <div class="mb-3 embed-responsive embed-responsive-16by9">
+        <iframe
+          class="embed-responsive-item"
+          frameborder="0" style="border:0; max-width: 100%;"
+          src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAvN0mkItEWA_SN3dcT_Hsw_3eR5eAcTaw&q={{pet.pet_location}}" allowfullscreen>
+        </iframe>
+      </div>
+      <p class="text-right">
+      <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+          Want to concact supervisor?
+      </a>
+      </p>
+      <div class="container mx-auto">
+      <div class="collapse" id="collapseExample">
+        {% if supervisor %}
+          <div class="card card-body">
+              <p><a href="{% url 'user_profile' username=supervisor.user.username %}">{{ supervisor.user.get_full_name }}</a></p>
+              <p>Phone: {{ supervisor.telephone }}</p>
+              <p>Email: {{ supervisor.email }}</p> 
+          </div>
+        {% else %}
+        <p>Oh no, this pet is not supervised :(</p>
+        {% endif %}
+      </div>
+    </div>
+    </div>
+    <div class="container col mt-5" id="stats">
+      <h4>{{ pet.pet_name }}'s  Stats</h4>
+        <table class="table">
+        <tr>
+          <td>
+            {% if pet.pet_spayed %}
+              <i style="color: green;" class="fa fa-check"></i>
+            {% else %}
+              <i class="fa fa-close"></i>
+            {% endif %}
+          </td>
+          <td>Sprayed</td>
+        </tr>
+        <tr>
+          <td>
+            {% if pet.pet_vaccinated %}
+              <i style="color: green;" class="fa fa-check"></i>
+            {% else %}
+              <i class="fa fa-close"></i>
+            {% endif %}
+          </td>
+          <td>Vaccinated</td>
+        </tr>
+        <tr>
+          <td>
+            {% if pet.pet_housetrained %}
+              <i style="color: green;" class="fa fa-check"></i>
+            {% else %}
+              <i class="fa fa-close"></i>
+            {% endif %}
+          </td>
+          <td>Housetrained</td>
+        </tr>
+
+        {% if pet.pet_specialcare %}
+          <tr>
+            <td><i style="color: orange;" class="fa fa-exclamation"></i></td>
+            <td>Needs special care</td>
+          </tr>
+        {% endif %}
+        </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

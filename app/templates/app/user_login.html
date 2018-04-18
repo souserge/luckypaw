@@ -1,0 +1,67 @@
+<script>
+  function eventFire(el, etype){
+    console.log("yiiiiiiiio")
+    if (el.fireEvent) {
+      console.log("heeeeyo")
+      el.fireEvent('on' + etype);
+    } else {
+      console.log("yo")
+      var evObj = document.createEvent('Events');
+      evObj.initEvent(etype, true, false);
+      el.dispatchEvent(evObj);
+    }
+  }
+</script>
+
+
+<div class="modal fade bs-modal-sm" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="true">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">Register</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="why-tab" data-toggle="tab" href="#why" role="tab" aria-controls="why" aria-selected="false">Why?</a>
+            </li>
+          </ul>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+            <form method="post" action="{% url 'login' %}">
+              {% csrf_token %} {{ login_form.as_p }}
+              <button class="btn btn-success" type="submit">Login</button>
+            </form>
+            <hr>
+            <a class="btn btn-block btn-social btn-md btn-google mt-2" href="{% url 'social:begin' 'google-oauth2' %}">
+              <i class="fa fa-google"></i>Login with Google
+            </a>
+          </div>
+          <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+            <form method="post" action="{% url 'register' %}">
+              {% csrf_token %} {{ register_form.as_p }}
+              <button class="btn  btn-success" type="submit">Register</button>
+            </form>
+          </div>
+          <div class="tab-pane fade" id="why" role="tabpanel" aria-labelledby="why-tab">
+            Lucky Paw can also be used for people who seek home for a pet.
+            <br>
+            If you are one of them, please
+             <a href="#register" onclick="eventFire(document.getElementById('register-tab'),'click');">register</a>
+             yourself or <a href="{% url 'social:begin' 'google-oauth2' %}">login with Google</a>
+             and <strong>start making the world a better place!</strong>
+          </div>
+        </div>  
+      </div>
+    </div>
+  </div>
+</div>

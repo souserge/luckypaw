@@ -2,6 +2,28 @@ from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
 
+class Gallery(models.Model):
+    title = models.CharField(max_length=50)
+
+    # slug is for displaying user friedly urls
+    # slug = models.SlugField(max_length=50, unique=True)
+
+# Picture of the gallery
+class Picture(models.Model):
+    gallery = models.ForeignKey(Gallery, on_delete=models.CASCADE)
+    picture = models.ImageField(upload_to='images', default='images/default_photo.jpg')
+
+
+class Supervisor(models.Model):
+    user = models.OneToOneField(User, related_name='user', on_delete=models.CASCADE)
+    city = models.CharField(max_length=50, default='', blank=True)
+    country = models.CharField(max_length=50, default='', blank=True)
+    email = models.CharField(max_length=50, default='', blank=True)
+    telephone = models.CharField(max_length=50, default='', blank=True)
+    super_photo = models.ImageField(upload_to='super_images', default='super_images/default_photo.jpg')
+
+    def __str__(self):
+        return self.user.username
 
 class Pet(models.Model):
     pet_id = models.AutoField(primary_key=True)
@@ -14,11 +36,23 @@ class Pet(models.Model):
     pet_color = models.CharField(max_length=50, default='', blank=True)
     pet_gender_choice = (('Male','Male'),('Female','Female'))
     pet_gender = models.CharField(max_length=50, choices=pet_gender_choice, blank=True)
-    pet_size_choice = (('XSmall','XSmall'), ('Small','Small'),('Medium','Medium'),('Large','Large'),('XLarge','XLarge'))
+    pet_size_choice = (('Very Small','Very Small'), ('Small','Small'),('Medium','Medium'),('Large','Large'),('Very Large','Very Large'))
     pet_size = models.CharField(max_length=50, choices=pet_size_choice, blank=True)
     pet_breed = models.CharField(max_length=50, default='', blank=True)
+    pet_photo = models.ImageField(upload_to='pet_images', default='pet_images/default_photo.jpg')
+    pet_description = models.CharField(max_length=500, default='', blank=True)
+    pet_gallery = models.OneToOneField(Gallery, related_name='pet_gallery', on_delete=models.SET_NULL, blank=True, null=True)
     #pet_needs_choice = (('Spayed/Neutered','Spayed/Neutered'),('Vaccinated','Vaccinated'),('Purebred','Purebred'),('House-trained','House-trained'))
-    
-        
+    pet_spayed = models.BooleanField()
+    pet_vaccinated = models.BooleanField()
+    pet_housetrained = models.BooleanField()
+    pet_specialcare = models.BooleanField()
+
+    # One-to-Many relationship (one Supervisor can have multiple pets) 
+    # When a referenced object deleted, set FK to null
+    pet_supervisor = models.ForeignKey(Supervisor, on_delete=models.SET_NULL, blank=True, null=True)
+
     def __str__(self):
         return self.pet_name
+
+User.supervisor = property(lambda u: Supervisor.objects.get_or_create(user=u)[0])

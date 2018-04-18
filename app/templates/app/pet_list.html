@@ -3,12 +3,13 @@
 {% block content %}
   <form method="get">
     <div class="form-group d-inline-block">
-    {{ filter.form }}
+    {{ filter.form.as_p }}
     </div>
-    <button class="ml-1 btn btn-info" type="submit">Search</button>
+    <button class="ml-1 btn btn-info d-block" type="submit">Search</button>
   </form>
   <table class="table table-stripped mt-2">
       <thead>
+          <th>ID</th>
           <th>Name</th>
           <th>Type</th>
           <th>Location</th>
@@ -17,11 +18,16 @@
           <th>Gender</th>
           <th>Size</th>
           <th>Breed</th>
+          <th>Spayed</th>
+          <th>Vaccinated</th>
+          <th>House Trained</th>
+          <th>Special Care</th>
       </thead>
       <tbody>
           {% for pet in filter.qs %}
             <tr>
-              <td>{{ pet.pet_name }}</td>
+              <td>{{ pet.pet_id }}</td>
+              <td><a class="nav-link" href="{% url 'pet_profile' pet_id=pet.pet_id %}">{{ pet.pet_name }}</a></td>
               <td>{{ pet.pet_type }}</td>
               <td>{{ pet.pet_location }}</td>
               <td>{{ pet.pet_age }}</td>
@@ -29,6 +35,10 @@
               <td>{{ pet.pet_gender }}</td>
               <td>{{ pet.pet_size }}</td>
               <td>{{ pet.pet_breed }}</td>
+              <td>{{ pet.pet_spayed }}</td>
+              <td>{{ pet.pet_vaccinated }}</td>
+              <td>{{ pet.pet_housetrained }}</td>
+              <td>{{ pet.pet_specialcare }}</td>
             </tr>
           {% endfor %}
       </tbody>

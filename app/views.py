@@ -1,10 +1,14 @@
 from django.contrib.auth.models import User
-from .models import Pet
+from . import models
 # from .filters import UserFilter 
 from .filters import PetFilter
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic.base import TemplateView
+from .forms import RegistrationForm, LoginForm
+from django.views.generic import FormView
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -31,14 +35,106 @@ def about(request):
     return render(request, 'app/about.html')
 
 def search(request):
-    pet_list = Pet.objects.all()
+    pet_list = models.Pet.objects.all()
     pet_filter = PetFilter(request.GET, queryset=pet_list)
     return render(request, 'app/pet_list.html', {'filter': pet_filter})
 
 def contact(request):
     return render(request, 'app/contact.html')
 
-def login(request):
-    return render(request, 'app/login.html')
+def blog(request):
+    return render(request, 'app/blog.html')
+
+def support_us(request):
+    return render(request, 'app/support_us.html')
+
+def thank_you(request):
+    return render(render, 'app/thank_you.html')
+
+# def login_site(request):
+#     return render(request, 'app/login.html')
+
+def login_site(self, request, *args, **kwargs):
+    login_form = LoginForm(self.request.GET or None)
+    register_form = RegistrationForm(self.request.GET or None)
+    context = self.get_context_data(**kwargs)
+    context['login_form'] = login_form
+    context['register_form'] = register_form
+    return self.render_to_response(context)
+
+@login_required
+def user_profile(request, username):
+    user = User.objects.get(username=username)
+    #supervisor = models.Supervisor.objects.get(user=user)
+    return render(request, 'app/user_profile.html', {'supervisor': user.supervisor, 'user': user})
+
+def pet_profile(request, pet_id):
+    pet = models.Pet.objects.get(pet_id=pet_id)
+    return render(request, 'app/pet_profile.html', {'pet': pet, 'supervisor': pet.pet_supervisor})
 
 
+
+class RegistrationFormView(FormView):
+    form_class = RegistrationForm
+    template_name = 'app/user_register.html'
+
+    def get(self, request, *args, **kwargs):
+        register_form = self.form_class()
+        login_form = LoginForm()
+        return self.render_to_response(
+            self.get_context_data(
+                login_form=login_form,
+                register_form=register_form
+            )
+        )
+
+
+    def post(self, request, *args, **kwargs):
+        register_form = self.form_class(request.POST)
+        login_form = LoginForm()
+        if register_form.is_valid():
+            register_form.save()
+            username = register_form.cleaned_data.get('username')
+            raw_password = register_form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('index')
+        else:
+            return self.render_to_response(
+            self.get_context_data(
+                login_form=login_form,
+                register_form=register_form,
+            )
+        )
+
+
+class LoginFormView(FormView):
+    form_class = LoginForm
+    template_name = 'app/user_login.html'
+
+    def get(self, request, *args, **kwargs):
+        login_form = self.form_class()
+        register_form = RegistrationForm()
+        return self.render_to_response(
+            self.get_context_data(
+                login_form=login_form,
+                register_form=register_form,
+            )
+        )
+
+    def post(self, request, *args, **kwargs):
+        login_form = self.form_class(data=request.POST)
+        register_form = RegistrationForm()
+        if login_form.is_valid():
+            username = login_form.cleaned_data.get('username')
+            raw_password = login_form.cleaned_data.get('password')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('index')
+        else:
+            return self.render_to_response(
+            self.get_context_data(
+                    login_form=login_form,
+                    register_form=register_form
+            )
+        )
