@@ -68,7 +68,7 @@ def user_profile(request, username):
 
 def pet_profile(request, pet_id):
     pet = models.Pet.objects.get(pet_id=pet_id)
-    return render(request, 'app/pet_profile.html', {'pet': pet})
+    return render(request, 'app/pet_profile.html', {'pet': pet, 'supervisor': pet.pet_supervisor})
 
 
 
