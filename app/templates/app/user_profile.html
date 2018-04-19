@@ -11,6 +11,13 @@
     <img class="img-fluid" style="max-width: 100%; min-height: 100px" src="{{ supervisor.photo.url }}"></img>
 </div>
 
+{% if request.user.is_superuser or request.user == user %}
+<p><a href="{% url 'edit_user_profile' username=request.user.username %}">Edit profile</a></p>
+{% endif %}
+
+<p>{{ user.first_name }}</p>
+<P>{{ user.last_name }}</P>
+<p>{{ user.email }}</p>
 <p>{{ supervisor.city }}</p>
 <p>{{ supervisor.country }}</p>
 <p>{{ supervisor.telephone }}</p>

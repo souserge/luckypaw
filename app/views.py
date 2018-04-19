@@ -5,7 +5,7 @@ from .filters import PetFilter
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.views.generic.base import TemplateView
-from .forms import RegistrationForm, LoginForm, PetEditForm
+from .forms import RegistrationForm, LoginForm, PetEditForm, UserEditForm, SupervisorEditForm
 from django.views.generic import FormView
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -67,6 +67,34 @@ def user_profile(request, username):
     user = User.objects.get(username=username)
     supervisor = get_object_or_404(models.Supervisor, user=user) 
     return render(request, 'app/user_profile.html', {'supervisor': supervisor, 'user': user})
+
+
+@login_required
+def edit_user_profile(request, username):
+    if request.method == 'POST':
+        user = User.objects.get(username=username)
+        if(request.user.is_superuser or request.user == user):
+            supervisor = get_object_or_404(models.Supervisor, user=user)
+            user_form = UserEditForm(request.POST, instance=user) 
+            supervisor_form = SupervisorEditForm(request.POST, request.FILES, instance=supervisor)
+            if user_form.is_valid() and supervisor_form.is_valid():
+                user_form.save(commit=True)
+                supervisor_form.save(commit=True)
+                return redirect('user_profile', username=username)
+            else:
+                return render(request, 'app/edit_user_profile.html', {'user_form': user_form, 'supervisor_form' : supervisor_form})
+        else:
+            return redirect('user_profile', username=username)
+    else:
+        user = User.objects.get(username=username)
+        if(request.user.is_superuser or request.user == user):
+            supervisor = get_object_or_404(models.Supervisor, user=user)
+            user_form = UserEditForm(instance=user) 
+            supervisor_form = SupervisorEditForm(instance=supervisor)
+            return render(request, 'app/edit_user_profile.html', {'user_form': user_form, 'supervisor_form' : supervisor_form})
+        else:
+            return redirect('user_profile', username=username)
+
 
 def pet_profile(request, id):
     pet = models.Pet.objects.get(id=id)
