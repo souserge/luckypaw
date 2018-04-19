@@ -24,6 +24,6 @@ class PetFilter(django_filters.FilterSet):
 
     class Meta:
         model = Pet
-        fields = ['pet_type', 'pet_location','pet_age','pet_color','pet_gender',
-        'pet_spayed','pet_vaccinated','pet_housetrained','pet_specialcare','pet_size','pet_breed']
+        fields = ['animaltype', 'location','age','color','gender',
+        'spayed','vaccinated','housetrained','specialcare','size','breed']
         

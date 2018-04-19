@@ -4,8 +4,16 @@
 
 {% block content %}
 
-<p>Your user profile will be here soon, {{ user.username }} , just wait for it... </p>
-<img src="{% static 'images/yoda.png' %}" alt="yoda" weight=300, height=300>
+<!-- <p>Your user profile will be here soon, {{ user.username }} , just wait for it... </p> -->
+<!-- <img src="{% static 'images/yoda.png' %}" alt="yoda" weight=300, height=300> -->
 
+<div class="container my-1" id="photos">
+    <img class="img-fluid" style="max-width: 100%; min-height: 100px" src="{{ supervisor.photo.url }}"></img>
+</div>
+
+<p>{{ supervisor.city }}</p>
+<p>{{ supervisor.country }}</p>
+<p>{{ supervisor.telephone }}</p>
+<p>{{ supervisor.description }}</p>
 
 {% endblock %}

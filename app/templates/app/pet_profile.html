@@ -5,40 +5,43 @@
 <div class="row justify-content-around">
   <div class="col-lg-7">
     <div class="container my-1" id="photos">
-      <img class="img-fluid" style="max-width: 100%; min-height: 500px" src="{{ pet.pet_photo.url }}"></img>
+      <img class="img-fluid" style="max-width: 100%; min-height: 500px" src="{{ pet.photo.url }}"></img>
     </div>
     <div class="container mt-3" id="description">
       <div class="jumbotron">
-        <h3>{{ pet.pet_name }}</h3>
+        <h3>{{ pet.name }}</h3>
+        {% if request.user.is_superuser or request.user == pet.supervisor.user %}
+          <p><a href="{% url 'edit_pet_profile' id=pet.id %}">Edit profile</a></p>
+        {% endif %}
         <table class="table">
           <tr>
             <th scope="row">Type</th>
-            <td>{{ pet.pet_type }}</td>
+            <td>{{ pet.animaltype }}</td>
           </tr>
           <tr>
             <th scope="row">Breed</th>
-            <td>{{ pet.pet_breed }}</td>
+            <td>{{ pet.breed }}</td>
           </tr>
           <tr>
             <th scope="row">Age</th>
-            <td>{{ pet.pet_age }}</td>
+            <td>{{ pet.age }}</td>
           </tr>
           <tr>
             <th scope="row">Color</th>
-            <td>{{ pet.pet_color }}</td>
+            <td>{{ pet.color }}</td>
           </tr>
           <tr>
             <th scope="row">Gender</th>
-            <td>{{ pet.pet_gender }}</td>
+            <td>{{ pet.gender }}</td>
           </tr>
           <tr>
             <th scope="row">Size</th>
-            <td>{{ pet.pet_size }}</td>
+            <td>{{ pet.size }}</td>
           </tr>
         </table>
           <p class="lead">
             <strong>About:</strong><br>
-            {{ pet.pet_description }}
+            {{ pet.description }}
           </p>
       </div>
     </div>
@@ -47,12 +50,12 @@
   <div class="col-lg-5">
     <div class="container col my-1" id="contactInfo">
       <h4>Contact Info</h4>
-      <p>Location: {{ pet.pet_location }}</p>
+      <p>Location: {{ pet.location }}</p>
       <div class="mb-3 embed-responsive embed-responsive-16by9">
         <iframe
           class="embed-responsive-item"
           frameborder="0" style="border:0; max-width: 100%;"
-          src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAvN0mkItEWA_SN3dcT_Hsw_3eR5eAcTaw&q={{pet.pet_location}}" allowfullscreen>
+          src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAvN0mkItEWA_SN3dcT_Hsw_3eR5eAcTaw&q={{pet.location}}" allowfullscreen>
         </iframe>
       </div>
       <p class="text-right">
@@ -75,11 +78,11 @@
     </div>
     </div>
     <div class="container col mt-5" id="stats">
-      <h4>{{ pet.pet_name }}'s  Stats</h4>
+      <h4>{{ pet.name }}'s  Stats</h4>
         <table class="table">
         <tr>
           <td>
-            {% if pet.pet_spayed %}
+            {% if pet.spayed %}
               <i style="color: green;" class="fa fa-check"></i>
             {% else %}
               <i class="fa fa-close"></i>
@@ -89,7 +92,7 @@
         </tr>
         <tr>
           <td>
-            {% if pet.pet_vaccinated %}
+            {% if pet.vaccinated %}
               <i style="color: green;" class="fa fa-check"></i>
             {% else %}
               <i class="fa fa-close"></i>
@@ -99,7 +102,7 @@
         </tr>
         <tr>
           <td>
-            {% if pet.pet_housetrained %}
+            {% if pet.housetrained %}
               <i style="color: green;" class="fa fa-check"></i>
             {% else %}
               <i class="fa fa-close"></i>
@@ -108,7 +111,7 @@
           <td>Housetrained</td>
         </tr>
 
-        {% if pet.pet_specialcare %}
+        {% if pet.specialcare %}
           <tr>
             <td><i style="color: orange;" class="fa fa-exclamation"></i></td>
             <td>Needs special care</td>

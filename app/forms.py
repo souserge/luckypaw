@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField
 from django.contrib.auth.models import User
+from .models import Pet, Supervisor
 
 
 class RegistrationForm(UserCreationForm):
@@ -42,6 +43,7 @@ class RegistrationForm(UserCreationForm):
         return user
 
 class LoginForm(AuthenticationForm):
+    
     class Meta:
         model = User
         fields = [
@@ -58,57 +60,33 @@ class LoginForm(AuthenticationForm):
         self.fields['username'].widget = forms.TextInput(attrs={'placeholder': 'Username'})
 
 
-# class UserEditForm(forms.ModelForm):
-#     class Meta:
-#         model = User
-#         fields = [
-#             # these ones should be added
-#             # 'first_name', 'last_name', 
+class PetEditForm(forms.ModelForm):
 
-#             'first_name', 'last_name'
-            
-#             # these ones we don't actually need
-#             # 'birth_date','gender',
-            
-#             # and these should be availible as well
-#             # 'password', 'confirm_password', 'email', 'confirm_email',
-#         ]
+    class Meta:
+        model = Pet
+        fields = ['name','animaltype', 'location','age','color','gender',
+        'spayed','vaccinated','housetrained','specialcare','size','breed','photo','description']
 
-#     def __init__(self, *args, **kwargs):
-#         super(UserEditForm, self).__init__(*args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super(PetEditForm, self).__init__(*args, **kwargs)
 
-#         for fieldname in ['first_name', 'last_name']:
-#             self.fields[fieldname].help_text = None
-#             self.fields[fieldname].label = ""
-
-#         self.fields['first_name'].widget = forms.TextInput(attrs={'placeholder': 'First Name'})
-#         self.fields['last_name'].widget = forms.TextInput(attrs={'placeholder': 'Last Name'})
+        self.fields['description'].widget = forms.Textarea(attrs={'placeholder' : 'Write short description of pet'})
 
 
+class UserEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name']
 
-# class ProfileEditForm(forms.ModelForm):
-#     class Meta:
-#         model = UserProfile
-#         fields = [
-#             # these ones should be added
-#             # 'first_name', 'last_name', 
+    def __init__(self, *args, **kwargs):
+        super(UserEditForm, self).__init__(*args, **kwargs)
 
-#            'city', 'country', 'description', 'profile_photo',
-            
-#             # these ones we don't actually need
-#             # 'birth_date','gender',
-            
-#             # and these should be availible as well
-#             # 'password', 'confirm_password', 'email', 'confirm_email',
-#         ]
 
-#     def __init__(self, *args, **kwargs):
-#         super(ProfileEditForm, self).__init__(*args, **kwargs)
+class SupervisorEditForm(forms.ModelForm):
+    class Meta:
+        model = Supervisor
+        fields = ['city', 'country', 'telephone', 'photo', 'description']
 
-#         for fieldname in ['city', 'country', 'description', 'profile_photo']:
-#             self.fields[fieldname].help_text = None
-#             self.fields[fieldname].label = ""
-#         self.fields['city'].widget = forms.TextInput(attrs={'placeholder': 'City'})
-#         self.fields['country'].widget = forms.TextInput(attrs={'placeholder': 'Country'})
-#         self.fields['description'].widget = forms.Textarea(attrs={'placeholder' : 'Write about yourself'})
-
+    def __init__(self, *args, **kwargs):
+        super(SupervisorEditForm, self).__init__(*args, **kwargs)
+        self.fields['description'].widget = forms.Textarea(attrs={'placeholder' : 'Write about yourself'})

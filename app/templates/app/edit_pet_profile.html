@@ -1,0 +1,10 @@
+{% extends 'app/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<form enctype="multipart/form-data" action="" method="post">
+  {% csrf_token %}
+  {{ pet_form.as_p }}
+  <button type="submit">Submit</button>
+</form>
+{% endblock %}

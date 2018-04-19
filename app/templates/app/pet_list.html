@@ -26,19 +26,19 @@
       <tbody>
           {% for pet in filter.qs %}
             <tr>
-              <td>{{ pet.pet_id }}</td>
-              <td><a class="nav-link" href="{% url 'pet_profile' pet_id=pet.pet_id %}">{{ pet.pet_name }}</a></td>
-              <td>{{ pet.pet_type }}</td>
-              <td>{{ pet.pet_location }}</td>
-              <td>{{ pet.pet_age }}</td>
-              <td>{{ pet.pet_color }}</td>
-              <td>{{ pet.pet_gender }}</td>
-              <td>{{ pet.pet_size }}</td>
-              <td>{{ pet.pet_breed }}</td>
-              <td>{{ pet.pet_spayed }}</td>
-              <td>{{ pet.pet_vaccinated }}</td>
-              <td>{{ pet.pet_housetrained }}</td>
-              <td>{{ pet.pet_specialcare }}</td>
+              <td>{{ pet.id }}</td>
+              <td><a class="nav-link" href="{% url 'pet_profile' id=pet.id %}">{{ pet.name }}</a></td>
+              <td>{{ pet.animaltype }}</td>
+              <td>{{ pet.location }}</td>
+              <td>{{ pet.age }}</td>
+              <td>{{ pet.color }}</td>
+              <td>{{ pet.gender }}</td>
+              <td>{{ pet.size }}</td>
+              <td>{{ pet.breed }}</td>
+              <td>{{ pet.spayed }}</td>
+              <td>{{ pet.vaccinated }}</td>
+              <td>{{ pet.housetrained }}</td>
+              <td>{{ pet.specialcare }}</td>
             </tr>
           {% endfor %}
       </tbody>

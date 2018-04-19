@@ -2,13 +2,13 @@ from django.contrib.auth.models import User
 from . import models
 # from .filters import UserFilter 
 from .filters import PetFilter
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.views.generic.base import TemplateView
-from .forms import RegistrationForm, LoginForm
+from .forms import RegistrationForm, LoginForm, PetEditForm
 from django.views.generic import FormView
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 # Create your views here.
 
@@ -65,12 +65,34 @@ def login_site(self, request, *args, **kwargs):
 @login_required
 def user_profile(request, username):
     user = User.objects.get(username=username)
-    #supervisor = models.Supervisor.objects.get(user=user)
-    return render(request, 'app/user_profile.html', {'supervisor': user.supervisor, 'user': user})
+    supervisor = get_object_or_404(models.Supervisor, user=user) 
+    return render(request, 'app/user_profile.html', {'supervisor': supervisor, 'user': user})
 
-def pet_profile(request, pet_id):
-    pet = models.Pet.objects.get(pet_id=pet_id)
-    return render(request, 'app/pet_profile.html', {'pet': pet, 'supervisor': pet.pet_supervisor})
+def pet_profile(request, id):
+    pet = models.Pet.objects.get(id=id)
+    return render(request, 'app/pet_profile.html', {'pet': pet, 'supervisor': pet.supervisor})
+
+
+@login_required
+def edit_pet_profile(request, id):
+    if request.method == 'POST':
+        pet = get_object_or_404(models.Pet, pk=id)
+        if(request.user.is_superuser or request.user == pet.supervisor.user):
+            pet_form = PetEditForm(request.POST, request.FILES, instance=pet)
+            if pet_form.is_valid():
+                pet_form.save(commit=True)
+                return redirect('pet_profile', id=id)
+            else:
+                return render(request, 'app/edit_pet_profile.html', {'pet_form': pet_form})
+        else:
+            return redirect('pet_profile', id=id)
+    else:
+        pet = get_object_or_404(models.Pet, pk=id)
+        if(request.user.is_superuser or request.user == pet.supervisor.user):             
+            pet_form = PetEditForm(instance=pet)
+            return render(request, 'app/edit_pet_profile.html', {'pet_form': pet_form})
+        else:
+            return redirect('pet_profile', id=id)
 
 
 

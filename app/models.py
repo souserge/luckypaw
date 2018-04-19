@@ -2,6 +2,16 @@ from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
 
+def pet_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/pets/id_<id>/<filename>
+    return 'pets/id_{0}/{1}'.format(instance.id, filename)
+
+def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/users/id_<id>/<filename>
+    return 'users/id_{0}/{1}'.format(instance.user.id, filename)
+
+
+
 class Gallery(models.Model):
     title = models.CharField(max_length=50)
 
@@ -11,48 +21,47 @@ class Gallery(models.Model):
 # Picture of the gallery
 class Picture(models.Model):
     gallery = models.ForeignKey(Gallery, on_delete=models.CASCADE)
-    picture = models.ImageField(upload_to='images', default='images/default_photo.jpg')
+    picture = models.ImageField(upload_to=pet_directory_path, default='pets/pet_default_image.jpg')
 
 
 class Supervisor(models.Model):
     user = models.OneToOneField(User, related_name='user', on_delete=models.CASCADE)
     city = models.CharField(max_length=50, default='', blank=True)
     country = models.CharField(max_length=50, default='', blank=True)
-    email = models.CharField(max_length=50, default='', blank=True)
     telephone = models.CharField(max_length=50, default='', blank=True)
-    super_photo = models.ImageField(upload_to='super_images', default='super_images/default_photo.jpg')
+    photo = models.ImageField(upload_to=user_directory_path, default='users/user_default_image.jpg')
+    description = models.CharField(max_length=2000, default='', blank=True)
 
     def __str__(self):
         return self.user.username
 
 class Pet(models.Model):
-    pet_id = models.AutoField(primary_key=True)
-    pet_name = models.CharField(max_length=50, default ='No Name', blank=False)
-    pet_type_choice = (('Cat','Cat'),('Dog','Dog'),('Parrot','Parrot'))
-    pet_type = models.CharField(max_length=50, choices=pet_type_choice, blank=True)
-    pet_location = models.CharField(max_length=50, default='', blank=True)
-    pet_age_choice = (('Young','Young'),('Adult','Adult'),('Senior','Senior'))
-    pet_age = models.CharField(max_length=50, choices=pet_age_choice, blank=True)
-    pet_color = models.CharField(max_length=50, default='', blank=True)
-    pet_gender_choice = (('Male','Male'),('Female','Female'))
-    pet_gender = models.CharField(max_length=50, choices=pet_gender_choice, blank=True)
-    pet_size_choice = (('Very Small','Very Small'), ('Small','Small'),('Medium','Medium'),('Large','Large'),('Very Large','Very Large'))
-    pet_size = models.CharField(max_length=50, choices=pet_size_choice, blank=True)
-    pet_breed = models.CharField(max_length=50, default='', blank=True)
-    pet_photo = models.ImageField(upload_to='pet_images', default='pet_images/default_photo.jpg')
-    pet_description = models.CharField(max_length=500, default='', blank=True)
-    pet_gallery = models.OneToOneField(Gallery, related_name='pet_gallery', on_delete=models.SET_NULL, blank=True, null=True)
-    #pet_needs_choice = (('Spayed/Neutered','Spayed/Neutered'),('Vaccinated','Vaccinated'),('Purebred','Purebred'),('House-trained','House-trained'))
-    pet_spayed = models.BooleanField()
-    pet_vaccinated = models.BooleanField()
-    pet_housetrained = models.BooleanField()
-    pet_specialcare = models.BooleanField()
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=50, default ='No Name', blank=False)
+    animaltype_choice = (('Cat','Cat'),('Dog','Dog'),('Parrot','Parrot'))
+    animaltype = models.CharField(max_length=50, choices=animaltype_choice, blank=True)
+    location = models.CharField(max_length=50, default='', blank=True)
+    age_choice = (('Young','Young'),('Adult','Adult'),('Senior','Senior'))
+    age = models.CharField(max_length=50, choices=age_choice, blank=True)
+    color = models.CharField(max_length=50, default='', blank=True)
+    gender_choice = (('Male','Male'),('Female','Female'))
+    gender = models.CharField(max_length=50, choices=gender_choice, blank=True)
+    size_choice = (('Very Small','Very Small'), ('Small','Small'),('Medium','Medium'),('Large','Large'),('Very Large','Very Large'))
+    size = models.CharField(max_length=50, choices=size_choice, blank=True)
+    breed = models.CharField(max_length=50, default='', blank=True)
+    photo = models.ImageField(upload_to=pet_directory_path, default='pets/pet_default_image.jpg')
+    description = models.CharField(max_length=2000, default='', blank=True)
+    gallery = models.OneToOneField(Gallery, related_name='pet_gallery', on_delete=models.SET_NULL, blank=True, null=True)
+    spayed = models.BooleanField()
+    vaccinated = models.BooleanField()
+    housetrained = models.BooleanField()
+    specialcare = models.BooleanField()
 
     # One-to-Many relationship (one Supervisor can have multiple pets) 
     # When a referenced object deleted, set FK to null
-    pet_supervisor = models.ForeignKey(Supervisor, on_delete=models.SET_NULL, blank=True, null=True)
+    supervisor = models.ForeignKey(Supervisor, on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
-        return self.pet_name
+        return self.name
 
 User.supervisor = property(lambda u: Supervisor.objects.get_or_create(user=u)[0])
