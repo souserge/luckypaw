@@ -1,9 +1,11 @@
 {% extends 'app/base.html' %}
+{% load bootstrap_tags %}
 
 {% block content %}
   <form method="get">
     <div class="form-group d-inline-block">
-    {{ filter.form.as_p }}
+      <label for="id_animaltype"
+    {{ filter.form|as_bootstrap }}
     </div>
     <button class="ml-1 btn btn-info d-block" type="submit">Search</button>
   </form>
