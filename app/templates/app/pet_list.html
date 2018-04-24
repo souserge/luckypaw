@@ -1,48 +1,41 @@
 {% extends 'app/base.html' %}
 {% load bootstrap_tags %}
 
+{% block scripts %}
+<script>
+  $(() => {
+    $("#basePetFilters > .form-group").addClass('d-inline-block col-md-3  ')
+  })
+</script>
+{% endblock %}
+
 {% block content %}
-  <form method="get">
-    <div class="form-group d-inline-block">
-      <label for="id_animaltype"
-    {{ filter.form|as_bootstrap }}
+  {% if filter %}
+    <form method="get">
+      <div class="container" id="basePetFilters">
+        {{ filter.form|as_bootstrap_horizontal }}
+      </div>
+      <button class="ml-1 btn btn-info d-block" type="submit">Search</button>
+    </form>
+  {% endif %}
+
+  <div class="row mt-5">
+  {% for pet in filter.qs %}
+    <div class="col-md-4 mb-5  mb-md-0">
+      <div class="card" style="height:100%;">
+        <img class="card-img-top" src="{{ pet.photo.url }}" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">{{ pet.name }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{ pet.location }}</h6>
+          <p class="card-text">{{ pet.animaltype }}, {% if pet.breed %}{{ pet.breed }}, {% endif %}{{ pet.age}}</p>
+        </div>
+      </div>
     </div>
-    <button class="ml-1 btn btn-info d-block" type="submit">Search</button>
-  </form>
-  <table class="table table-stripped mt-2">
-      <thead>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Location</th>
-          <th>Age</th>
-          <th>Color</th>
-          <th>Gender</th>
-          <th>Size</th>
-          <th>Breed</th>
-          <th>Spayed</th>
-          <th>Vaccinated</th>
-          <th>House Trained</th>
-          <th>Special Care</th>
-      </thead>
-      <tbody>
-          {% for pet in filter.qs %}
-            <tr>
-              <td>{{ pet.id }}</td>
-              <td><a class="nav-link" href="{% url 'pet_profile' id=pet.id %}">{{ pet.name }}</a></td>
-              <td>{{ pet.animaltype }}</td>
-              <td>{{ pet.location }}</td>
-              <td>{{ pet.age }}</td>
-              <td>{{ pet.color }}</td>
-              <td>{{ pet.gender }}</td>
-              <td>{{ pet.size }}</td>
-              <td>{{ pet.breed }}</td>
-              <td>{{ pet.spayed }}</td>
-              <td>{{ pet.vaccinated }}</td>
-              <td>{{ pet.housetrained }}</td>
-              <td>{{ pet.specialcare }}</td>
-            </tr>
-          {% endfor %}
-      </tbody>
-  </table>
+    {% if forloop.counter|divisibleby:"3" %}
+      </div><div class="row mt-md-5">
+    {% endif %}
+  {% empty %}
+        <h4> No pets were found :(</h4>
+  {% endfor %}
+  </div>
 {% endblock %}

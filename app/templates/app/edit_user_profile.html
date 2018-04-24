@@ -1,11 +1,22 @@
 {% extends 'app/base.html' %}
 {% load staticfiles %}
+{% load bootstrap_tags %}
+
+{% block scripts %}
+<!-- <script>
+  $(() => {
+    $("#basePetFilters > .form-group").addClass('d-inline-block col-3')
+  })
+</script> -->
+{% endblock %}
 
 {% block content %}
 <form enctype="multipart/form-data" action="" method="post">
   {% csrf_token %}
-  {{ user_form.as_p }}
-  {{ supervisor_form.as_p }}
-  <button type="submit">Submit</button>
+  <div class="container" id="basePetFilters">
+    {{ user_form|as_bootstrap_horizontal }}
+    {{ supervisor_form|as_bootstrap_horizontal }}
+  </div>
+  <button class="btn btn-info " type="submit">Submit</button>
 </form>
 {% endblock %}

@@ -29,6 +29,10 @@ There are still more information to add ...
 """
 
 def index(request):
+    if request.user.is_authenticated:
+        sup = get_object_or_404(models.Supervisor, user=request.user)
+        sup_pets = models.Pet.objects.filter(supervisor=sup)
+        return render(request, 'app/pet_list.html')    
     return render(request, 'app/index.html')
 
 def about(request):
