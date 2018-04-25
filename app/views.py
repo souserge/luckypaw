@@ -31,8 +31,8 @@ There are still more information to add ...
 def index(request):
     if request.user.is_authenticated:
         sup = get_object_or_404(models.Supervisor, user=request.user)
-        sup_pets = models.Pet.objects.filter(supervisor=sup)
-        return render(request, 'app/pet_list.html')    
+        sup_pets = models.Pet.objects.filter(supervisor__user=request.user)
+        return render(request, 'app/sup_pets.html', { 'supervisor': sup, 'pets': sup_pets })    
     return render(request, 'app/index.html')
 
 def about(request):
@@ -115,14 +115,14 @@ def edit_pet_profile(request, id):
                 pet_form.save(commit=True)
                 return redirect('pet_profile', id=id)
             else:
-                return render(request, 'app/edit_pet_profile.html', {'pet_form': pet_form})
+                return render(request, 'app/edit_pet_profile.html', {'pet_form': pet_form, 'pet_id': id})
         else:
             return redirect('pet_profile', id=id)
     else:
         pet = get_object_or_404(models.Pet, pk=id)
         if(request.user.is_superuser or request.user == pet.supervisor.user):             
             pet_form = PetEditForm(instance=pet)
-            return render(request, 'app/edit_pet_profile.html', {'pet_form': pet_form})
+            return render(request, 'app/edit_pet_profile.html', {'pet_form': pet_form, 'pet_id': id})
         else:
             return redirect('pet_profile', id=id)
 

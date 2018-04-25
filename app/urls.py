@@ -21,6 +21,7 @@ urlpatterns = [
     path('register/', views.RegistrationFormView.as_view(), name='register'),
     path('pet/<id>/', views.pet_profile, name='pet_profile'),
     path('pet/<id>/edit/', views.edit_pet_profile, name='edit_pet_profile'),
+    path('pet/<id>/delete/', views.edit_pet_profile, name='delete_pet'),
     path('user/<username>/', views.user_profile, name='user_profile'),
     path('user/<username>/edit/', views.edit_user_profile, name='edit_user_profile'),
 

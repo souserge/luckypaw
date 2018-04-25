@@ -12,8 +12,9 @@
   <link rel="stylesheet" href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}">
   <script src="{% static 'lib/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
   <link rel="stylesheet" href="{% static 'lib/bootstrap/css/bootstrap-social.css' %}">
-
   <link rel="stylesheet" href="{% static 'css/base.css' %}">
+
+  <script src="{% static 'js/sendRequest.js' %}"></script>
 
   <script>
   $(() => {
@@ -51,19 +52,24 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="{% url "about" %}">About</a>
+              {% url 'about' as url %}
+              <a class="nav-link {% if request.path == url %}active{% endif %}" href="{{ url }}">About</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url "search" %}">Search</a>
+                {% url 'search' as url %}
+                <a class="nav-link {% if request.path == url %}active{% endif %}" href="{{ url }}">Search</a>
               </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url "contact" %}">Contact</a>
+                {% url 'contact' as url %}
+              <a class="nav-link {% if request.path == url %}active{% endif %}" href="{{ url }}">Contact</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url "blog" %}">Blog</a>
+                {% url 'blog' as url %}
+              <a class="nav-link {% if request.path == url %}active{% endif %}" href="{{ url }}">Blog</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url "support" %}">Support us</a>
+                {% url 'support' as url %}
+              <a class="nav-link {% if request.path == url %}active{% endif %}" href="{{ url }}">Support us</a>
             </li>
             {% if request.user.is_authenticated %}
               <li class="nav-item">

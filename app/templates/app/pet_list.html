@@ -1,5 +1,10 @@
 {% extends 'app/base.html' %}
+{% load staticfiles %}
 {% load bootstrap_tags %}
+
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'css/pet_card.css' %}">
+{% endblock %}
 
 {% block scripts %}
 <script>
@@ -13,16 +18,17 @@
   {% if filter %}
     <form method="get">
       <div class="container" id="basePetFilters">
-        {{ filter.form|as_bootstrap_horizontal }}
+        {{ filter.form|as_bootstrap }}
       </div>
-      <button class="ml-1 btn btn-info d-block" type="submit">Search</button>
+      <button class="ml-1 btn btn-info d-block" type="submit">Find your pet</button>
     </form>
   {% endif %}
 
   <div class="row mt-5">
   {% for pet in filter.qs %}
-    <div class="col-md-4 mb-5  mb-md-0">
-      <div class="card" style="height:100%;">
+    <div class="col-md-4 mb-5 mb-md-0 shadow-sm">
+      <a href="{% url 'pet_profile' id=pet.id %}" style="text-decoration: none;">
+      <div class="card shadow-sm" style="height:100%;">
         <img class="card-img-top" src="{{ pet.photo.url }}" alt="Card image cap">
         <div class="card-body">
           <h5 class="card-title">{{ pet.name }}</h5>
@@ -30,6 +36,7 @@
           <p class="card-text">{{ pet.animaltype }}, {% if pet.breed %}{{ pet.breed }}, {% endif %}{{ pet.age}}</p>
         </div>
       </div>
+      </a> 
     </div>
     {% if forloop.counter|divisibleby:"3" %}
       </div><div class="row mt-md-5">
