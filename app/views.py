@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from . import models
 # from .filters import UserFilter 
-from .filters import PetFilter
+from .filters import PetFilter, PetBaseFilter, PetAdvancedFilter
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.views.generic.base import TemplateView
@@ -38,10 +38,17 @@ def index(request):
 def about(request):
     return render(request, 'app/about.html')
 
+# def search(request):
+#     pet_list = models.Pet.objects.all()
+#     pet_filter = PetFilter(request.GET, queryset=pet_list)
+#     return render(request, 'app/pet_list.html', {'filter': pet_filter})
+
 def search(request):
     pet_list = models.Pet.objects.all()
-    pet_filter = PetFilter(request.GET, queryset=pet_list)
-    return render(request, 'app/pet_list.html', {'filter': pet_filter})
+    pet_base_filter = PetBaseFilter(request.GET, queryset=pet_list)
+    pet_advanced_filter = PetAdvancedFilter(request.GET, queryset=pet_list)
+    return render(request, 'app/pet_list.html', {'base_filter': pet_base_filter, 
+    'advanced_filter': pet_advanced_filter})
 
 def contact(request):
     return render(request, 'app/contact.html')
