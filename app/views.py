@@ -5,7 +5,7 @@ from .filters import PetFilter, PetBaseFilter, PetAdvancedFilter
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.views.generic.base import TemplateView
-from .forms import RegistrationForm, LoginForm, PetForm, UserForm, SupervisorForm
+from .forms import RegistrationForm, LoginForm, PetForm, UserForm, SupervisorForm, PetAddForm
 from django.views.generic import FormView
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -112,17 +112,16 @@ def pet_profile(request, id):
 @login_required
 def pet_add(request):
     if request.method == 'POST':
-        pet_form = PetForm(request.POST, request.FILES)
+        pet_form = PetAddForm(request.POST)
         if pet_form.is_valid():
             pet = pet_form.save(commit=False)
             # User who creates new pet become his supervisor automatically
-            # pet = pet_form.instance
             supervisor = get_object_or_404(models.Supervisor, user=request.user)
             pet.supervisor = supervisor
             pet_form.save(commit=True)
             return redirect('index')
     else:
-        pet_form = PetForm
+        pet_form = PetAddForm
         return render(request, 'app/pet_add.html', {'pet_form': pet_form})
 
 @login_required
