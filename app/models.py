@@ -37,7 +37,7 @@ class Supervisor(models.Model):
 
 class Pet(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=50, default ='No Name', blank=False)
+    name = models.CharField(max_length=50, blank=False)
     animaltype_choice = (('Cat','Cat'),('Dog','Dog'),('Parrot','Parrot'))
     animaltype = models.CharField(max_length=50, choices=animaltype_choice, blank=True)
     location = models.CharField(max_length=50, default='', blank=True)

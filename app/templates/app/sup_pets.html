@@ -10,7 +10,7 @@
         <div class="card-body">
           <h5 class="card-title">{{ pet.name }}</h5>
           <h6 class="card-subtitle mb-2 text-muted">Not yet adopted</h6>
-          <p class="card-text"><a href="{% url 'pet_profile' id=pet.id %}">View pet's page</a>  or  <a href="{% url 'edit_pet_profile' id=pet.id %}">Edit pet's page</a></p>
+          <p class="card-text"><a href="{% url 'pet_profile' id=pet.id %}">View pet's page</a>  or  <a href="{% url 'pet_edit' id=pet.id %}">Edit pet's page</a></p>
         </div>
       </div>
     </div>
@@ -22,5 +22,5 @@
   {% endfor %}
   </div>
 
-  <a class="btn btn-info mt-4" href="">Add new pet</a>
+  <a class="btn btn-info mt-4" href="{% url 'pet_add' %}">Add new pet</a>
 {% endblock %}

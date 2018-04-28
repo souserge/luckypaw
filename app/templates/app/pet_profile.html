@@ -11,7 +11,7 @@
       <div class="jumbotron">
         <h3>{{ pet.name }}</h3>
         {% if request.user.is_superuser or request.user == pet.supervisor.user %}
-          <p><a href="{% url 'edit_pet_profile' id=pet.id %}">Edit profile</a></p>
+          <p><a href="{% url 'pet_edit' id=pet.id %}">Edit profile</a></p>
         {% endif %}
         <table class="table">
           <tr>

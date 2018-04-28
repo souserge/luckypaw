@@ -60,7 +60,7 @@ class LoginForm(AuthenticationForm):
         self.fields['username'].widget = forms.TextInput(attrs={'placeholder': 'Username'})
 
 
-class PetEditForm(forms.ModelForm):
+class PetForm(forms.ModelForm):
 
     class Meta:
         model = Pet
@@ -68,25 +68,26 @@ class PetEditForm(forms.ModelForm):
         'spayed','vaccinated','housetrained','specialcare','size','breed','photo','description']
 
     def __init__(self, *args, **kwargs):
-        super(PetEditForm, self).__init__(*args, **kwargs)
+        super(PetForm, self).__init__(*args, **kwargs)
 
         self.fields['description'].widget = forms.Textarea(attrs={'placeholder' : 'Write short description of pet'})
+        self.fields['name'].widget = forms.TextInput(attrs={'placeholder': 'Write pet\'s name'})
 
 
-class UserEditForm(forms.ModelForm):
+class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name']
 
     def __init__(self, *args, **kwargs):
-        super(UserEditForm, self).__init__(*args, **kwargs)
+        super(UserForm, self).__init__(*args, **kwargs)
 
 
-class SupervisorEditForm(forms.ModelForm):
+class SupervisorForm(forms.ModelForm):
     class Meta:
         model = Supervisor
         fields = ['city', 'country', 'telephone', 'photo', 'description']
 
     def __init__(self, *args, **kwargs):
-        super(SupervisorEditForm, self).__init__(*args, **kwargs)
+        super(SupervisorForm, self).__init__(*args, **kwargs)
         self.fields['description'].widget = forms.Textarea(attrs={'placeholder' : 'Write about yourself'})

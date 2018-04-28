@@ -23,7 +23,7 @@
                   <p class="card-text">{{ supervisor.description }}</p>
                   <a href="{% url 'index' %}" class="btn btn-info d-inline-block">View pets</a>
                   {% if request.user.is_superuser or request.user == user %}
-                    <a class="float-right" href="{% url 'edit_user_profile' username=user.username %}">Edit profile</a>
+                    <a class="float-right" href="{% url 'user_edit' username=user.username %}">Edit profile</a>
                   {% endif %}
                 </div>
               </div>

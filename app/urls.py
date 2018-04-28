@@ -19,10 +19,11 @@ urlpatterns = [
     path('auth/', include('social_django.urls', namespace='social')), 
     path('login/', views.LoginFormView.as_view(), name='login'),
     path('register/', views.RegistrationFormView.as_view(), name='register'),
+    path('pet/add/', views.pet_add, name='pet_add'),
     path('pet/<id>/', views.pet_profile, name='pet_profile'),
-    path('pet/<id>/edit/', views.edit_pet_profile, name='edit_pet_profile'),
-    path('pet/<id>/delete/', views.edit_pet_profile, name='delete_pet'),
+    path('pet/<id>/edit/', views.pet_edit, name='pet_edit'),
+    path('pet/<id>/delete/', views.pet_edit, name='pet_delete'),
     path('user/<username>/', views.user_profile, name='user_profile'),
-    path('user/<username>/edit/', views.edit_user_profile, name='edit_user_profile'),
+    path('user/<username>/edit/', views.user_edit, name='user_edit'),
 
 ]
