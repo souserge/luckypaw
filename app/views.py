@@ -134,16 +134,28 @@ def pet_edit(request, id):
                 pet_form.save(commit=True)
                 return redirect('pet_profile', id=id)
             else:
-                return render(request, 'app/pet_edit.html', {'pet_form': pet_form, 'pet_id': id})
+                return render(request, 'app/pet_edit.html', {'pet_form': pet_form, 'id': id})
         else:
             return redirect('pet_profile', id=id)
     else:
         pet = get_object_or_404(models.Pet, pk=id)
         if(request.user.is_superuser or request.user == pet.supervisor.user):             
             pet_form = PetForm(instance=pet)
-            return render(request, 'app/pet_edit.html', {'pet_form': pet_form, 'pet_id': id})
+            return render(request, 'app/pet_edit.html', {'pet_form': pet_form, 'id': id})
         else:
             return redirect('pet_profile', id=id)
+
+@login_required
+def pet_delete(request, id):
+    pet = get_object_or_404(models.Pet, pk=id)
+    if(request.user.is_superuser or request.user == pet.supervisor.user):
+        if request.method == 'POST':
+            pet.delete()
+            return redirect('index')
+        else:            
+            return render(request, 'app/pet_delete.html', {'pet': pet, 'id': id})
+    else:
+        return redirect('index')
 
 class RegistrationFormView(FormView):
     form_class = RegistrationForm

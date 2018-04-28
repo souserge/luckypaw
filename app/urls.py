@@ -22,7 +22,7 @@ urlpatterns = [
     path('pet/add/', views.pet_add, name='pet_add'),
     path('pet/<id>/', views.pet_profile, name='pet_profile'),
     path('pet/<id>/edit/', views.pet_edit, name='pet_edit'),
-    path('pet/<id>/delete/', views.pet_edit, name='pet_delete'),
+    path('pet/<id>/delete/', views.pet_delete, name='pet_delete'),
     path('user/<username>/', views.user_profile, name='user_profile'),
     path('user/<username>/edit/', views.user_edit, name='user_edit'),
 
