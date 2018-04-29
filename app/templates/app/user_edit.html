@@ -2,14 +2,6 @@
 {% load staticfiles %}
 {% load bootstrap_tags %}
 
-{% block scripts %}
-<!-- <script>
-  $(() => {
-    $("#basePetFilters > .form-group").addClass('d-inline-block col-3')
-  })
-</script> -->
-{% endblock %}
-
 {% block content %}
 <form class="container col-md-9 mb-5" enctype="multipart/form-data" action="" method="post">
   {% csrf_token %}

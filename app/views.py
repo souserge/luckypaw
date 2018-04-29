@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from . import models
-# from .filters import UserFilter 
 from .filters import PetFilter, PetBaseFilter, PetAdvancedFilter
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
@@ -38,11 +37,6 @@ def index(request):
 def about(request):
     return render(request, 'app/about.html')
 
-# def search(request):
-#     pet_list = models.Pet.objects.all()
-#     pet_filter = PetFilter(request.GET, queryset=pet_list)
-#     return render(request, 'app/pet_list.html', {'filter': pet_filter})
-
 def search(request):
     pet_list = models.Pet.objects.all()
     pet_base_filter = PetBaseFilter(request.GET, queryset=pet_list)
@@ -61,9 +55,6 @@ def support_us(request):
 
 def thank_you(request):
     return render(render, 'app/thank_you.html')
-
-# def login_site(request):
-#     return render(request, 'app/login.html')
 
 def login_site(self, request, *args, **kwargs):
     login_form = LoginForm(self.request.GET or None)
@@ -156,6 +147,7 @@ def pet_delete(request, id):
             return render(request, 'app/pet_delete.html', {'pet': pet, 'id': id})
     else:
         return redirect('index')
+
 
 class RegistrationFormView(FormView):
     form_class = RegistrationForm

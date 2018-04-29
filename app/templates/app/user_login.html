@@ -1,12 +1,9 @@
 <script>
   function eventFire(el, etype){
-    console.log("yiiiiiiiio")
     if (el.fireEvent) {
-      console.log("heeeeyo")
       el.fireEvent('on' + etype);
     } else {
-      console.log("yo")
-      var evObj = document.createEvent('Events');
+      let evObj = document.createEvent('Events');
       evObj.initEvent(etype, true, false);
       el.dispatchEvent(evObj);
     }

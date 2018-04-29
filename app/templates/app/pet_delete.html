@@ -2,14 +2,6 @@
 {% load staticfiles %}
 {% load bootstrap_tags %}
 
-{% block scripts %}
-<script>
-  // $(() => {
-  //   $("#basePetFilters > .form-group").addClass('d-inline-block')
-  // })
-</script>
-{% endblock %}
-
 {% block content %}
 <form method="post">
   {% csrf_token %}

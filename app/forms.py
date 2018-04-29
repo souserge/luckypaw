@@ -13,13 +13,6 @@ class RegistrationForm(UserCreationForm):
         ]
         field_classes = {'username': UsernameField}
 
-        #widgets = {
-            #'username' : forms.TextInput(attrs={'placeholder' : 'Username'}),
-            #'password1' : forms.PasswordInput(attrs={'placeholder' : 'Password'}),
-            #'password2' : forms.PasswordInput(attrs={'placeholder' : 'ConfirmPassword'}),
-            #'email' : forms.EmailInput(attrs={'placeholder' : 'Email'})
-        #}
-
     def __init__(self, *args, **kwargs):
         super(RegistrationForm, self).__init__(*args, **kwargs)
 
@@ -33,8 +26,6 @@ class RegistrationForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super(RegistrationForm, self).save(commit=False)
-        #user.username = self.cleaned_data['username']
-        #user.set_password(self.cleaned_data["password1"])
         user.email = self.cleaned_data['email']
 
         if commit:
@@ -42,8 +33,9 @@ class RegistrationForm(UserCreationForm):
 
         return user
 
+
 class LoginForm(AuthenticationForm):
-    
+
     class Meta:
         model = User
         fields = [
@@ -73,6 +65,7 @@ class PetForm(forms.ModelForm):
         self.fields['description'].widget = forms.Textarea(attrs={'placeholder' : 'Write short description of pet'})
         self.fields['name'].widget = forms.TextInput(attrs={'placeholder': 'Write pet\'s name'})
 
+
 class PetAddForm(forms.ModelForm):
 
     class Meta:
@@ -82,11 +75,12 @@ class PetAddForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(PetAddForm, self).__init__(*args, **kwargs)
-
         self.fields['description'].widget = forms.Textarea(attrs={'placeholder' : 'Write short description of pet'})
         self.fields['name'].widget = forms.TextInput(attrs={'placeholder': 'Write pet\'s name'})
 
+
 class UserForm(forms.ModelForm):
+    
     class Meta:
         model = User
         fields = ['first_name', 'last_name']
@@ -96,6 +90,7 @@ class UserForm(forms.ModelForm):
 
 
 class SupervisorForm(forms.ModelForm):
+    
     class Meta:
         model = Supervisor
         fields = ['city', 'country', 'telephone', 'photo', 'description']

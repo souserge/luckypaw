@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-# Create your models here.
+
 
 def pet_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/pets/id_<id>/<filename>
@@ -11,12 +11,11 @@ def user_directory_path(instance, filename):
     return 'users/id_{0}/{1}'.format(instance.user.id, filename)
 
 
+# Create your models here.
 
 class Gallery(models.Model):
     title = models.CharField(max_length=50)
 
-    # slug is for displaying user friedly urls
-    # slug = models.SlugField(max_length=50, unique=True)
 
 # Picture of the gallery
 class Picture(models.Model):
@@ -34,6 +33,7 @@ class Supervisor(models.Model):
 
     def __str__(self):
         return self.user.username
+
 
 class Pet(models.Model):
     id = models.AutoField(primary_key=True)

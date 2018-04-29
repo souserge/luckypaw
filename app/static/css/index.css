@@ -6,17 +6,11 @@
     transition-duration: 0.5s;
 }
 
-/* .carousel-img:hover {
-    opacity: 0.5;
-} */
-
 .carousel-caption {
     background-color: rgba(0,0,0, 0.25);
-    /* background-color: rgba(252,218,201, 0.4); */
     right: 0;
     left: 0;
     bottom: 0;
-    /* color: #000000; */
 }
 
 .carousel-item {
