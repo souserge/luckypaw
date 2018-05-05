@@ -68,7 +68,8 @@ def login_site(self, request, *args, **kwargs):
 def user_profile(request, username):
     user = User.objects.get(username=username)
     supervisor = get_object_or_404(models.Supervisor, user=user) 
-    return render(request, 'app/user_profile.html', {'supervisor': supervisor, 'user': user})
+    pets = models.Pet.objects.filter(supervisor__user=user)
+    return render(request, 'app/user_profile.html', {'supervisor': supervisor, 'user': user, 'pets': pets})
 
 @login_required
 def user_edit(request, username):
