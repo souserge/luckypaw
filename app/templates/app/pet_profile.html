@@ -69,7 +69,7 @@
           <div class="card card-body">
               <p><a href="{% url 'user_profile' username=supervisor.user.username %}">{{ supervisor.user.get_full_name }}</a></p>
               <p>Phone: {{ supervisor.telephone }}</p>
-              <p>Email: {{ supervisor.email }}</p> 
+              <p>Email: {{ supervisor.user.email }}</p> 
           </div>
         {% else %}
         <p>Oh no, this pet is not supervised :(</p>
