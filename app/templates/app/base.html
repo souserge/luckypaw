@@ -72,14 +72,14 @@
               <a class="nav-link {% if request.path == url %}active{% endif %}" href="{{ url }}">Support us</a>
             </li>
             {% if request.user.is_authenticated %}
-              <li class="nav-item nav-item-small">
+              <li class="nav-item">
                 <a class="nav-link nav-item-small" href="{% url 'user_profile' username=request.user.username %}">Profile({{ request.user.username }})</a>
               </li>
-              <li class="nav-item nav-item-small">
+              <li class="nav-item">
                 <a class="nav-link nav-item-small" href="{% url "logout" %}">Logout</a>
               </li>
             {% else %}
-              <li class="nav-item nav-item-small">
+              <li class="nav-item">
                 <a class="nav-link nav-item-small" id="loginModalButton" data-url="{% url "login" %}" href="#login">Login/Register</a>
               </li>
               <div id="loginRegisterModalContainer"></div>
