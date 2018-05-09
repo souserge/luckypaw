@@ -8,6 +8,10 @@ nav, footer {
     background-color: rgb(105, 190, 48);
 }
 
+#mainNav {
+    font-size: 1.2em;
+}
+
 html {
     position: relative;
     min-height: 100%;
