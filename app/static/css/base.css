@@ -4,12 +4,26 @@ h1, h2, h3, h4, h5, h6, a, button {
     font-family: 'Handlee', cursive;
 }
 
-nav, footer {
-    background-color: rgb(105, 190, 48);
+nav, footer {   
+    background-color: #ffd9c7;
+}
+
+body {
+    background-color:  #fff7f5;
 }
 
 .nav-link {
     font-size: 1.2em;
+}
+
+.nav-item {
+    transition-property: background-color;
+    transition-duration: 0.25s;
+    border-radius: 14%;
+}
+
+.nav-item:hover {
+    background-color: #ffeee6;
 }
 
 .nav-item-small {
