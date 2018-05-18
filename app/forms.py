@@ -57,7 +57,7 @@ class PetForm(forms.ModelForm):
     class Meta:
         model = Pet
         fields = ['name','animaltype', 'location','age','color','gender',
-        'spayed','vaccinated','housetrained','specialcare','size','breed','photo','description']
+        'spayed','vaccinated','housetrained','specialcare','adopted','size','breed','photo','description']
 
     def __init__(self, *args, **kwargs):
         super(PetForm, self).__init__(*args, **kwargs)
@@ -65,18 +65,26 @@ class PetForm(forms.ModelForm):
         self.fields['description'].widget = forms.Textarea(attrs={'placeholder' : 'Write short description of pet'})
         self.fields['name'].widget = forms.TextInput(attrs={'placeholder': 'Write pet\'s name'})
 
-
 class PetAddForm(forms.ModelForm):
 
     class Meta:
         model = Pet
-        fields = ['name','animaltype', 'location','age','color','gender',
-        'spayed','vaccinated','housetrained','specialcare','size','breed','description']
+        fields = ['name','animaltype', 'location' ]
 
     def __init__(self, *args, **kwargs):
         super(PetAddForm, self).__init__(*args, **kwargs)
-        self.fields['description'].widget = forms.Textarea(attrs={'placeholder' : 'Write short description of pet'})
         self.fields['name'].widget = forms.TextInput(attrs={'placeholder': 'Write pet\'s name'})
+
+class PetAddInfoForm(forms.ModelForm):
+
+    class Meta:
+        model = Pet
+        fields = ['age','color','gender','spayed','vaccinated','housetrained','specialcare','size','breed','photo','description']
+
+    def __init__(self, *args, **kwargs):
+        super(PetAddInfoForm, self).__init__(*args, **kwargs)
+        self.fields['description'].widget = forms.Textarea(attrs={'placeholder' : 'Write short description of pet'})
+
 
 
 class UserForm(forms.ModelForm):
