@@ -4,7 +4,7 @@ from .filters import PetFilter, PetBaseFilter, PetAdvancedFilter
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.views.generic.base import TemplateView
-from .forms import RegistrationForm, LoginForm, PetForm, UserForm, SupervisorForm, PetAddForm
+from .forms import RegistrationForm, LoginForm, PetForm, UserForm, SupervisorForm, PetAddForm, PetAddInfoForm
 from django.views.generic import FormView
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -41,8 +41,9 @@ def search(request):
     pet_list = models.Pet.objects.all()
     pet_base_filter = PetBaseFilter(request.GET, queryset=pet_list)
     pet_advanced_filter = PetAdvancedFilter(request.GET, queryset=pet_list)
+    pets = pet_base_filter.qs & pet_advanced_filter.qs 
     return render(request, 'app/pet_list.html', {'base_filter': pet_base_filter, 
-    'advanced_filter': pet_advanced_filter})
+    'advanced_filter': pet_advanced_filter, 'pets': pets })
 
 def contact(request):
     return render(request, 'app/contact.html')
@@ -111,10 +112,24 @@ def pet_add(request):
             supervisor = get_object_or_404(models.Supervisor, user=request.user)
             pet.supervisor = supervisor
             pet_form.save(commit=True)
-            return redirect('index')
+            id = pet.id
+            return redirect('pet_add_info', id=id)
     else:
         pet_form = PetAddForm
-        return render(request, 'app/pet_add.html', {'pet_form': pet_form})
+        return render(request, 'app/pet_add.html', {'pet_form': pet_form })
+
+@login_required
+def pet_add_info(request, id):
+    if request.method == 'POST':
+        pet = get_object_or_404(models.Pet, pk=id)
+        pet_info_form = PetAddInfoForm(request.POST, request.FILES, instance=pet)
+        if pet_info_form.is_valid():
+            pet_info_form.save(commit=True)
+            return redirect('index')
+    else:
+        pet = get_object_or_404(models.Pet, pk=id)
+        pet_info_form = PetAddInfoForm(instance=pet)
+        return render(request, 'app/pet_add_info.html', {'pet_info_form': pet_info_form})
 
 @login_required
 def pet_edit(request, id):

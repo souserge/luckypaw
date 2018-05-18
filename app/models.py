@@ -1,5 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
+import os
+from django.core.files.storage import default_storage
+from django.db.models import FileField
+from django.db import models
+from django.db.models.signals import post_delete
 
 
 def pet_directory_path(instance, filename):
@@ -10,6 +15,23 @@ def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/users/id_<id>/<filename>
     return 'users/id_{0}/{1}'.format(instance.user.id, filename)
 
+# def file_cleanup(sender, **kwargs):
+#     for fieldname in sender._meta.get_all_field_names():
+#         try:
+#             field = sender._meta.get_field(fieldname)
+#         except:
+#             field = None
+#             if field and isinstance(field, FileField):
+#                 inst = kwargs['instance']
+#                 f = getattr(inst, fieldname)
+#                 m = inst.__class__._default_manager
+#                 if hasattr(f, 'path') and os.path.exists(f.path)\
+#                 and not m.filter(**{'%s__exact' % fieldname: getattr(inst, fieldname)})\
+#                 .exclude(pk=inst._get_pk_val()):
+#                         try:
+#                             default_storage.delete(f.path)
+#                         except:
+#                             pass
 
 # Create your models here.
 
@@ -52,10 +74,11 @@ class Pet(models.Model):
     photo = models.ImageField(upload_to=pet_directory_path, default='pets/pet_default_image.jpg')
     description = models.CharField(max_length=2000, default='', blank=True)
     gallery = models.OneToOneField(Gallery, related_name='pet_gallery', on_delete=models.SET_NULL, blank=True, null=True)
-    spayed = models.BooleanField()
-    vaccinated = models.BooleanField()
-    housetrained = models.BooleanField()
-    specialcare = models.BooleanField()
+    spayed = models.NullBooleanField()
+    vaccinated = models.NullBooleanField()
+    housetrained = models.NullBooleanField()
+    specialcare = models.NullBooleanField()
+    adopted = models.NullBooleanField(default=False)
 
     # One-to-Many relationship (one Supervisor can have multiple pets) 
     # When a referenced object deleted, set FK to null
@@ -64,4 +87,7 @@ class Pet(models.Model):
     def __str__(self):
         return self.name
 
+    #post_delete.connect(file_cleanup, sender=photo, dispatch_uid=pet_directory_path)
+
 User.supervisor = property(lambda u: Supervisor.objects.get_or_create(user=u)[0])
+
