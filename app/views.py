@@ -202,7 +202,6 @@ class LoginFormView(FormView):
 
 @require_POST
 def login_form(request, *args, **kwargs):
-    print(request.POST)
     login_form = LoginForm(data=request.POST)
     if login_form.is_valid():
         username = login_form.cleaned_data.get('username')
@@ -215,7 +214,7 @@ def login_form(request, *args, **kwargs):
 
 @require_POST
 def register(request):
-    register_form = self.form_class(request.POST)
+    register_form = RegistrationForm(data=request.POST)
     if register_form.is_valid():
         register_form.save()
         username = register_form.cleaned_data.get('username')

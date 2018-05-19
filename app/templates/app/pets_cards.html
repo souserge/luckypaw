@@ -7,7 +7,7 @@
         <div class="card-body">
             <h5 class="card-title">{{ pet.name }}</h5>
             {% if is_supervisor %}
-                <h6 class="card-subtitle mb-2 text-muted">Not yet adopted</h6>
+                <h6 class="card-subtitle mb-2 text-muted">{% if pet.adopted %} Adopted {% else %} Not yet adopted {% endif %}</h6>
                 <p class="card-text"><a href="{% url 'pet_profile' id=pet.id %}">View pet's page</a>  or  <a href="{% url 'pet_edit' id=pet.id %}">Edit pet's page</a></p>
             {% else %}
                 <h6 class="card-subtitle mb-2 text-muted">{{ pet.location }}</h6>

@@ -14,9 +14,7 @@
     $('form').submit(function(event) {
       event.preventDefault()
       let elem = $(this)
-      console.log(elem)
       const url =  elem.attr('data-url')
-      console.log(url)
       const data = elem.serialize()
       $.post(url, data)
         .done((response) => {
@@ -25,20 +23,33 @@
         })
         .fail((xhr,errmsg,err) => {
           const errors = JSON.parse(xhr.responseText)
-          if (errors.hasOwnProperty('__all__')) {
-            const btn = elem.children().last()
-            errors['__all__'].forEach(errorMsg => {
-              btn.before(`<p class="error__all__"><small class="text-danger">` + errorMsg + `</small></p>`)
-            });
-            const inputs = elem.find('input')
-            inputs.addClass('is-invalid')
-            inputs.on('change paste keyup', function(event) {
-              inputs.removeClass('is-invalid')
-              elem.children().remove(".error__all__")
-            })
+          for (let key in errors) {
+            if (!errors.hasOwnProperty(key)) {
+              continue;
+            }
+            let beforeElem;
+            if (key === '__all__') {
+              beforeElem = elem.children().last()
+            } else {
+              beforeElem = elem.find('#id_' + key)
+              beforeElem.addClass('is-invalid')
+              beforeElem.on('change paste keyup', (event) => {
+                beforeElem.removeClass('is-invalid')
+                elem.find('.error_' + key).remove()
+                elem.find('.error___all__').remove()
+              })
+            }
+            errors[key].forEach(errorMsg => {
 
+              const errorElem = $(`<p></p>`)
+              errorElem.addClass('error_' + key)
+              const smallElem = $(`<small></small>`)
+              smallElem.addClass('text-danger')
+              smallElem.text(errorMsg)
+              errorElem.append(smallElem)
+              beforeElem.before(errorElem)
+            })
           }
-          console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
         })
     })
   })
