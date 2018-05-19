@@ -1,14 +1,49 @@
 <script>
-  function eventFire(el, etype){
+  function eventFire(el, etype) {
     if (el.fireEvent) {
-      el.fireEvent('on' + etype);
+      el.fireEvent('on' + etype)
     } else {
-      let evObj = document.createEvent('Events');
-      evObj.initEvent(etype, true, false);
-      el.dispatchEvent(evObj);
+      let evObj = document.createEvent('Events')
+      evObj.initEvent(etype, true, false)
+      el.dispatchEvent(evObj)
     }
   }
+
+  $(() => {
+    $('form').find('input').addClass('form-control')
+    $('form').submit(function(event) {
+      event.preventDefault()
+      let elem = $(this)
+      console.log(elem)
+      const url =  elem.attr('data-url')
+      console.log(url)
+      const data = elem.serialize()
+      $.post(url, data)
+        .done((response) => {
+          console.log("success")
+          location.replace(response)
+        })
+        .fail((xhr,errmsg,err) => {
+          const errors = JSON.parse(xhr.responseText)
+          if (errors.hasOwnProperty('__all__')) {
+            const btn = elem.children().last()
+            errors['__all__'].forEach(errorMsg => {
+              btn.before(`<p class="error__all__"><small class="text-danger">` + errorMsg + `</small></p>`)
+            });
+            const inputs = elem.find('input')
+            inputs.addClass('is-invalid')
+            inputs.on('change paste keyup', function(event) {
+              inputs.removeClass('is-invalid')
+              elem.children().remove(".error__all__")
+            })
+
+          }
+          console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+        })
+    })
+  })
 </script>
+
 
 
 <div class="modal fade bs-modal-sm" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -34,8 +69,8 @@
       <div class="modal-body">
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
-            <form method="post" action="{% url 'login' %}">
-              {% csrf_token %} {{ login_form.as_p }}
+            <form method="post" data-url="{% url 'login' %}">
+              {% csrf_token %} {{ login_form.as_p|safe }}
               <button class="btn btn-success" type="submit">Login</button>
             </form>
             <hr>
@@ -44,7 +79,7 @@
             </a>
           </div>
           <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
-            <form method="post" action="{% url 'register' %}">
+            <form method="post" data-url="{% url 'register' %}">
               {% csrf_token %} {{ register_form.as_p }}
               <button class="btn  btn-success" type="submit">Register</button>
             </form>

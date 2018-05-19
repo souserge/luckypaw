@@ -2,12 +2,15 @@ from django.contrib.auth.models import User
 from . import models
 from .filters import PetFilter, PetBaseFilter, PetAdvancedFilter
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.views.generic.base import TemplateView
 from .forms import RegistrationForm, LoginForm, PetForm, UserForm, SupervisorForm, PetAddForm, PetAddInfoForm
 from django.views.generic import FormView
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.views.decorators.http import require_GET, require_POST
+from django.urls import reverse
+
 
 # Create your views here.
 
@@ -172,16 +175,11 @@ class RegistrationFormView(FormView):
     def get(self, request, *args, **kwargs):
         register_form = self.form_class()
         login_form = LoginForm()
-        return self.render_to_response(
-            self.get_context_data(
-                login_form=login_form,
-                register_form=register_form
-            )
-        )
+        response = self.get_context_data(register_form=register_form)
+        return self.render_to_response(response)
 
     def post(self, request, *args, **kwargs):
         register_form = self.form_class(request.POST)
-        login_form = LoginForm()
         if register_form.is_valid():
             register_form.save()
             username = register_form.cleaned_data.get('username')
@@ -190,40 +188,40 @@ class RegistrationFormView(FormView):
             login(request, user)
             return redirect('index')
         else:
-            return self.render_to_response(
-            self.get_context_data(
-                login_form=login_form,
-                register_form=register_form,
-            )
-        )
+            return JsonResponse(register_form.errors, status=400)
 
 class LoginFormView(FormView):
     form_class = LoginForm
     template_name = 'app/user_login.html'
-
     def get(self, request, *args, **kwargs):
-        login_form = self.form_class()
+        login_form = LoginForm()
         register_form = RegistrationForm()
-        return self.render_to_response(
-            self.get_context_data(
-                login_form=login_form,
-                register_form=register_form,
-            )
-        )
+        response = self.get_context_data(register_form=register_form, login_form=login_form)
+        return self.render_to_response(response)
 
-    def post(self, request, *args, **kwargs):
-        login_form = self.form_class(data=request.POST)
-        register_form = RegistrationForm()
-        if login_form.is_valid():
-            username = login_form.cleaned_data.get('username')
-            raw_password = login_form.cleaned_data.get('password')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('index')
-        else:
-            return self.render_to_response(
-            self.get_context_data(
-                    login_form=login_form,
-                    register_form=register_form
-            )
-        )
+
+@require_POST
+def login_form(request, *args, **kwargs):
+    print(request.POST)
+    login_form = LoginForm(data=request.POST)
+    if login_form.is_valid():
+        username = login_form.cleaned_data.get('username')
+        raw_password = login_form.cleaned_data.get('password')
+        user = authenticate(username=username, password=raw_password)
+        login(request, user)
+        return HttpResponse(reverse('index'))
+    else:
+        return JsonResponse(login_form.errors, status=400)
+
+@require_POST
+def register(request):
+    register_form = self.form_class(request.POST)
+    if register_form.is_valid():
+        register_form.save()
+        username = register_form.cleaned_data.get('username')
+        raw_password = register_form.cleaned_data.get('password1')
+        user = authenticate(username=username, password=raw_password)
+        login(request, user)
+        return HttpResponse(reverse('index'))
+    else:
+        return JsonResponse(register_form.errors, status=400)

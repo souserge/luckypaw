@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="{% static 'css/base.css' %}">
 
   <script src="{% static 'js/sendRequest.js' %}"></script>
+  <script src="{% static 'js/getCookie.js' %}"></script>
 
   <script>
   $(() => {
@@ -80,7 +81,7 @@
               </li>
             {% else %}
               <li class="nav-item">
-                <a class="nav-link nav-item-small" id="loginModalButton" data-url="{% url "login" %}" href="#login">Login/Register</a>
+                <a class="nav-link nav-item-small" id="loginModalButton" data-url="{% url 'login_register_modal' %}" href="#login">Login/Register</a>
               </li>
               <div id="loginRegisterModalContainer"></div>
             {% endif %}
