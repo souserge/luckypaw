@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Supervisor, Pet
+from .models import Supervisor, Pet, Article
 
 # Register your models here.
 
@@ -18,3 +18,4 @@ class PetAdmin(admin.ModelAdmin):
 
 admin.site.register(Supervisor, SuperAdmin)
 admin.site.register(Pet, PetAdmin)
+admin.site.register(Article)
