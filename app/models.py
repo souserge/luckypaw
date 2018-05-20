@@ -13,7 +13,7 @@ def pet_directory_path(instance, filename):
 
 def article_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/users/id_<id>/<filename>
-    return 'articles/id_{0}/{1}'.format(instance.id, filename)
+    return 'articles/{1}'.format(instance.id, filename)
 
 def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/users/id_<id>/<filename>
@@ -68,7 +68,6 @@ class Article(models.Model):
     author = models.CharField(max_length=50, default='', blank=True)
     photo = models.ImageField(upload_to=article_directory_path, default='articles/article_default_image.jpg')
     date_published = models.DateField(auto_now=True)
-    likes = models.IntegerField(default=0)
     view_count = models.IntegerField(default=0)
 
     def __str__(self):
