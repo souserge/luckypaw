@@ -55,8 +55,8 @@ def blog(request):
     articles = models.Article.objects.all()
     return render(request, 'app/blog.html', { 'articles': articles })
 
-def article(request, article_id):
-    article = get_object_or_404(models.Article, id=article_id)
+def article(request, id):
+    article = get_object_or_404(models.Article, id=id)
     return render(request, 'app/article.html', { 'article': article })
 
 def support_us(request):
