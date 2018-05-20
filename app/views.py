@@ -52,7 +52,8 @@ def contact(request):
     return render(request, 'app/contact.html')
 
 def blog(request):
-    return render(request, 'app/blog.html')
+    articles = models.Article.objects.all()
+    return render(request, 'app/blog.html', { 'articles': articles })
 
 def support_us(request):
     return render(request, 'app/support_us.html')
