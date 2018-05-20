@@ -167,29 +167,6 @@ def pet_delete(request, id):
     else:
         return redirect('index')
 
-
-class RegistrationFormView(FormView):
-    form_class = RegistrationForm
-    template_name = 'app/user_register.html'
-
-    def get(self, request, *args, **kwargs):
-        register_form = self.form_class()
-        login_form = LoginForm()
-        response = self.get_context_data(register_form=register_form)
-        return self.render_to_response(response)
-
-    def post(self, request, *args, **kwargs):
-        register_form = self.form_class(request.POST)
-        if register_form.is_valid():
-            register_form.save()
-            username = register_form.cleaned_data.get('username')
-            raw_password = register_form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('index')
-        else:
-            return JsonResponse(register_form.errors, status=400)
-
 class LoginFormView(FormView):
     form_class = LoginForm
     template_name = 'app/user_login.html'
