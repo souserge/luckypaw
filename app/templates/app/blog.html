@@ -12,7 +12,7 @@
   <!-- Blog Entries Column -->
   <div class="col-md-8">
 
-    <h1 class="my-4">Lucky Paw - Blog</h1>
+    <h1 class="my-4">All articles</h1>
 
 
     {% for article in articles %}
@@ -21,10 +21,10 @@
           <img class="card-img-top" src="{{ article.photo.url }}" alt="{{ article.title }} – head image">
           <div class="card-body">
             <h2 class="card-title">{{ article.title }}</h2>
-            <p class="card-text">{{ article.body }}</p>
+            <p class="card-text">{{ article.body|truncatechars_html:220 }}</p>
             <a href="{% url 'article' id=article.id %}" class="btn btn-info">Read More &rarr;</a>
           </div>
-          <div class="card-footer text-muted">Published on {{ article.date_published }}, viewed {{ article.view_count }} times</div>
+          <div class="card-footer text-muted">Published on {{ article.date_published }} <span class="float-right"><i class="fa fa-eye"></i> {{ article.view_count }}</span></div>
         </div>
     {% endfor %}
 
