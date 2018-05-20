@@ -11,6 +11,10 @@ def pet_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/pets/id_<id>/<filename>
     return 'pets/id_{0}/{1}'.format(instance.id, filename)
 
+def article_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/users/id_<id>/<filename>
+    return 'articles/id_{0}/{1}'.format(instance.id, filename)
+
 def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/users/id_<id>/<filename>
     return 'users/id_{0}/{1}'.format(instance.user.id, filename)
@@ -62,6 +66,7 @@ class Article(models.Model):
     title = models.CharField(max_length=50, default='', blank=True)
     body = models.TextField()
     author = models.CharField(max_length=50, default='', blank=True)
+    photo = models.ImageField(upload_to=article_directory_path, default='articles/article_default_image.jpg')
     date_published = models.DateField(auto_now=True)
     likes = models.IntegerField(default=0)
     view_count = models.IntegerField(default=0)
