@@ -57,6 +57,19 @@ class Supervisor(models.Model):
         return self.user.username
 
 
+class Article(models.Model):
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=50, default='', blank=True)
+    body = models.TextField()
+    author = models.CharField(max_length=50, default='', blank=True)
+    date_published = models.DateField(auto_now=True)
+    likes = models.IntegerField(default=0)
+    view_count = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.title
+
+
 class Pet(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, blank=False)
