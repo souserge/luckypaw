@@ -57,6 +57,8 @@ def blog(request):
 
 def article(request, id):
     article = get_object_or_404(models.Article, id=id)
+    article.view_count += 1
+    article.save()
     return render(request, 'app/article.html', { 'article': article })
 
 def support_us(request):
