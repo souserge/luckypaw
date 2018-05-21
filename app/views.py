@@ -4,19 +4,16 @@ from .filters import PetFilter, PetBaseFilter, PetAdvancedFilter
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.views.generic.base import TemplateView
-from .forms import RegistrationForm, LoginForm, PetForm, UserForm, SupervisorForm, PetAddForm, PetAddInfoForm, PhotoForm, ContactFrom
+from .forms import RegistrationForm, LoginForm, PetForm, UserForm, SupervisorForm, PetAddForm, PetAddInfoForm, PhotoForm, ContactForm
 from django.views.generic import FormView
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.decorators.http import require_GET, require_POST
 from django.urls import reverse
-<<<<<<< HEAD
 from django.views import View
 from django.utils.decorators import method_decorator
 
-=======
 from django.core.mail import send_mail, BadHeaderError
->>>>>>> d2d92a5bc24f7195200df419ee9e9770b9e7a708
 
 # Create your views here.
 
@@ -53,10 +50,6 @@ def search(request):
     pets = pet_base_filter.qs & pet_advanced_filter.qs 
     return render(request, 'app/pet_list.html', {'base_filter': pet_base_filter, 
     'advanced_filter': pet_advanced_filter, 'pets': pets })
-
-
-
-
 
 def contact(request):
     if request.method == 'GET':
@@ -152,19 +145,58 @@ def pet_add(request):
         pet_form = PetAddForm
         return render(request, 'app/pet_add.html', {'pet_form': pet_form })
 
+# @login_required
+# def pet_add_info(request, id):
+#     if request.method == 'POST':
+#         pet = get_object_or_404(models.Pet, pk=id)
+#         pet_info_form = PetAddInfoForm(request.POST, request.FILES, instance=pet)
+#         if pet_info_form.is_valid():
+#             pet_info_form.save(commit=True)
+#             # return redirect('index')
+#             return redirect('pet_upload_photo', id=id)
+#     else:
+#         pet = get_object_or_404(models.Pet, pk=id)
+#         pet_info_form = PetAddInfoForm(instance=pet)
+#         return render(request, 'app/pet_add_info.html', {'pet_info_form': pet_info_form})
+
+
+
 @login_required
 def pet_add_info(request, id):
     if request.method == 'POST':
         pet = get_object_or_404(models.Pet, pk=id)
-        pet_info_form = PetAddInfoForm(request.POST, request.FILES, instance=pet)
+        pet_info_form = PetAddInfoForm(request.POST, instance=pet)
+        photo_form = PhotoForm(request.POST, request.FILES)
+        
         if pet_info_form.is_valid():
-            pet_info_form.save(commit=True)
+            pet_info_form.save(commit=True)  
+            photo = photo_form.save(commit=False)
+            photo.pet = pet
             # return redirect('index')
-            return redirect('pet_upload_photo', id=id)
+            photo_form.save(commit=True)
+            return redirect('index')
+    
     else:
         pet = get_object_or_404(models.Pet, pk=id)
         pet_info_form = PetAddInfoForm(instance=pet)
-        return render(request, 'app/pet_add_info.html', {'pet_info_form': pet_info_form})
+        photos_list = models.Photo.objects.all().filter(pet=pet)
+        return render(request, 'app/pet_add_info_test.html', {'pet_info_form': pet_info_form,
+        'photos' : photos_list, 'id' : id})
+
+
+@require_POST
+def validate_photo(request):
+    photo = request.POST.get('photo_form', None) 
+    if photo.is_valid():
+        data = {'is_valid': True, 'name': photo.image.name, 'url': photo.image.url}
+    else:
+        data = {'is_valid': False}
+    return JsonResponse(data)
+
+
+
+
+
 
 @login_required
 def pet_edit(request, id):
@@ -235,26 +267,26 @@ def register(request):
         return JsonResponse(register_form.errors, status=400)
 
 
-@method_decorator(login_required, name='post')
-class PhotoUploadView(View):
-    form_class = PhotoForm
+# @method_decorator(login_required, name='post')
+# class PhotoUploadView(View):
+#     form_class = PhotoForm
 
-    def get(self, request, id, *args, **kwargs):
-        pet = get_object_or_404(models.Pet, pk=id)
-        photos_list = models.Photo.objects.all().filter(pet=pet)
-        return render(request, 'app/pet_upload_photo.html', {'photos' : photos_list, 'id' : id})
-        # return render(self.request, '', {'photos': photos_list})
+#     def get(self, request, id, *args, **kwargs):
+#         pet = get_object_or_404(models.Pet, pk=id)
+#         photos_list = models.Photo.objects.all().filter(pet=pet)
+#         return render(request, 'app/pet_upload_photo.html', {'photos' : photos_list, 'id' : id})
+#         # return render(self.request, '', {'photos': photos_list})
 
 
-    def post(self, request, id, *args, **kwargs) :
-        pet = get_object_or_404(models.Pet, pk=id)
-        form = PhotoForm(self.request.POST, self.request.FILES, instance=pet)
-        if form.is_valid():
-            photo = form.save()
-            data = {'is_valid': True, 'name': photo.file.name, 'url': photo.file.url}
-        else:
-            data = {'is_valid': False}
-        return JsonResponse(data)
+#     def post(self, request, id, *args, **kwargs) :
+#         pet = get_object_or_404(models.Pet, pk=id)
+#         form = PhotoForm(self.request.POST, self.request.FILES)
+#         if form.is_valid():
+#             photo = form.save()
+#             data = {'is_valid': True, 'name': photo.image.name, 'url': photo.image.url}
+#         else:
+#             data = {'is_valid': False}
+#         return JsonResponse(data)
 
 
 # @login_required

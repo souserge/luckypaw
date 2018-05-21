@@ -1,0 +1,63 @@
+{% extends 'app/base.html' %}
+{% load staticfiles %}
+{% load bootstrap_tags %}
+
+{% block extra_head %}
+{# JQUERY FILE UPLOAD SCRIPTS #}
+<script src="{% static 'js/jquery-file-upload/vendor/jquery.ui.widget.js' %}"></script>
+<script src="{% static 'js/jquery-file-upload/jquery.iframe-transport.js' %}"></script>
+<script src="{% static 'js/jquery-file-upload/jquery.fileupload.js' %}"></script>
+
+{# PHOTOS PAGE SCRIPTS #}
+<script src="{% static 'js/basic-upload.js' %}"></script>
+
+<script> 
+
+</script>
+
+
+{% endblock %}
+
+{% block content %}
+<form class="container col-md-9 mb-5" enctype="multipart/form-data" action="" method="post">
+  {% csrf_token %}
+  <div class="container" id="basePetFilters">
+    {{ pet_info_form|as_bootstrap }}
+  </div>
+
+  <div>
+    {# 1. BUTTON TO TRIGGER THE ACTION #}
+    <button type="button" class="btn btn-primary js-upload-photos">
+      <span class="glyphicon glyphicon-cloud-upload"></span> Upload photos
+    </button>
+    
+    {# 2. FILE INPUT TO BE USED BY THE PLUG-IN #}
+    <input id="fileupload" type="file" name="image" multiple
+           style="display: none;"
+           data-url="{% url 'pet_add_info' id=id %}"
+           data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
+    
+    {# 3. TABLE TO DISPLAY THE UPLOADED PHOTOS #}
+    <table id="gallery" class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Photo</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for photo in photos %}
+            <tr>
+            <td><a href="{{ photo.file.url }}">{{ photo.file.name }}</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+  </div>
+  <button class="btn btn btn-info d-inline-block" type="submit"><i class="fa fa-save"></i> Add pet </button>
+</form>
+
+
+
+
+{% endblock %}

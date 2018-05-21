@@ -13,6 +13,9 @@ $(function () {
             "<tr><td><a href='" + data.result.url + "'>" + data.result.name + "</a></td></tr>"
           )
         }
+        else {
+          alert("Error while loading image");
+        }
       }
     });
   

@@ -2,7 +2,7 @@
 {% load staticfiles %}
 {% load bootstrap_tags %}
 
-{% block javascript %}
+{% block extra_head %}
   {# JQUERY FILE UPLOAD SCRIPTS #}
   <script src="{% static 'js/jquery-file-upload/vendor/jquery.ui.widget.js' %}"></script>
   <script src="{% static 'js/jquery-file-upload/jquery.iframe-transport.js' %}"></script>
@@ -42,4 +42,5 @@
     </tbody>
 </table>
 
+<button class="btn btn btn-info d-inline-block" type="submit"><i class="fa fa-save"></i> Submit </button>
 {% endblock %}
