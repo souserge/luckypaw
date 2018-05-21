@@ -4,13 +4,13 @@ from .filters import PetFilter, PetBaseFilter, PetAdvancedFilter
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.views.generic.base import TemplateView
-from .forms import RegistrationForm, LoginForm, PetForm, UserForm, SupervisorForm, PetAddForm, PetAddInfoForm
+from .forms import RegistrationForm, LoginForm, ContactForm, PetForm, UserForm, SupervisorForm, PetAddForm, PetAddInfoForm
 from django.views.generic import FormView
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.decorators.http import require_GET, require_POST
 from django.urls import reverse
-
+from django.core.mail import send_mail, BadHeaderError
 
 # Create your views here.
 
@@ -48,8 +48,26 @@ def search(request):
     return render(request, 'app/pet_list.html', {'base_filter': pet_base_filter, 
     'advanced_filter': pet_advanced_filter, 'pets': pets })
 
+
+
+
+
 def contact(request):
-    return render(request, 'app/contact.html')
+    if request.method == 'GET':
+        form = ContactForm()
+    else:
+        form = ContactForm(request.POST)
+        if form.is_valid():
+
+            subject = form.cleaned_data['subject']
+            from_email = form.cleaned_data['from_email']
+            message = form.cleaned_data['name'] + '\n' + form.cleaned_data['message']
+            try:
+                send_mail(subject, message, from_email, ['serge@korzh.com'])
+            except BadHeaderError:
+                return HttpResponse('Invalid header found.')
+            return HttpResponse('Success! Thank you for your message.')
+    return render(request, "app/contact.html", {'form': form})
 
 def blog(request):
     articles = models.Article.objects.all()

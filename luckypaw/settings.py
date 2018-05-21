@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'social_django',
     'django_forms_bootstrap',
-    'sendemail',
 ]
 
 MIDDLEWARE = [
