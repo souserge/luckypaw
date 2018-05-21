@@ -165,3 +165,5 @@ MEDIA_URL = '/media/'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ='1007848219210-ot8r82d9tv9g4hjs7dp4n9hhhfca877l.apps.googleusercontent.com'  #Paste CLient Key
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'TLBuRC-ug9YgCb8vPhkcUEZl' #Paste Secret Key
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
