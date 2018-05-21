@@ -116,3 +116,10 @@ class PhotoForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(PhotoForm, self).__init__(*args, **kwargs)
+        
+class ContactForm(forms.Form):
+    name = forms.CharField(required=False)
+    from_email = forms.EmailField(required=True)
+    mobile_number = forms.CharField(required=False)
+    subject = forms.CharField(required=True)
+    message = forms.CharField(widget=forms.Textarea, required=True)

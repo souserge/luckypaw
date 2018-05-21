@@ -23,7 +23,15 @@
         })
         .fail((xhr,errmsg,err) => {
           const errors = JSON.parse(xhr.responseText)
+
+          const removeErrors = (el) => {
+            el.removeClass('is-invalid')
+            elem.find('.error_' + key).remove()
+            elem.find('.error___all__').remove()
+          }
+
           for (let key in errors) {
+            elem.find('.error_' + key).remove()
             if (!errors.hasOwnProperty(key)) {
               continue;
             }
@@ -32,11 +40,10 @@
               beforeElem = elem.children().last()
             } else {
               beforeElem = elem.find('#id_' + key)
+              
               beforeElem.addClass('is-invalid')
               beforeElem.on('change paste keyup', (event) => {
-                beforeElem.removeClass('is-invalid')
-                elem.find('.error_' + key).remove()
-                elem.find('.error___all__').remove()
+                removeErrors(beforeElem)
               })
             }
             errors[key].forEach(errorMsg => {
