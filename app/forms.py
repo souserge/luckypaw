@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField
 from django.contrib.auth.models import User
-from .models import Pet, Supervisor
+from .models import Pet, Supervisor, Photo
 
 
 class RegistrationForm(UserCreationForm):
@@ -57,7 +57,7 @@ class PetForm(forms.ModelForm):
     class Meta:
         model = Pet
         fields = ['name','animaltype', 'location','age','color','gender',
-        'spayed','vaccinated','housetrained','specialcare','adopted','size','breed','photo','description']
+        'spayed','vaccinated','housetrained','specialcare','adopted','size','breed','description']
 
     def __init__(self, *args, **kwargs):
         super(PetForm, self).__init__(*args, **kwargs)
@@ -79,7 +79,7 @@ class PetAddInfoForm(forms.ModelForm):
 
     class Meta:
         model = Pet
-        fields = ['age','color','gender','spayed','vaccinated','housetrained','specialcare','size','breed','photo','description']
+        fields = ['age','color','gender','spayed','vaccinated','housetrained','specialcare','size','breed','description']
 
     def __init__(self, *args, **kwargs):
         super(PetAddInfoForm, self).__init__(*args, **kwargs)
@@ -106,3 +106,13 @@ class SupervisorForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(SupervisorForm, self).__init__(*args, **kwargs)
         self.fields['description'].widget = forms.Textarea(attrs={'placeholder' : 'Write about yourself'})
+
+
+class PhotoForm(forms.ModelForm):
+
+    class Meta:
+        model = Photo
+        fields = ['image', ]
+
+    def __init__(self, *args, **kwargs):
+        super(PhotoForm, self).__init__(*args, **kwargs)

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Supervisor, Pet, Article
+from .models import Supervisor, Pet, Photo
 
 # Register your models here.
 
@@ -11,11 +11,11 @@ class SuperAdmin(admin.ModelAdmin):
 
 class PetAdmin(admin.ModelAdmin):
     list_display = ["name", "animaltype", "location", "age", "color", "gender", "size", "breed",
-        "spayed", "vaccinated", "housetrained", "specialcare", "gallery", "photo"]
+        "spayed", "vaccinated", "housetrained", "adopted", "specialcare"]
 
     class Meta:
         model = Pet
 
 admin.site.register(Supervisor, SuperAdmin)
 admin.site.register(Pet, PetAdmin)
-admin.site.register(Article)
+admin.site.register(Photo)

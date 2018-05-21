@@ -11,9 +11,9 @@ def pet_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/pets/id_<id>/<filename>
     return 'pets/id_{0}/{1}'.format(instance.id, filename)
 
-def article_directory_path(instance, filename):
+def article_directory_path(filename):
     # file will be uploaded to MEDIA_ROOT/users/id_<id>/<filename>
-    return 'articles/{1}'.format(instance.id, filename)
+    return 'articles/{1}'.format(filename)
 
 def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/users/id_<id>/<filename>
@@ -39,14 +39,11 @@ def user_directory_path(instance, filename):
 
 # Create your models here.
 
-class Gallery(models.Model):
-    title = models.CharField(max_length=50)
-
 
 # Picture of the gallery
-class Picture(models.Model):
-    gallery = models.ForeignKey(Gallery, on_delete=models.CASCADE)
-    picture = models.ImageField(upload_to=pet_directory_path, default='pets/pet_default_image.jpg')
+class Photo(models.Model):
+    pet = models.ForeignKey('Pet', on_delete=models.CASCADE, blank=True, null=True)
+    image = models.FileField(upload_to=pet_directory_path, default='pets/pet_default_image.jpg')
 
 
 class Supervisor(models.Model):
@@ -88,9 +85,9 @@ class Pet(models.Model):
     size_choice = (('Very Small','Very Small'), ('Small','Small'),('Medium','Medium'),('Large','Large'),('Very Large','Very Large'))
     size = models.CharField(max_length=50, choices=size_choice, blank=True)
     breed = models.CharField(max_length=50, default='', blank=True)
-    photo = models.ImageField(upload_to=pet_directory_path, default='pets/pet_default_image.jpg')
+    # photo = models.ImageField(upload_to=pet_directory_path, default='pets/pet_default_image.jpg')
     description = models.CharField(max_length=2000, default='', blank=True)
-    gallery = models.OneToOneField(Gallery, related_name='pet_gallery', on_delete=models.SET_NULL, blank=True, null=True)
+    # gallery = models.OneToOneField(Gallery, related_name='pet_gallery', on_delete=models.SET_NULL, blank=True, null=True)
     spayed = models.NullBooleanField()
     vaccinated = models.NullBooleanField()
     housetrained = models.NullBooleanField()
@@ -107,4 +104,4 @@ class Pet(models.Model):
     #post_delete.connect(file_cleanup, sender=photo, dispatch_uid=pet_directory_path)
 
 User.supervisor = property(lambda u: Supervisor.objects.get_or_create(user=u)[0])
-
+# Pet.photo = property(lambda p: Pet.objects.get_or_create(pet=p[0]))

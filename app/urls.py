@@ -22,6 +22,7 @@ urlpatterns = [
     path('pet/<id>/', views.pet_profile, name='pet_profile'),
     path('pet/<id>/edit/', views.pet_edit, name='pet_edit'),
     path('pet/<id>/delete/', views.pet_delete, name='pet_delete'),
+    path('pet/<id>/upload_photo/', views.PhotoUploadView.as_view(), name='pet_upload_photo'),
     path('user/<username>/', views.user_profile, name='user_profile'),
     path('user/<username>/edit/', views.user_edit, name='user_edit'),
     path('article/<id>/', views.article, name='article'),
