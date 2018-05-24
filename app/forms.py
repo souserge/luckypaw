@@ -118,8 +118,8 @@ class PhotoForm(forms.ModelForm):
         super(PhotoForm, self).__init__(*args, **kwargs)
         
 class ContactForm(forms.Form):
-    name = forms.CharField(required=False)
-    from_email = forms.EmailField(required=True)
-    mobile_number = forms.CharField(required=False)
-    subject = forms.CharField(required=True)
-    message = forms.CharField(widget=forms.Textarea, required=True)
+    name = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Name'}))
+    from_email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'placeholder': 'Your email'}))
+    #mobile_number = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Mob. Number'}))
+    subject = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder': 'Subject'}))
+    message = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Message'}), required=True)
