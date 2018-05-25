@@ -98,6 +98,12 @@ class Pet(models.Model):
     # When a referenced object deleted, set FK to null
     supervisor = models.ForeignKey(Supervisor, on_delete=models.SET_NULL, blank=True, null=True)
 
+
+    @property
+    def photo(self):
+        first_photo = Photo.objects.filter(pet=self).first()
+        return first_photo.image if first_photo is not None else {'url': '/media/pets/pet_default_image.jpg' }
+
     def __str__(self):
         return self.name
 
