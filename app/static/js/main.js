@@ -37,3 +37,13 @@ function pushBottom() {
         $elem.css('margin-top', resultMargin + 'px')
     })
 }
+
+function eventFire(el, etype) {
+    if (el.fireEvent) {
+      el.fireEvent('on' + etype)
+    } else {
+      let evObj = document.createEvent('Events')
+      evObj.initEvent(etype, true, false)
+      el.dispatchEvent(evObj)
+    }
+  }

@@ -1,14 +1,4 @@
 <script>
-  function eventFire(el, etype) {
-    if (el.fireEvent) {
-      el.fireEvent('on' + etype)
-    } else {
-      let evObj = document.createEvent('Events')
-      evObj.initEvent(etype, true, false)
-      el.dispatchEvent(evObj)
-    }
-  }
-
   $(() => {
     $('form').find('input').addClass('form-control')
     $('form').submit(function(event) {
