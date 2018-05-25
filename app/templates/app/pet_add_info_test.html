@@ -10,51 +10,56 @@
 
 {# PHOTOS PAGE SCRIPTS #}
 <script src="{% static 'js/basic-upload.js' %}"></script>
-
-<script> 
-
-</script>
-
-
 {% endblock %}
 
 {% block content %}
 <form class="container col-md-9 mb-5" enctype="multipart/form-data" action="" method="post">
   {% csrf_token %}
-  <div class="container" id="basePetFilters">
+  <div class="container">
     {{ pet_info_form|as_bootstrap }}
-  </div>
 
-  <div>
-    {# 1. BUTTON TO TRIGGER THE ACTION #}
-    <button type="button" class="btn btn-primary js-upload-photos">
-      <span class="glyphicon glyphicon-cloud-upload"></span> Upload photos
-    </button>
-    
-    {# 2. FILE INPUT TO BE USED BY THE PLUG-IN #}
-    <input id="fileupload" type="file" name="image" multiple
-           style="display: none;"
-           data-url="{% url 'pet_add_info' id=id %}"
-           data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
-    
-    {# 3. TABLE TO DISPLAY THE UPLOADED PHOTOS #}
-    <table id="gallery" class="table table-bordered">
-        <thead>
-        <tr>
-            <th>Photo</th>
-        </tr>
-        </thead>
-        <tbody>
+    <div>
+      {# 1. BUTTON TO TRIGGER THE ACTION #}
+      <button type="button" class="btn btn-primary js-upload-photos">
+        <span class="glyphicon glyphicon-cloud-upload"></span> Upload photos
+      </button>
+      
+      {# 2. FILE INPUT TO BE USED BY THE PLUG-IN #}
+      <input id="fileupload" type="file" name="image" multiple
+            style="display: none;"
+            data-url="{% url 'pet_upload_photo' id=id %}"
+            data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
+      
+      {# 3. TABLE TO DISPLAY THE UPLOADED PHOTOS #}
+      <div id="gallery" class="row text-center text-lg-left mt-3">
         {% for photo in photos %}
-            <tr>
-            <td><a href="{{ photo.file.url }}">{{ photo.file.name }}</a></td>
-            </tr>
+          <div class="col-lg-3 col-md-4 col-xs-6">
+            <img class="img-fluid img-thumbnail" src="{{ photo.image.url }}" alt="{{ photo.image.name }}">
+          </div>
         {% endfor %}
-        </tbody>
-    </table>
+      </div>
 
+      <div class="modal fade" id="modal-progress" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Uploading...</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="progress">
+
+                <div class="progress-bar" role="progressbar" style="width: 0%;">0%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <button class="btn btn btn-info d-inline-block" type="submit"><i class="fa fa-save"></i> Add pet </button>
+  <button class="btn btn btn-info float-right my-3" type="submit"><i class="fa fa-save"></i> Add pet </button>
 </form>
 
 

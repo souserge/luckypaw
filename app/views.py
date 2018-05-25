@@ -166,14 +166,9 @@ def pet_add_info(request, id):
     if request.method == 'POST':
         pet = get_object_or_404(models.Pet, pk=id)
         pet_info_form = PetAddInfoForm(request.POST, instance=pet)
-        photo_form = PhotoForm(request.POST, request.FILES)
-        
+
         if pet_info_form.is_valid():
             pet_info_form.save(commit=True)  
-            photo = photo_form.save(commit=False)
-            photo.pet = pet
-            # return redirect('index')
-            photo_form.save(commit=True)
             return redirect('index')
     
     else:
@@ -185,15 +180,26 @@ def pet_add_info(request, id):
 
 
 @require_POST
-def validate_photo(request):
-    photo = request.POST.get('photo_form', None) 
-    if photo.is_valid():
-        data = {'is_valid': True, 'name': photo.image.name, 'url': photo.image.url}
+def pet_upload_photo(request, id):
+    print("Hi, Hi")
+    form = PhotoForm(request.POST, request.FILES)
+    if form.is_valid():
+        pet = get_object_or_404(models.Pet, pk=id)
+        photo = form.save(commit=False)
+        photo.pet = pet
+        form.save(commit=True)
+        data = {'is_valid': True, 'pet_id': id, 'name': photo.image.name, 'url': photo.image.url}
     else:
         data = {'is_valid': False}
     return JsonResponse(data)
 
 
+@require_POST
+def pet_delete_photo(request, id):
+    photo_name = request.POST['name']
+    photo = models.Photo.objects.get(pet__id=id, image_name=photo_name)
+    photo.delete()
+    return JsonResponse({status: 302 })
 
 
 
