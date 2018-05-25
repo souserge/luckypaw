@@ -9,7 +9,7 @@ from django.db.models.signals import post_delete
 
 def pet_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/pets/id_<id>/<filename>
-    return 'pets/id_{0}/{1}'.format(instance.id, filename)
+    return 'pets/{1}'.format(instance.id, filename)
 
 def article_directory_path(filename):
     # file will be uploaded to MEDIA_ROOT/users/id_<id>/<filename>
@@ -17,7 +17,7 @@ def article_directory_path(filename):
 
 def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/users/id_<id>/<filename>
-    return 'users/id_{0}/{1}'.format(instance.user.id, filename)
+    return 'users/{1}'.format(instance.user.id, filename)
 
 # def file_cleanup(sender, **kwargs):
 #     for fieldname in sender._meta.get_all_field_names():
