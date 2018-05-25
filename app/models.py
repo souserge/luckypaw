@@ -65,9 +65,7 @@ class Pet(models.Model):
     size_choice = (('Very Small','Very Small'), ('Small','Small'),('Medium','Medium'),('Large','Large'),('Very Large','Very Large'))
     size = models.CharField(max_length=50, choices=size_choice, blank=True)
     breed = models.CharField(max_length=50, default='', blank=True)
-    # photo = models.ImageField(upload_to=pet_directory_path, default='pets/pet_default_image.jpg')
     description = models.CharField(max_length=2000, default='', blank=True)
-    # gallery = models.OneToOneField(Gallery, related_name='pet_gallery', on_delete=models.SET_NULL, blank=True, null=True)
     spayed = models.NullBooleanField()
     vaccinated = models.NullBooleanField()
     housetrained = models.NullBooleanField()
@@ -81,8 +79,16 @@ class Pet(models.Model):
 
     @property
     def photo(self):
-        first_photo = Photo.objects.filter(pet=self).first()
-        return first_photo.image if first_photo is not None else {'url': '/media/pets/pet_default_image.jpg' }
+        first_photo = self.photos.first()
+        return first_photo.image if (first_photo is not None) else self.default_photo
+
+    @property
+    def default_photo(self):
+        return Photo._meta.get_field('image').default
+
+    @property
+    def photos(self):
+        return Photo.objects.filter(pet=self)['image']
 
     def __str__(self):
         return self.name
