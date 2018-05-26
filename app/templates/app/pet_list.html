@@ -2,11 +2,9 @@
 {% load staticfiles %}
 {% load bootstrap_tags %}
 
-{% block extra_head %}
-  <link rel="stylesheet" href="{% static 'css/pet_card.css' %}">
-{% endblock %}
 
 {% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/pet_card.css' %}">
 <script>
   $(() => {
     $(".pet-filter > .form-group").addClass('d-inline-block col-md-3')
