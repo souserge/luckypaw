@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Handlee');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
 h1, h2, h3, h4, h5, h6, a, button {
     font-family: 'Handlee', cursive;
@@ -10,25 +11,33 @@ nav, footer {
 
 body {
     background-color:  #fff7f5;
+    font-family: 'Open Sans', sans-serif;
 }
 
-.nav-link {
-    font-size: 1.2em;
+#mainNav .nav-link {
+    font-size: 1.5em;
 }
 
-.nav-item {
+#mainNav .nav-item {
     transition-property: background-color;
     transition-duration: 0.25s;
     border-radius: 14%;
 }
 
-.nav-item:hover {
+#mainNav .nav-item:hover {
     background-color: #ffeee6;
 }
 
-.nav-item-small {
-    font-size: 1.2em;
+#mainNav .nav-link-small {
+    font-size: 1em;
 }
+
+#mainNav .nav-item-small:hover {
+    background-color: transparent;
+    
+}
+
+
 
 html {
     position: relative;

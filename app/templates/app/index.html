@@ -6,26 +6,26 @@
   {% include 'app/base_head.html' %}
 
   <link rel="stylesheet" href="{% static 'css/index.css' %}">
-
   <script>
-    $(() => {
-      const fcn = () => {
-        const $nav = $("#mainNav")
-        const navHeight = $nav.css("height")
-        $(".carousel-inner > .carousel-item").css("height", "calc(100vh - " + navHeight + ")")
-      }
-      fcn()
-      $(window).resize(fcn)
-    })
-  </script>
+      $(() => {
+        const fcn = () => {
+          const $nav = $("#mainNav")
+          $nav.addClass(["fixed-top", "navbar-dark"])
+          $nav.find(".nav-link").addClass('text-white')
+          $(".carousel-inner > .carousel-item").css("height", "100vh")
+        }
+        fcn()
+        $(window).resize(fcn)
+      })
+    </script>
 </head>
 
 <body>
   <header>
     {% include 'app/base_nav.html' %}
 
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner" role="listbox">
+    <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel">
+        <div class="carousel-inner">
           <div class="carousel-item active">
             <img class="d-block w-100 carousel-img" src="{% static 'images/carousel-1.jpeg' %}" alt="First slide">
           </div>
@@ -37,7 +37,7 @@
             <img class="d-block w-100 carousel-img" src="{% static 'images/carousel-3.jpeg' %}" alt="Third slide">
           </div>
         </div>
-        <div class="container text-white carousel-overlay-centered">
+        <div class="container mt-5 text-white carousel-overlay-centered">
             <h1 class="display-4">Don't buy. Adopt.</h1>
             <p class="h4 font-weight-normal">
               This is the main page of Lucky Paw - a service aimed at helping homless

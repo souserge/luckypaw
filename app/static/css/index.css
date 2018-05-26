@@ -27,3 +27,22 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+
+#mainNav {
+    background-color: transparent;
+}
+
+#mainNav .nav-link {
+    color: #fff;
+}
+
+#mainNav .nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.514);
+}
+
+@media (max-width: 992px) { 
+    #mainNav {
+        background-color: rgba(0, 0, 0, 0.7)
+    }
+}
