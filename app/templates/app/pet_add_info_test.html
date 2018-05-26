@@ -34,7 +34,7 @@
       <div id="gallery" class="row text-center text-lg-left mt-3">
         {% for photo in photos %}
           <div class="col-lg-3 col-md-4 col-xs-6">
-            <img class="img-fluid img-thumbnail" src="{{ photo.image.url }}" alt="{{ photo.image.name }}">
+            <img class="img-fluid img-thumbnail" src="{{ photo.url }}" alt="{{ photo.name }}">
           </div>
         {% endfor %}
       </div>

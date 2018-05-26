@@ -174,9 +174,8 @@ def pet_add_info(request, id):
     else:
         pet = get_object_or_404(models.Pet, pk=id)
         pet_info_form = PetAddInfoForm(instance=pet)
-        photos_list = models.Photo.objects.all().filter(pet=pet)
         return render(request, 'app/pet_add_info_test.html', {'pet_info_form': pet_info_form,
-        'photos' : photos_list, 'id' : id})
+        'photos' : pet.photos, 'id' : id})
 
 
 @require_POST
@@ -206,24 +205,18 @@ def pet_delete_photo(request, id):
 
 @login_required
 def pet_edit(request, id):
-    if request.method == 'POST':
-        pet = get_object_or_404(models.Pet, pk=id)
-        if(request.user.is_superuser or request.user == pet.supervisor.user):
+    pet = get_object_or_404(models.Pet, pk=id)
+    if(request.user.is_superuser or request.user == pet.supervisor.user):
+        if request.method == 'POST':
             pet_form = PetForm(request.POST, request.FILES, instance=pet)
             if pet_form.is_valid():
                 pet_form.save(commit=True)
                 return redirect('pet_profile', id=id)
-            else:
-                return render(request, 'app/pet_edit.html', {'pet_form': pet_form, 'id': id})
         else:
-            return redirect('pet_profile', id=id)
-    else:
-        pet = get_object_or_404(models.Pet, pk=id)
-        if(request.user.is_superuser or request.user == pet.supervisor.user):             
             pet_form = PetForm(instance=pet)
-            return render(request, 'app/pet_edit.html', {'pet_form': pet_form, 'id': id})
-        else:
-            return redirect('pet_profile', id=id)
+        return render(request, 'app/pet_edit.html', {'pet_form': pet_form, 'id': id, 'pet': pet})
+    else:
+        return redirect('pet_profile', id=id)
 
 @login_required
 def pet_delete(request, id):
