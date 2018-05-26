@@ -5,19 +5,20 @@ from django.core.files.storage import default_storage
 from django.db.models import FileField
 from django.db import models
 from django.db.models.signals import post_delete
+from django.conf import settings
 
 
 def pet_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/pets/id_<id>/<filename>
-    return 'pets/{1}'.format(filename)
+    return 'pets/{0}'.format(filename)
 
 def article_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/users/id_<id>/<filename>
-    return 'articles/{1}'.format(filename)
+    return 'articles/{0}'.format(filename)
 
 def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/users/id_<id>/<filename>
-    return 'users/{1}'.format(filename)
+    return 'users/{0}'.format(filename)
 
 
 # Picture of the gallery
@@ -79,16 +80,18 @@ class Pet(models.Model):
 
     @property
     def photo(self):
-        first_photo = self.photos.first()
-        return first_photo.image if (first_photo is not None) else self.default_photo
+        photos = self.photos
+        print(photos)
+        print(self.default_photo)
+        return photos[0] if (len(photos) > 0) else self.default_photo
 
     @property
     def default_photo(self):
-        return Photo._meta.get_field('image').default
+        return { 'name': 'default-pet-photo', 'url': settings.MEDIA_URL + Photo._meta.get_field('image').default }
 
     @property
     def photos(self):
-        return Photo.objects.filter(pet=self)['image']
+        return [photo.image for photo in Photo.objects.filter(pet=self)]
 
     def __str__(self):
         return self.name
