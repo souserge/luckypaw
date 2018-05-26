@@ -1,55 +1,59 @@
-{% extends 'app/base.html' %}
 {% load staticfiles %}
+<!DOCTYPE HTML>
 
-{% block extra_head %}
+<html lang="en-US">
+<head>
+  {% include 'app/base_head.html' %}
 
-<link rel="stylesheet" href="{% static 'css/index.css' %}">
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
 
-<script>
-  $(() => {
-    const fcn = () => {
-      const navHeight = $("#mainNav").css("height")
-      $(".carousel-inner > .carousel-item").css("height", "calc(100vh - " + navHeight + ")")
-    }
-    fcn()
-    $(window).resize(fcn)
-  })
-</script>
+  <script>
+    $(() => {
+      const fcn = () => {
+        const $nav = $("#mainNav")
+        const navHeight = $nav.css("height")
+        $(".carousel-inner > .carousel-item").css("height", "calc(100vh - " + navHeight + ")")
+      }
+      fcn()
+      $(window).resize(fcn)
+    })
+  </script>
+</head>
 
-{% endblock %}
+<body>
+  <header>
+    {% include 'app/base_nav.html' %}
 
-{% block extra_header %}
-
-<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-    <div class="carousel-inner" role="listbox">
-      <div class="carousel-item active">
-        <img class="d-block w-100 carousel-img" src="{% static 'images/carousel-1.jpeg' %}" alt="First slide">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner" role="listbox">
+          <div class="carousel-item active">
+            <img class="d-block w-100 carousel-img" src="{% static 'images/carousel-1.jpeg' %}" alt="First slide">
+          </div>
+          <div class="carousel-item">
+            <img class="d-block w-100 carousel-img" src="{% static 'images/carousel-2.jpeg' %}" alt="Second slide">
+    
+          </div>
+          <div class="carousel-item">
+            <img class="d-block w-100 carousel-img" src="{% static 'images/carousel-3.jpeg' %}" alt="Third slide">
+          </div>
+        </div>
+        <div class="container text-white carousel-overlay-centered">
+            <h1 class="display-4">Don't buy. Adopt.</h1>
+            <p class="h4 font-weight-normal">
+              This is the main page of Lucky Paw - a service aimed at helping homless
+              animals find their ideal owners.
+              We are working very hard to complete the service. More functionality and awesomeness will be included in the near future. <br/> See You soon ~/ᐠ｡ꞈ｡ᐟ\~
+            </p>
+          
+            <p>
+                <a class="btn btn-dark btn-lg" href="https://github.com/souserge/luckypaw" role="button">
+                  <img class="img-fluid" style="max-width: 2em; height: auto;" src="{% static 'images/Octocat.png' %}">
+                  Github repo</a>
+            </p>
+          </div>
       </div>
-      <div class="carousel-item">
-        <img class="d-block w-100 carousel-img" src="{% static 'images/carousel-2.jpeg' %}" alt="Second slide">
+  </header>
 
-      </div>
-      <div class="carousel-item">
-        <img class="d-block w-100 carousel-img" src="{% static 'images/carousel-3.jpeg' %}" alt="Third slide">
-      </div>
-    </div>
-    <div class="container text-white carousel-overlay-centered">
-        <h1 class="display-4">Don't buy. Adopt.</h1>
-        <p class="h4 font-weight-normal">
-          This is the main page of Lucky Paw - a service aimed at helping homless
-          animals find their ideal owners.
-          We are working very hard to complete the service. More functionality and awesomeness will be included in the near future. <br/> See You soon ~/ᐠ｡ꞈ｡ᐟ\~
-        </p>
-      
-        <p>
-            <a class="btn btn-dark btn-lg" href="https://github.com/souserge/luckypaw" role="button">
-              <img class="img-fluid" style="max-width: 2em; height: auto;" src="{% static 'images/Octocat.png' %}">
-              Github repo</a>
-        </p>
-      </div>
-  </div>
-
-{% endblock %}
-
-{% block content %}
-{% endblock %}
+{% include 'app/base_footer.html' %}
+</body>
+</html>
