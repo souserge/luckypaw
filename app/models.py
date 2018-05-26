@@ -38,6 +38,18 @@ class Supervisor(models.Model):
     def __str__(self):
         return self.user.username
 
+class AdopterInfo(models.Model):
+    id = models.AutoField(primary_key=True)
+    first_name = models.CharField(max_length=50, default='', blank=False)
+    last_name = models.CharField(max_length=50, default='', blank=True)
+    location = models.CharField(max_length=50, default='', blank=False)
+    email = models.CharField(max_length=50, default='', blank=False)
+    phone_number = models.CharField(max_length=50, default='', blank=False)
+    adopted_pet = models.ForeignKey('Pet', on_delete=models.CASCADE, blank=False, null=False)
+
+    @property
+    def get_full_name(self):
+        return self.first_name + ' ' + self.last_name
 
 class Article(models.Model):
     id = models.AutoField(primary_key=True)
