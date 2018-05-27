@@ -248,6 +248,14 @@ def pet_unadopt(request, id):
     return redirect('index')
 
 @login_required
+def pet_adopter_info(request, id):
+    pet = get_object_or_404(models.Pet, pk=id)
+    if(request.user.is_superuser or request.user == pet.supervisor.user):
+        return render(request, 'app/pet_adopter_info.html', {'pet': pet})
+        
+    return redirect('index')
+
+@login_required
 def pet_delete(request, id):
     pet = get_object_or_404(models.Pet, pk=id)
     if(request.user.is_superuser or request.user == pet.supervisor.user):

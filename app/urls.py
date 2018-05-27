@@ -26,7 +26,9 @@ urlpatterns = [
     path('pet/<id>/delete_photo/', views.pet_delete_photo, name='pet_delete_photo'),
     path('pet/<id>/adopt/', views.pet_adopt, name='pet_adopt'),
     path('pet/<id>/unadopt/', views.pet_unadopt, name='pet_unadopt'),    
+    path('pet/<id>/adopter/', views.pet_adopter_info, name='pet_adopter_info'),        
     path('user/<username>/', views.user_profile, name='user_profile'),
     path('user/<username>/edit/', views.user_edit, name='user_edit'),
+    path('article/<id>/', views.article, name='article'),
     path('article/<id>/', views.article, name='article'),
 ]
