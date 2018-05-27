@@ -1,0 +1,29 @@
+{% load staticfiles %}
+
+<meta charset="UTF-8">
+
+<script src="{% static 'lib/jquery.min.js' %}"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">  
+<link rel="stylesheet" href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}">
+<script src="{% static 'lib/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'lib/bootstrap/css/bootstrap-social.css' %}">
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+
+<script src="{% static 'js/sendRequest.js' %}"></script>
+<script src="{% static 'js/getCookie.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+
+<script>
+$(() => {
+$("#loginModalButton").on("click", () => {
+    const $modalContainer = $("#loginRegisterModalContainer")
+    $modalContainer.load($("#loginModalButton").attr("data-url"), () => {
+    $("#loginModal").modal("show")
+    })
+})
+})
+</script>
+
+<!-- title may be moved to specific pages -->
+<title>Lucky Paw</title>
+<link rel="icon" href="{% static 'images/logo.png' %}" type="image/ico" />

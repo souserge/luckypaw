@@ -1,0 +1,14 @@
+{% extends 'app/base.html' %}
+{% load staticfiles %}
+{% load bootstrap_tags %}
+
+{% block content %}
+<form class="container col-md-9 mb-5" enctype="multipart/form-data" action="" method="post">
+  {% csrf_token %}
+  <div class="container" id="basePetFilters">
+    {{ user_form|as_bootstrap }}
+    {{ supervisor_form|as_bootstrap }}
+  </div>
+  <button class="btn btn-info d-inline-block float-left" type="submit"><i class="fa fa-save"></i> Save Changes</button>
+</form>
+{% endblock %}

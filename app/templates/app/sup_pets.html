@@ -1,0 +1,8 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+<h2>{{ supervisor.user.username }}'s pets</h2>
+  {% include 'app/pets_cards.html' with pets=pets is_supervisor=True %}
+
+  <a class="btn btn-info mt-4" href="{% url 'pet_add' %}">Add new pet</a>
+{% endblock %}

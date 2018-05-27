@@ -1,46 +1,31 @@
 {% extends 'app/base.html' %}
+{% load staticfiles %}
+{% load bootstrap_tags %}
+
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/pet_card.css' %}">
+<script>
+  $(() => {
+    $(".pet-filter > .form-group").addClass('d-inline-block col-md-3')
+  })
+</script>
+{% endblock %}
 
 {% block content %}
-  <form method="get">
-    <div class="form-group d-inline-block">
-    {{ filter.form.as_p }}
-    </div>
-    <button class="ml-1 btn btn-info d-block" type="submit">Search</button>
-  </form>
-  <table class="table table-stripped mt-2">
-      <thead>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Location</th>
-          <th>Age</th>
-          <th>Color</th>
-          <th>Gender</th>
-          <th>Size</th>
-          <th>Breed</th>
-          <th>Spayed</th>
-          <th>Vaccinated</th>
-          <th>House Trained</th>
-          <th>Special Care</th>
-      </thead>
-      <tbody>
-          {% for pet in filter.qs %}
-            <tr>
-              <td>{{ pet.pet_id }}</td>
-              <td><a class="nav-link" href="{% url 'pet_profile' pet_id=pet.pet_id %}">{{ pet.pet_name }}</a></td>
-              <td>{{ pet.pet_type }}</td>
-              <td>{{ pet.pet_location }}</td>
-              <td>{{ pet.pet_age }}</td>
-              <td>{{ pet.pet_color }}</td>
-              <td>{{ pet.pet_gender }}</td>
-              <td>{{ pet.pet_size }}</td>
-              <td>{{ pet.pet_breed }}</td>
-              <td>{{ pet.pet_spayed }}</td>
-              <td>{{ pet.pet_vaccinated }}</td>
-              <td>{{ pet.pet_housetrained }}</td>
-              <td>{{ pet.pet_specialcare }}</td>
-            </tr>
-          {% endfor %}
-      </tbody>
-  </table>
+    <form method="get">
+      <div class="container pet-filter">
+        {{ base_filter.form|as_bootstrap }}
+        <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+          Show advanced filters <i class="fa fa-angle-down"></i>
+        </a>
+      </div>
+      <div class="collapse" id="collapseExample">
+        <div class="container pet-filter">
+          {{ advanced_filter.form|as_bootstrap }}
+        </div>
+      </div>
+      <button class="ml-1 btn btn-info d-block" type="submit">Find your pet</button>
+    </form>
+    {% include 'app/pets_cards.html' with pets=pets %}
 {% endblock %}

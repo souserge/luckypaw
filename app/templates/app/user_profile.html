@@ -1,11 +1,44 @@
 {% extends 'app/base.html' %}
 {% load staticfiles %}
 
-
 {% block content %}
 
-<p>Your user profile will be here soon, {{ user.username }} , just wait for it... </p>
-<img src="{% static 'images/yoda.png' %}" alt="yoda" weight=300, height=300>
-
-
+<div class="container py-3">
+  <div class="card">
+    <div class="d-md-flex flex-row">
+      <div class="w-md-50">
+          <img class="card-img-top p-2" src="{{ supervisor.photo.url }}" alt="" class="img-rounded img-responsive" />
+      </div>
+        <div class="w-100">
+          <div class="card-body px-3">
+            <h4 class="card-title">{{ user.get_full_name }}</h4>
+            <p class="card-subtitle text-muted">{{ supervisor.city }}, {{ supervisor.country }} <i class="fa fa-map-marker"></i></p>
+            <p class="card-text"></p>
+                <ul class="list-group">
+                    <li class="list-group-item"><i class="fa fa-envelope"></i> {{ user.email }}</li>
+                    <li class="list-group-item"><i class="fa fa-phone"></i> {{ supervisor.telephone }}</li>
+                </ul>
+            </p>
+            <p class="card-text">{{ supervisor.description }}</p>
+          </div>
+          <div class="card-body push-bottom pb-1 mb-3">
+            <a id="petsCollapseButton" class="btn btn-info d-inline-block" data-toggle="collapse" href="#petsCollapse" role="button" aria-expanded="false" aria-controls="petsCollapse">
+              View pets
+            </a>
+            {% if request.user.is_superuser or request.user == user %}
+              <a class="float-right" href="{% url 'user_edit' username=user.username %}">Edit profile</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="collapse" id="petsCollapse">
+    {% if request.user.is_superuser or request.user == user %}
+      {% include 'app/pets_cards.html' with pets=pets is_supervisor=True %}  
+    {% else %}
+      {% include 'app/pets_cards.html' with pets=pets %}
+    {% endif %} 
+  </div>
+</div>
 {% endblock %}

@@ -1,20 +1,60 @@
 <script>
-  function eventFire(el, etype){
-    console.log("yiiiiiiiio")
-    if (el.fireEvent) {
-      console.log("heeeeyo")
-      el.fireEvent('on' + etype);
-    } else {
-      console.log("yo")
-      var evObj = document.createEvent('Events');
-      evObj.initEvent(etype, true, false);
-      el.dispatchEvent(evObj);
-    }
-  }
+  $(() => {
+    $('form').find('input').addClass('form-control')
+    $('form').submit(function(event) {
+      event.preventDefault()
+      let elem = $(this)
+      const url =  elem.attr('data-url')
+      const data = elem.serialize()
+      $.post(url, data)
+        .done((response) => {
+          console.log("success")
+          location.replace(response)
+        })
+        .fail((xhr,errmsg,err) => {
+          const errors = JSON.parse(xhr.responseText)
+
+          const removeErrors = (el) => {
+            el.removeClass('is-invalid')
+            elem.find('.error_' + key).remove()
+            elem.find('.error___all__').remove()
+          }
+
+          for (let key in errors) {
+            elem.find('.error_' + key).remove()
+            if (!errors.hasOwnProperty(key)) {
+              continue;
+            }
+            let beforeElem;
+            if (key === '__all__') {
+              beforeElem = elem.children().last()
+            } else {
+              beforeElem = elem.find('#id_' + key)
+              
+              beforeElem.addClass('is-invalid')
+              beforeElem.on('change paste keyup', (event) => {
+                removeErrors(beforeElem)
+              })
+            }
+            errors[key].forEach(errorMsg => {
+
+              const errorElem = $(`<p></p>`)
+              errorElem.addClass('error_' + key)
+              const smallElem = $(`<small></small>`)
+              smallElem.addClass('text-danger')
+              smallElem.text(errorMsg)
+              errorElem.append(smallElem)
+              beforeElem.before(errorElem)
+            })
+          }
+        })
+    })
+  })
 </script>
 
 
-<div class="modal fade bs-modal-sm" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -37,8 +77,8 @@
       <div class="modal-body">
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
-            <form method="post" action="{% url 'login' %}">
-              {% csrf_token %} {{ login_form.as_p }}
+            <form method="post" data-url="{% url 'login' %}">
+              {% csrf_token %} {{ login_form.as_p|safe }}
               <button class="btn btn-success" type="submit">Login</button>
             </form>
             <hr>
@@ -47,7 +87,7 @@
             </a>
           </div>
           <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
-            <form method="post" action="{% url 'register' %}">
+            <form method="post" data-url="{% url 'register' %}">
               {% csrf_token %} {{ register_form.as_p }}
               <button class="btn  btn-success" type="submit">Register</button>
             </form>

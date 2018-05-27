@@ -1,89 +1,16 @@
-{% load staticfiles %}
 <!DOCTYPE HTML>
 
 <html lang="en-US">
 <head>
-  <meta charset="UTF-8">
-
-  <script src="{% static 'lib/jquery.min.js' %}"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <!-- <script src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script> -->
-  
-  <link rel="stylesheet" href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}">
-  <script src="{% static 'lib/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-  <link rel="stylesheet" href="{% static 'lib/bootstrap/css/bootstrap-social.css' %}">
-
-  <link rel="stylesheet" href="{% static 'css/base.css' %}">
-
-  <script>
-  $(() => {
-    $("#loginModalButton").on("click", () => {
-      const $modalContainer = $("#loginRegisterModalContainer")
-      $modalContainer.load($("#loginModalButton").attr("data-url"), () => {
-        $("#loginModal").modal("show")
-      })
-    })
-  })
-  </script>
+  {% include 'app/base_head.html' %}
 
   {% block extra_head %}
   {% endblock %}
-
-  {% block scripts %}
-  {% endblock %}
-
-  <!-- title may be moved to specific pages -->
-  <title>Lucky Paw</title>
-  <link rel="icon" href="{% static 'images/logo.png' %}" type="image/ico" />
 </head>
 
 <body>
   <header>
-    <nav id="mainNav" class="navbar navbar-expand-lg navbar-light">
-      <div class="container">
-        <a class="navbar-brand" href="{% url "index" %}">
-          <img style="width: auto; height: 48px;" class="d-inline-block align-top" src="{% static 'images/logo.png' %}">
-          <h1 class="d-sm-inline-block align-top d-none"> Lucky Paw</h1>
-        </a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="{% url "about" %}">About</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url "search" %}">Search</a>
-              </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url "contact" %}">Contact</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url "blog" %}">Blog</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url "support" %}">Support us</a>
-            </li>
-            {% if request.user.is_authenticated %}
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'user_profile' username=request.user.username %}">Profile({{ user.username }})</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url "logout" %}">Logout</a>
-              </li>
-            {% else %}
-              <a class="nav-link" id="loginModalButton" data-url="{% url "login" %}" href="#login">Login/Register</a>
-              <div id="loginRegisterModalContainer"></div>
-            {% endif %}
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
-    {% block extra_header %}
-    {% endblock extra_header %}
+    {% include 'app/base_nav.html' %}
   </header>
 
   <main class="container my-4">
@@ -91,11 +18,6 @@
     {% endblock content %}
   </main>
 
-  <div class="py-5"></div>
-  <footer class="py-3">
-    <div class="container">
-      <p class="m-0 text-center">Lucky Paw 2018</p>
-    </div>
-  </footer>
+{% include 'app/base_footer.html' %}
 </body>
 </html>

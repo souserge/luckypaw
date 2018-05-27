@@ -1,0 +1,29 @@
+{% extends 'app/base.html' %}
+{% load staticfiles %}
+{% load bootstrap_tags %}
+
+{% block content %}
+<h1>{{ pet.name }} – adopter contact details</h1>
+<table class="table">
+    <tr>
+        <th scope="row">Name</th>
+        <td>{{ pet.adopter_info.get_full_name }}</td>
+    </tr>
+    <tr>
+        <th scope="row">Email</th>
+        <td>{{ pet.adopter_info.email }}</td>
+    </tr>
+    <tr>
+        <th scope="row">Phone number</th>
+        <td>{{ pet.adopter_info.phone_number }}</td>
+    </tr>
+    <tr>
+        <th scope="row">Location</th>
+        <td>{{ pet.adopter_info.location }}</td>
+    </tr>
+    <tr>
+        <th scope="row">Date adopted</th>
+        <td>{{ pet.adopter_info.date_adopted }}</td>
+    </tr>
+</table>
+{% endblock %}

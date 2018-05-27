@@ -1,0 +1,55 @@
+{% load staticfiles %}
+<nav id="mainNav" class="navbar navbar-expand-lg navbar-light">
+  <a class="navbar-brand ml-sm-2 ml-xl-5" href="{% url 'index' %}">
+      <img style="width: auto; height: 48px;" class="d-sm-inline-block d-none align-top" src="{% static 'images/logo.png' %}">
+      <h1 class="d-sm-inline-block d-none align-top"> Lucky Paw</h1>
+      <img style="width: auto; height: 36px;" class="d-sm-none d-inline-block align-top" src="{% static 'images/logo.png' %}">
+      <h1 class="d-sm-none d-inline-block h2 align-top"> Lucky Paw</h1>
+  </a>
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarResponsive">
+      <div class="container">
+        <ul class="navbar-nav float-lg-right mr-sm-1 mr-xl-2">
+          <li class="nav-item">
+              {% url 'about' as url %}
+              <a class="nav-link {% if request.path == url %}active{% endif %}" href="{{ url }}">About</a>
+          </li>
+          <li class="nav-item">
+              {% url 'search' as url %}
+              <a class="nav-link {% if request.path == url %}active{% endif %}" href="{{ url }}">Search</a>
+              </li>
+          <li class="nav-item">
+              {% url 'contact' as url %}
+              <a class="nav-link {% if request.path == url %}active{% endif %}" href="{{ url }}">Contact</a>
+          </li>
+          <li class="nav-item">
+              {% url 'blog' as url %}
+              <a class="nav-link {% if request.path == url %}active{% endif %}" href="{{ url }}">Blog</a>
+          </li>
+          <li class="nav-item">
+              {% url 'support' as url %}
+              <a class="nav-link {% if request.path == url %}active{% endif %}" href="{{ url }}">Support us</a>
+          </li>
+          {% if request.user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'user_profile' username=request.user.username %}">Profile({{ request.user.username }})</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+      <ul class="navbar-nav">
+      {% if request.user.is_authenticated %}
+          <li class="nav-item nav-item-small">
+          <a class="nav-link nav-link-small" href="{% url "logout" %}">Logout</a>
+          </li>
+      {% else %}
+          <li class="nav-item nav-item-small">
+          <a class="nav-link nav-link-small" id="loginModalButton" data-url="{% url 'login_register_modal' %}" href="#login">Login/Register</a>
+          </li>
+      {% endif %}
+      </ul>
+  </div>
+</nav>
+<div id="loginRegisterModalContainer"></div>

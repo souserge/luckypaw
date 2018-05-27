@@ -1,0 +1,26 @@
+<div class="row mt-5">
+{% for pet in pets %}
+    <div class="col-lg-3 col-md-4 col-sm-6 mb-4 shadow-sm">
+    <a href="{% url 'pet_profile' id=pet.id %}" style="text-decoration: none;">
+    <div class="card shadow-sm" style="height:100%;">
+        <img class="card-img-top" style="object-fit: cover; min-height: 60%" src="{{ pet.photo.url }}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">{{ pet.name }}</h5>
+            {% if is_supervisor %}
+                <h6 class="card-subtitle mb-2 text-muted">{% if pet.adopted %} Adopted (<a href="{% url 'pet_adopter_info' id=pet.id %}">contact details</a>) {% else %} Not yet adopted {% endif %}</h6>
+                <p class="card-text"><a href="{% url 'pet_profile' id=pet.id %}">View pet's page</a>
+                <br/>
+                <a href="{% url 'pet_edit' id=pet.id %}">Edit pet's page</a>
+                </p>
+            {% else %}
+                <h6 class="card-subtitle mb-2 text-muted">{{ pet.location }}</h6>
+                <p class="card-text">{{ pet.animaltype }}, {% if pet.breed %}{{ pet.breed }}, {% endif %}{{ pet.age }}</p>
+            {% endif %}
+        </div>
+    </div>
+    </a> 
+    </div>
+{% empty %}
+        <h4> No pets were found :(</h4>
+{% endfor %}
+</div>

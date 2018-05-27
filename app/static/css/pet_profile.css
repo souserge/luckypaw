@@ -1,0 +1,22 @@
+.profile-image {
+    object-fit: cover;
+    min-height: 300px;
+    height: 90vh;
+    max-height: 500px;
+}
+
+@media (min-width: 576px) { 
+    .profile-image {
+        object-fit: contain;
+        max-height: 100vh;
+        height: auto;
+    }
+}
+
+@media (min-width: 992px) { 
+    .profile-image {
+        object-fit: contain;
+        max-height: 100vh;
+        height: 446px;
+    } 
+}

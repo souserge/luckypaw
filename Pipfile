@@ -14,5 +14,6 @@ django = "*"
 django-filter = "*"
 social-auth-app-django = "*"
 pillow = "*"
+django-forms-bootstrap = "*"
 
 [dev-packages]
