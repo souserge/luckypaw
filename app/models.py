@@ -45,6 +45,7 @@ class AdopterInfo(models.Model):
     location = models.CharField(max_length=50, default='', blank=False)
     email = models.CharField(max_length=50, default='', blank=False)
     phone_number = models.CharField(max_length=50, default='', blank=False)
+    date_adopted = models.DateField(auto_now=True)
 
     @property
     def get_full_name(self):
