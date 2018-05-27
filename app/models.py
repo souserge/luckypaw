@@ -45,7 +45,6 @@ class AdopterInfo(models.Model):
     location = models.CharField(max_length=50, default='', blank=False)
     email = models.CharField(max_length=50, default='', blank=False)
     phone_number = models.CharField(max_length=50, default='', blank=False)
-    adopted_pet = models.ForeignKey('Pet', on_delete=models.CASCADE, blank=False, null=False)
 
     @property
     def get_full_name(self):
@@ -84,6 +83,7 @@ class Pet(models.Model):
     housetrained = models.NullBooleanField()
     specialcare = models.NullBooleanField()
     adopted = models.NullBooleanField(default=False)
+    adopter_info = models.ForeignKey(AdopterInfo, on_delete=models.SET_NULL, blank=True, null=True)
 
     # One-to-Many relationship (one Supervisor can have multiple pets) 
     # When a referenced object deleted, set FK to null
