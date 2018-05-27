@@ -11,6 +11,14 @@
         $("#deleteModal").modal("show")
       })
     })
+
+    $('#unadoptButton').click(function(event) {
+      console.log(event)
+      event.preventDefault()
+      $.post($(this).attr('data-url')).done((response) => {
+        location.replace(response)
+      })
+    })
   })
 </script>
 
@@ -24,15 +32,15 @@
 
 
 {% block content %}
-
+<!-- <button data-url="{% url 'pet_unadopt' id=id %}" class="btn btn-link d-inline-block float-right">Not adopted? Click to unadopt.</button> -->
 <form class="container col-md-9 mb-5" enctype="multipart/form-data" action="" method="post">
   <div class="mb-2 mt-5">
     <h2 class="d-inline-block">Edit {{ pet.name }}'s info </h2>
     {% if not pet.adopted %}
-      <a href="#" class="btn btn-success d-inline-block float-right">Mark as adopted</a>
+      <a href="{% url 'pet_adopt' id=id %}" class="btn btn-success d-inline-block float-right">Mark as adopted</a>
     {% else %}
       <i class="d-inline-block"> (adopted)</i>
-      <a href="#" class="d-inline-block float-right">Not adopted? Click to unadopt.</a>
+      <button id="unadoptButton" data-url="{% url 'pet_unadopt' id=id %}" class="btn btn-link d-inline-block float-right">Not adopted? Click to unadopt.</button>
     {% endif %}
   </div>
   {% csrf_token %}
@@ -56,6 +64,8 @@
         <div class="col-lg-3 col-md-4 col-xs-6">
           <img class="img-fluid img-thumbnail" src="{{ photo.url }}" alt="{{ photo.name }}">
         </div>
+      {% empty %}
+        <p>No photos provided.</p>
       {% endfor %}
     </div>
 
