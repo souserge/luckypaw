@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField
 from django.contrib.auth.models import User
-from .models import Pet, Supervisor, Photo
+from .models import Pet, Supervisor, Photo, AdopterInfo
 
 
 class RegistrationForm(UserCreationForm):
@@ -74,6 +74,12 @@ class PetAddForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PetAddForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget = forms.TextInput(attrs={'placeholder': 'Write pet\'s name'})
+
+
+class AdopterInfoForm(forms.ModelForm):
+    class Meta:
+        model = AdopterInfo
+        fields = ['first_name','last_name', 'location', 'email', 'phone_number' ]
 
 class PetAddInfoForm(forms.ModelForm):
 

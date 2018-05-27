@@ -4,7 +4,7 @@ from .filters import PetFilter, PetBaseFilter, PetAdvancedFilter
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.views.generic.base import TemplateView
-from .forms import RegistrationForm, LoginForm, PetForm, UserForm, SupervisorForm, PetAddForm, PetAddInfoForm, PhotoForm, ContactForm
+from .forms import RegistrationForm, LoginForm, PetForm, UserForm, SupervisorForm, PetAddForm, PetAddInfoForm, PhotoForm, ContactForm, AdopterInfoForm
 from django.views.generic import FormView
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -217,6 +217,35 @@ def pet_edit(request, id):
         return render(request, 'app/pet_edit.html', {'pet_form': pet_form, 'id': id, 'pet': pet})
     else:
         return redirect('pet_profile', id=id)
+
+@login_required
+def pet_adopt(request, id):
+    pet = get_object_or_404(models.Pet, pk=id)
+    if(request.user.is_superuser or request.user == pet.supervisor.user):
+        if request.method == 'POST':
+            form = AdopterInfoForm(request.POST)
+            if form.is_valid():
+                adopter_info = form.save()
+                pet.adopter_info = adopter_info
+                pet.adopted = True
+                pet.save()
+                return redirect('index')
+        else:
+            form = AdopterInfoForm(instance=pet.adopter_info) 
+
+        return render(request, 'app/pet_adopt.html', {'form': form, 'pet': pet, 'id': id})
+    
+    return redirect('index')
+
+@login_required
+def pet_unadopt(request, id):
+    pet = get_object_or_404(models.Pet, pk=id)
+    if(request.user.is_superuser or request.user == pet.supervisor.user):
+        if request.method == 'POST':
+            pet.adopted = False
+            pet.save()         
+            return HttpResponse(reverse('pet_edit', args=[id]))
+    return redirect('index')
 
 @login_required
 def pet_delete(request, id):

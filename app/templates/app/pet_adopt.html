@@ -1,0 +1,11 @@
+{% extends 'app/base.html' %}
+{% load staticfiles %}
+{% load bootstrap_tags %}
+
+{% block content %}
+<form class="container col-md-9 mb-5" enctype="multipart/form-data" action="" method="post">
+  {% csrf_token %}
+  {{ form|as_bootstrap }}
+  <button class="btn btn btn-info d-inline-block" type="submit"><i class="fa fa-save"></i> Adopt :)</button>
+</form>
+{% endblock %}
