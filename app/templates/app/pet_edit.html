@@ -27,12 +27,12 @@
 
 <form class="container col-md-9 mb-5" enctype="multipart/form-data" action="" method="post">
   <div class="mb-2 mt-5">
+    <h2 class="d-inline-block">Edit {{ pet.name }}'s info </h2>
     {% if not pet.adopted %}
-      <h2 class="d-inline-block">{{ pet.name }} – Edit page</h2>
       <a href="#" class="btn btn-success d-inline-block float-right">Mark as adopted</a>
     {% else %}
-    <h2 class="d-inline-block">{{ pet.name }} (adopted) – Edit page</h2>
-      <a href="#" class="d-inline-block float-right align-bottom">Not adopted? Click to unadopt.</a>
+      <i class="d-inline-block"> (adopted)</i>
+      <a href="#" class="d-inline-block float-right">Not adopted? Click to unadopt.</a>
     {% endif %}
   </div>
   {% csrf_token %}
