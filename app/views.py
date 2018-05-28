@@ -18,8 +18,14 @@ from django.core.mail import send_mail, BadHeaderError
 def index(request):
     if request.user.is_authenticated:
         sup = get_object_or_404(models.Supervisor, user=request.user)
-        sup_pets = models.Pet.objects.filter(supervisor__user=request.user)
-        return render(request, 'app/sup_pets.html', { 'supervisor': sup, 'pets': sup_pets })    
+        pets = models.Pet.objects.filter(supervisor__user=request.user)
+        context = {
+            'supervisor': sup,
+            'all_pets': pets,
+            'unadopted_pets': pets.filter(adopted=False),            
+            'adopted_pets': pets.filter(adopted=True),
+        }
+        return render(request, 'app/sup_pets.html', context)    
     return render(request, 'app/index.html')
 
 def about(request):

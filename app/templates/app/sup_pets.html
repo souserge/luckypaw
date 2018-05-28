@@ -2,7 +2,28 @@
 
 {% block content %}
 <h2>{{ supervisor.user.username }}'s pets</h2>
-  {% include 'app/pets_cards.html' with pets=pets is_supervisor=True %}
 
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="true">All</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="unadopted-tab" data-toggle="tab" href="#unadopted" role="tab" aria-controls="unadopted" aria-selected="false">Not adopted</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-muted" id="adopted-tab" data-toggle="tab" href="#adopted" role="tab" aria-controls="adopted" aria-selected="false">Adopted</a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+      {% include 'app/pets_cards.html' with pets=all_pets is_supervisor=True %}
+    </div>
+    <div class="tab-pane fade" id="unadopted" role="tabpanel" aria-labelledby="unadopted-tab">
+      {% include 'app/pets_cards.html' with pets=unadopted_pets is_supervisor=True %}
+    </div>
+    <div class="tab-pane fade" id="adopted" role="tabpanel" aria-labelledby="adopted-tab">
+      {% include 'app/pets_cards.html' with pets=adopted_pets is_supervisor=True %}
+    </div>
   <a class="btn btn-info mt-4" href="{% url 'pet_add' %}">Add new pet</a>
 {% endblock %}
