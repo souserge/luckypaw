@@ -9,15 +9,12 @@ from django.conf import settings
 
 
 def pet_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/pets/id_<id>/<filename>
     return 'pets/{0}'.format(filename)
 
 def article_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/users/id_<id>/<filename>
     return 'articles/{0}'.format(filename)
 
 def user_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/users/id_<id>/<filename>
     return 'users/{0}'.format(filename)
 
 
@@ -94,8 +91,6 @@ class Pet(models.Model):
     @property
     def photo(self):
         photos = self.photos
-        print(photos)
-        print(self.default_photo)
         return photos[0] if (len(photos) > 0) else self.default_photo
 
     @property
@@ -109,7 +104,5 @@ class Pet(models.Model):
     def __str__(self):
         return self.name
 
-    #post_delete.connect(file_cleanup, sender=photo, dispatch_uid=pet_directory_path)
 
 User.supervisor = property(lambda u: Supervisor.objects.get_or_create(user=u)[0])
-# Pet.photo = property(lambda p: Pet.objects.get_or_create(pet=p[0]))

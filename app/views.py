@@ -15,24 +15,6 @@ from django.utils.decorators import method_decorator
 
 from django.core.mail import send_mail, BadHeaderError
 
-# Create your views here.
-
-to_be_continued = """
-This is the main page of Lucky Paw - a service aimed at helping homless
-animals find their ideal owners.
-At the moment, nothing special is here. In fact, it is not even an
-HTML page, just an HTTP response.
-But do not worry, in a few Sprints, it will be both functional, and
-beautiful! See You soon ~~
-"""
-
-about_us = """
-The web portal "Lucky Paw" was established by group of students
-in order to help homeless pets to find their new home
-There are still more information to add ...
-(⌐ ͡■ ͜ʖ ͡■) 
-"""
-
 def index(request):
     if request.user.is_authenticated:
         sup = get_object_or_404(models.Supervisor, user=request.user)
@@ -145,21 +127,6 @@ def pet_add(request):
         pet_form = PetAddForm
         return render(request, 'app/pet_add.html', {'pet_form': pet_form })
 
-# @login_required
-# def pet_add_info(request, id):
-#     if request.method == 'POST':
-#         pet = get_object_or_404(models.Pet, pk=id)
-#         pet_info_form = PetAddInfoForm(request.POST, request.FILES, instance=pet)
-#         if pet_info_form.is_valid():
-#             pet_info_form.save(commit=True)
-#             # return redirect('index')
-#             return redirect('pet_upload_photo', id=id)
-#     else:
-#         pet = get_object_or_404(models.Pet, pk=id)
-#         pet_info_form = PetAddInfoForm(instance=pet)
-#         return render(request, 'app/pet_add_info.html', {'pet_info_form': pet_info_form})
-
-
 
 @login_required
 def pet_add_info(request, id):
@@ -199,8 +166,6 @@ def pet_delete_photo(request, id):
     photo = models.Photo.objects.get(pet__id=id, image_name=photo_name)
     photo.delete()
     return JsonResponse({status: 302 })
-
-
 
 
 @login_required
@@ -301,42 +266,3 @@ def register(request):
         return HttpResponse(reverse('index'))
     else:
         return JsonResponse(register_form.errors, status=400)
-
-
-# @method_decorator(login_required, name='post')
-# class PhotoUploadView(View):
-#     form_class = PhotoForm
-
-#     def get(self, request, id, *args, **kwargs):
-#         pet = get_object_or_404(models.Pet, pk=id)
-#         photos_list = models.Photo.objects.all().filter(pet=pet)
-#         return render(request, 'app/pet_upload_photo.html', {'photos' : photos_list, 'id' : id})
-#         # return render(self.request, '', {'photos': photos_list})
-
-
-#     def post(self, request, id, *args, **kwargs) :
-#         pet = get_object_or_404(models.Pet, pk=id)
-#         form = PhotoForm(self.request.POST, self.request.FILES)
-#         if form.is_valid():
-#             photo = form.save()
-#             data = {'is_valid': True, 'name': photo.image.name, 'url': photo.image.url}
-#         else:
-#             data = {'is_valid': False}
-#         return JsonResponse(data)
-
-
-# @login_required
-# def pet_add_info(request, id):
-#     if request.method == 'POST':
-#         pet = get_object_or_404(models.Pet, pk=id)
-#         form = PhotoForm(request.POST, request.FILES, instance=pet)
-#     if form.is_valid():
-#             photo = form.save()
-#             data = {'is_valid': True, 'name': photo.file.name, 'url': photo.file.url}
-#         else:
-#             data = {'is_valid': False}
-#         return JsonResponse(data)
-#     else:
-#         pet = get_object_or_404(models.Pet, pk=id)
-#         photos_list = models.Photo.objects.all().filter(pet=pet)
-#         return render(request, 'app/pet_upload_photo.html', {'photos' : photos_list})
