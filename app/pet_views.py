@@ -13,6 +13,21 @@ from django.urls import reverse
 from django.views import View
 from django.utils.decorators import method_decorator
 
+def pet_list(request):
+    pet_list = models.Pet.objects.filter(adopted=False)
+    pet_base_filter = PetBaseFilter(request.GET, queryset=pet_list)
+    pet_advanced_filter = PetAdvancedFilter(request.GET, queryset=pet_list)
+    pets = pet_base_filter.qs & pet_advanced_filter.qs 
+    return render(request, 'app/pet_list.html', {'base_filter': pet_base_filter, 
+    'advanced_filter': pet_advanced_filter, 'pets': pets })
+
+def pet_list_cards(request):
+    pet_list = models.Pet.objects.filter(adopted=False)
+    pet_base_filter = PetBaseFilter(request.GET, queryset=pet_list)
+    pet_advanced_filter = PetAdvancedFilter(request.GET, queryset=pet_list)
+    pets = pet_base_filter.qs & pet_advanced_filter.qs 
+    return render(request, 'app/pets_cards.html', {'pets': pets, 'is_supervisor': False })
+
 def pet_profile(request, id):
     pet = models.Pet.objects.get(id=id)
     return render(request, 'app/pet_profile.html', {'pet': pet, 'supervisor': pet.supervisor})

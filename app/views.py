@@ -32,13 +32,7 @@ def about(request):
     return render(request, 'app/about.html')
 
 def search(request):
-    pet_list = models.Pet.objects.all().filter(adopted=False)
-    print(pet_list)
-    pet_base_filter = PetBaseFilter(request.GET, queryset=pet_list)
-    pet_advanced_filter = PetAdvancedFilter(request.GET, queryset=pet_list)
-    pets = pet_base_filter.qs & pet_advanced_filter.qs 
-    return render(request, 'app/pet_list.html', {'base_filter': pet_base_filter, 
-    'advanced_filter': pet_advanced_filter, 'pets': pets })
+    return render(request, 'app/search.html')
 
 def contact(request):
     if request.method == 'GET':

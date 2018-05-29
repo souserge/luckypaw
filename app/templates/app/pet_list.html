@@ -1,32 +1,42 @@
-{% extends 'app/base.html' %}
-{% load staticfiles %}
-{% load bootstrap_tags %}
+{% load staticfiles %} {% load bootstrap_tags %}
 
-
-{% block extra_head %}
 <link rel="stylesheet" href="{% static 'css/pet_card.css' %}">
 <script>
   $(() => {
     $(".pet-filter > .form-group").addClass('d-inline-block col-md-3')
-  })
-</script>
-{% endblock %}
 
-{% block content %}
-    <h1 class="mb-4">Find your perfect pet!</h1>
-    <form method="get">
-      <div class="pet-filter">
-        {{ base_filter.form|as_bootstrap }}
-        <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-          Show advanced filters <i class="fa fa-angle-down"></i>
-        </a>
-      </div>
-      <div class="collapse" id="collapseExample">
-        <div class="pet-filter">
-          {{ advanced_filter.form|as_bootstrap }}
-        </div>
-      </div>
-      <button class="ml-1 btn btn-info d-block" type="submit">Find your pet</button>
-    </form>
-    {% include 'app/pets_cards.html' with pets=pets %}
-{% endblock %}
+    $('#petListFilterForm').on("submit", (event) => {
+      event.preventDefault()
+      loadPetCards()
+    })
+  })
+
+  function loadPetCards() {
+    const $elem = $('#petListFilterForm')
+    const data = $elem.serialize()
+
+    $("#petCards").html(`<img src="https://orig00.deviantart.net/05c8/f/2017/119/a/7/__we_can_stay_forever_young___by_mellowkun-db7keio.gif" style="width: 64px; height:auto;">`)
+    $.get($elem.attr('data-url'), data).done((petList) => {
+      $("#petCards").html(petList)
+    })
+  }
+</script>
+
+
+<form id="petListFilterForm" data-url="{% url 'pet_list_cards' %}" method="get">
+  <div class="pet-filter">
+    {{ base_filter.form|as_bootstrap }}
+    <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+      Show advanced filters
+      <i class="fa fa-angle-down"></i>
+    </a>
+  </div>
+  <div class="collapse" id="collapseExample">
+    <div class="pet-filter">
+      {{ advanced_filter.form|as_bootstrap }}
+    </div>
+  </div>
+  <button id="petListFilterFormButton" class="ml-1 btn btn-info d-block" type="submit">Find your pet</button>
+</form>
+<div id="petCards">
+</div>
