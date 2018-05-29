@@ -57,7 +57,7 @@ class PetForm(forms.ModelForm):
     class Meta:
         model = Pet
         fields = ['name','animaltype', 'location','age','color','gender',
-        'spayed','vaccinated','housetrained','specialcare','adopted','size','breed','description']
+        'spayed','vaccinated','housetrained','specialcare','size','breed','description']
 
     def __init__(self, *args, **kwargs):
         super(PetForm, self).__init__(*args, **kwargs)
