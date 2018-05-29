@@ -13,15 +13,16 @@
 {% endblock %}
 
 {% block content %}
+    <h1 class="mb-4">Find your perfect pet!</h1>
     <form method="get">
-      <div class="container pet-filter">
+      <div class="pet-filter">
         {{ base_filter.form|as_bootstrap }}
         <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
           Show advanced filters <i class="fa fa-angle-down"></i>
         </a>
       </div>
       <div class="collapse" id="collapseExample">
-        <div class="container pet-filter">
+        <div class="pet-filter">
           {{ advanced_filter.form|as_bootstrap }}
         </div>
       </div>

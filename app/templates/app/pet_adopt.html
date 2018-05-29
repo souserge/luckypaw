@@ -3,9 +3,10 @@
 {% load bootstrap_tags %}
 
 {% block content %}
-<form class="container col-md-9 mb-5" enctype="multipart/form-data" action="" method="post">
+<form class="container col-md-9 my-5" enctype="multipart/form-data" action="" method="post">
+  <h3 class="mb-3">Please add contact details of the happy adopter</h3>
   {% csrf_token %}
   {{ form|as_bootstrap }}
-  <button class="btn btn btn-info d-inline-block" type="submit"><i class="fa fa-save"></i> Adopt :)</button>
+  <button class="btn btn btn-info d-inline-block" type="submit">Adopt :)</button>
 </form>
 {% endblock %}
