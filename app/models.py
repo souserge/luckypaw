@@ -56,6 +56,7 @@ class Article(models.Model):
     photo = models.ImageField(upload_to=article_directory_path, default='articles/article_default_image.jpg')
     date_published = models.DateField(auto_now=True)
     view_count = models.IntegerField(default=0)
+    featured = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
