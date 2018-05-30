@@ -4,7 +4,7 @@
     {% if not is_supervisor %}
         <a href="{% url 'pet_profile' id=pet.id %}" style="text-decoration: none;">
     {% endif %}
-    <div class="card shadow-sm" style="height:100%;">
+    <div class="card shadow-sm">
         <img class="card-img-top" style="object-fit: cover; min-height: 60%" src="{{ pet.photo.url }}" alt="Card image cap">
         <div class="card-body">
             <h5 class="card-title">{{ pet.name }}</h5>
