@@ -12,6 +12,7 @@ from django.views.decorators.http import require_GET, require_POST
 from django.urls import reverse
 from django.views import View
 from django.utils.decorators import method_decorator
+from django.db.models import Q
 
 from django.core.mail import send_mail, BadHeaderError
 
@@ -52,7 +53,11 @@ def contact(request):
     return render(request, "app/contact.html", {'form': form})
 
 def blog(request):
-    articles = models.Article.objects.all()
+    query = request.GET.get("q")
+    if query:
+        articles = models.Article.objects.filter(Q(title__icontains=query) | Q(body__icontains=query)).distinct() 
+    else:
+        articles = models.Article.objects.all()
     return render(request, 'app/blog.html', { 'articles': articles })
 
 def article(request, id):

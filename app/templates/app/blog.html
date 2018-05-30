@@ -12,7 +12,11 @@
   <!-- Blog Entries Column -->
   <div class="col-md-8">
 
-    <h1 class="my-4">All articles</h1>
+    {% if request.GET.q %}
+      <h1 class="my-4 mr-3 d-inline-block">Results for '{{ request.GET.q }}'</h1><span ><a href="{% url 'blog' %}">return to all</a></span>
+    {% else %}
+      <h1 class="my-4">All articles</h1>
+    {% endif %}
 
 
     {% for article in articles %}
@@ -26,6 +30,8 @@
           </div>
           <div class="card-footer text-muted">Published on {{ article.date_published }} <span class="float-right"><i class="fa fa-eye"></i> {{ article.view_count }}</span></div>
         </div>
+    {% empty %}
+        <h2 class="mt-4">No posts found :(</h2>
     {% endfor %}
 
   </div>
@@ -37,12 +43,14 @@
     <div class="card my-4">
       <h5 class="card-header">Search</h5>
       <div class="card-body">
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search for...">
-          <span class="input-group-btn">
-            <button class="btn btn-info" type="button">Go!</button>
-          </span>
-        </div>
+        <form method="GET" action="">
+          <div class="input-group">
+            <input type="text" class="form-control" name="q" placeholder="Search for..." value="{{ request.GET.q }}">
+            <span class="input-group-btn">
+              <input class="btn btn-info text-header" type="submit" value="Go!" />
+            </span>
+          </div>
+        </form>
       </div>
     </div>
 
