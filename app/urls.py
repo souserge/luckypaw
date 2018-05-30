@@ -12,6 +12,7 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('contact/', views.contact, name='contact'),
     path('blog/', views.blog, name='blog'),
+    path('featured_articles/', views.featured_articles, name='featured_articles'),
     path('support/', views.support_us, name='support'),
     path('logout/', LogoutView.as_view(next_page=reverse_lazy('index')), name='logout'),
     path('auth/', include('social_django.urls', namespace='social')), 

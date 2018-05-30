@@ -65,6 +65,14 @@ def blog(request):
 
     return render(request, 'app/blog.html', { 'articles': articles })
 
+def featured_articles(request):
+    articles = models.Article.objects.filter(featured=True)
+    num_feat = articles.count()
+    if num_feat > 3:
+        articles = articles[:3]
+
+    return render(request, 'app/featured_articles.html', { 'feat_articles': articles })
+
 def article(request, id):
     article = get_object_or_404(models.Article, id=id)
     article.view_count += 1
