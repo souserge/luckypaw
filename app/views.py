@@ -58,6 +58,11 @@ def blog(request):
         articles = models.Article.objects.filter(Q(title__icontains=query) | Q(body__icontains=query)).distinct() 
     else:
         articles = models.Article.objects.all()
+    
+    featured = request.GET.get("f")
+    if featured:
+        articles = articles.filter(featured=True)
+
     return render(request, 'app/blog.html', { 'articles': articles })
 
 def article(request, id):
@@ -80,11 +85,10 @@ def login_site(self, request, *args, **kwargs):
     context['register_form'] = register_form
     return self.render_to_response(context)
 
-@login_required
 def user_profile(request, username):
     user = User.objects.get(username=username)
     supervisor = get_object_or_404(models.Supervisor, user=user) 
-    pets = models.Pet.objects.filter(supervisor__user=user)
+    pets = models.Pet.objects.filter(supervisor__user=user, adopted=False)
     return render(request, 'app/user_profile.html', {'supervisor': supervisor, 'user': user, 'pets': pets})
 
 @login_required
@@ -123,27 +127,39 @@ class LoginFormView(FormView):
         return self.render_to_response(response)
 
 
-@require_POST
 def login_form(request, *args, **kwargs):
-    login_form = LoginForm(data=request.POST)
-    if login_form.is_valid():
-        username = login_form.cleaned_data.get('username')
-        raw_password = login_form.cleaned_data.get('password')
-        user = authenticate(username=username, password=raw_password)
-        login(request, user)
-        return HttpResponse(reverse('index'))
-    else:
-        return JsonResponse(login_form.errors, status=400)
+    if request.method == 'POST':
+        login_form = LoginForm(data=request.POST)
+        if login_form.is_valid():
+            username = login_form.cleaned_data.get('username')
+            raw_password = login_form.cleaned_data.get('password')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            if request.is_ajax():
+                return HttpResponse(reverse('index'))
 
-@require_POST
+            return redirect('index')
+        elif request.is_ajax():
+            return JsonResponse(login_form.errors, status=400)
+
+    login_form = LoginForm()
+    return render(request, 'app/login.html', {'form': login_form })
+
 def register(request):
-    register_form = RegistrationForm(data=request.POST)
-    if register_form.is_valid():
-        register_form.save()
-        username = register_form.cleaned_data.get('username')
-        raw_password = register_form.cleaned_data.get('password1')
-        user = authenticate(username=username, password=raw_password)
-        login(request, user)
-        return HttpResponse(reverse('index'))
-    else:
-        return JsonResponse(register_form.errors, status=400)
+    if request.method == 'POST':
+        register_form = RegistrationForm(data=request.POST)
+        if register_form.is_valid():
+            register_form.save()
+            username = register_form.cleaned_data.get('username')
+            raw_password = register_form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            if request.is_ajax():
+                return HttpResponse(reverse('index'))
+
+            return redirect('index')
+        elif request.is_ajax():
+            return JsonResponse(register_form.errors, status=400)
+
+    register_form = RegistrationForm()
+    return render(request, 'app/register.html', { 'form': register_form })
