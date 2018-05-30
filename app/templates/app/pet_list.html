@@ -1,31 +1,43 @@
-{% extends 'app/base.html' %}
-{% load staticfiles %}
-{% load bootstrap_tags %}
+{% load staticfiles %} {% load bootstrap_tags %}
 
-
-{% block extra_head %}
 <link rel="stylesheet" href="{% static 'css/pet_card.css' %}">
 <script>
   $(() => {
-    $(".pet-filter > .form-group").addClass('d-inline-block col-md-3')
-  })
-</script>
-{% endblock %}
+    $(".pet-filter > .form-group").addClass('col-md-4 col-sm-6')
 
-{% block content %}
-    <form method="get">
-      <div class="container pet-filter">
-        {{ base_filter.form|as_bootstrap }}
-        <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-          Show advanced filters <i class="fa fa-angle-down"></i>
-        </a>
-      </div>
-      <div class="collapse" id="collapseExample">
-        <div class="container pet-filter">
-          {{ advanced_filter.form|as_bootstrap }}
-        </div>
-      </div>
-      <button class="ml-1 btn btn-info d-block" type="submit">Find your pet</button>
-    </form>
-    {% include 'app/pets_cards.html' with pets=pets %}
-{% endblock %}
+    $('#petListFilterForm').on("submit", (event) => {
+      event.preventDefault()
+      loadPetCards()
+    })
+  })
+
+  function loadPetCards() {
+    const $elem = $('#petListFilterForm')
+    const data = $elem.serialize()
+
+    $("#petCards").html(`<img src="https://orig00.deviantart.net/05c8/f/2017/119/a/7/__we_can_stay_forever_young___by_mellowkun-db7keio.gif" style="width: 64px; height:auto;">`)
+    $.get($elem.attr('data-url'), data).done((petList) => {
+      $("#petCards").html(petList)
+    })
+  }
+</script>
+
+
+<form id="petListFilterForm" data-url="{% url 'pet_list_cards' %}" method="get">
+  <div class="pet-filter row">
+    {{ base_filter.form|as_bootstrap }}
+    <a class="col-md-4 mt-md-5 mb-md-0 mb-3" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+      Show advanced filters
+      <i class="fa fa-angle-down"></i>
+    </a>
+  </div>
+  <div class="collapse" id="collapseExample">
+    <div class="pet-filter row">
+      {{ advanced_filter.form|as_bootstrap }}
+    </div>
+  </div>
+  <button id="petListFilterFormButton" class="btn btn-info d-block" type="submit">Find your pet</button>
+</form>
+<div id="petCards">
+  <svg class="d-none d-md-block" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="200px" viewBox="0 0 1040 200px"><defs id="svgEditorDefs"><polygon id="svgEditorShapeDefs" style="fill:khaki;stroke:black;vector-effect:non-scaling-stroke;stroke-width:1px;"/></defs><path d="M4.323681101261945,-2.3020224280554746l-1.1999074473958622,-0.6545953689153201v0.34370213081885304a5,5,0,0,0,-3.353324259616464,4.508294950010145a4.4312,4.4312,0,0,1,3.333247598745812,-4.078619520261945v0.3788372783992209l1.2108025382423682,-0.4895269785337506Z" style="fill:#6c757d; stroke:#6c757d; vector-effect:non-scaling-stroke;stroke-width:0px;fill-opacity:0.3;" id="e10_shape" transform="matrix(-0.733068 -32.4307 32.4307 -0.733068 131.626 157.331)"/><text style="fill:#6c757d;font-size:20px;font-style:italic;opacity: 0.7;" class="text-header" x="186" y="170" id="e11_texte" >Click me!</text></svg>
+</div>

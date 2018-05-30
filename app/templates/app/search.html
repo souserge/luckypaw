@@ -1,0 +1,20 @@
+{% extends 'app/base.html' %}
+{% load staticfiles %}
+{% load bootstrap_tags %}
+
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/pet_card.css' %}">
+<script>
+  $(() => {
+    const $petList = $('#petList')
+    $petList.load($petList.attr('data-url'), () => { loadPetCards() })
+
+  })
+</script>
+{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Find your perfect pet!</h1>
+    <div id="petList" data-url="{% url 'pet_list' %}"></div>
+{% endblock %}

@@ -9,15 +9,12 @@ from django.conf import settings
 
 
 def pet_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/pets/id_<id>/<filename>
     return 'pets/{0}'.format(filename)
 
 def article_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/users/id_<id>/<filename>
     return 'articles/{0}'.format(filename)
 
 def user_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/users/id_<id>/<filename>
     return 'users/{0}'.format(filename)
 
 
@@ -59,6 +56,7 @@ class Article(models.Model):
     photo = models.ImageField(upload_to=article_directory_path, default='articles/article_default_image.jpg')
     date_published = models.DateField(auto_now=True)
     view_count = models.IntegerField(default=0)
+    featured = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
@@ -79,11 +77,11 @@ class Pet(models.Model):
     size = models.CharField(max_length=50, choices=size_choice, blank=True)
     breed = models.CharField(max_length=50, default='', blank=True)
     description = models.CharField(max_length=2000, default='', blank=True)
-    spayed = models.NullBooleanField()
-    vaccinated = models.NullBooleanField()
-    housetrained = models.NullBooleanField()
-    specialcare = models.NullBooleanField()
-    adopted = models.NullBooleanField(default=False)
+    spayed = models.BooleanField(default=False)
+    vaccinated = models.BooleanField(default=False)
+    housetrained = models.BooleanField(default=False)
+    specialcare = models.BooleanField(default=False)
+    adopted = models.BooleanField(default=False)
     adopter_info = models.ForeignKey(AdopterInfo, on_delete=models.SET_NULL, blank=True, null=True)
 
     # One-to-Many relationship (one Supervisor can have multiple pets) 
@@ -94,8 +92,6 @@ class Pet(models.Model):
     @property
     def photo(self):
         photos = self.photos
-        print(photos)
-        print(self.default_photo)
         return photos[0] if (len(photos) > 0) else self.default_photo
 
     @property
@@ -109,7 +105,5 @@ class Pet(models.Model):
     def __str__(self):
         return self.name
 
-    #post_delete.connect(file_cleanup, sender=photo, dispatch_uid=pet_directory_path)
 
 User.supervisor = property(lambda u: Supervisor.objects.get_or_create(user=u)[0])
-# Pet.photo = property(lambda p: Pet.objects.get_or_create(pet=p[0]))

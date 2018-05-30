@@ -2,6 +2,14 @@
 {% load staticfiles %}
 
 {% block extra_head %}
+<style>
+  @media (min-width: 992px) {
+    #searchWidget {
+      position: sticky;
+      top: 40px;
+    }
+  }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -10,9 +18,13 @@
 <div class="row">
 
   <!-- Blog Entries Column -->
-  <div class="col-md-8">
+  <div class="col-lg-8 order-12 order-lg-1">
 
-    <h1 class="my-4">All articles</h1>
+    {% if request.GET.q %}
+      <h1 class="my-4 mr-3 d-inline-block">Results for '{{ request.GET.q }}'</h1><span ><a href="{% url 'blog' %}">return to all</a></span>
+    {% else %}
+      <h1 class="my-4">All articles</h1>
+    {% endif %}
 
 
     {% for article in articles %}
@@ -20,29 +32,45 @@
         <div class="card mb-4">
           <img class="card-img-top" src="{{ article.photo.url }}" alt="{{ article.title }} – head image">
           <div class="card-body">
-            <h2 class="card-title">{{ article.title }}</h2>
+            <h2 class="card-title">
+              {% if article.featured %}<i title="This is a featured article" style="color: gold;" class="fa fa-star"></i>{% endif %}
+               {{ article.title }}
+            </h2>
             <p class="card-text">{{ article.body|truncatechars_html:220 }}</p>
             <a href="{% url 'article' id=article.id %}" class="btn btn-info">Read More &rarr;</a>
           </div>
-          <div class="card-footer text-muted">Published on {{ article.date_published }} <span class="float-right"><i class="fa fa-eye"></i> {{ article.view_count }}</span></div>
+          <div class="card-footer text-muted">
+            Published on {{ article.date_published }} 
+            <span class="float-right">
+              <i class="fa fa-eye"></i> {{ article.view_count }}
+            </span>
+          </div>
         </div>
+    {% empty %}
+        <h2 class="mt-4">No posts found :(</h2>
     {% endfor %}
 
   </div>
   
   <!-- Sidebar Widgets Column -->
-  <div class="col-md-4">
-
+  <div class="col-lg-4 order-1 order-lg-12">
     <!-- Search Widget -->
-    <div class="card my-4">
-      <h5 class="card-header">Search</h5>
+    <div id="searchWidget" class="card my-4">
+      <h5 class="card-header">Find Articles</h5>
       <div class="card-body">
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search for...">
-          <span class="input-group-btn">
-            <button class="btn btn-info" type="button">Go!</button>
-          </span>
-        </div>
+        <form method="GET" action="">
+          <div class="input-group form-group">
+            <input type="text" class="form-control" name="q" placeholder="Search for..." value="{{ request.GET.q }}">
+            <span class="input-group-btn">
+                <input class="btn btn-info text-header" type="submit" value="Go!" />
+            </span>
+          </div>
+            <div class="form-group form-check">
+              <input id="featuredCheck" class="form-check-input" type="checkbox" name="f" value="1" {% if request.GET.f %}checked{% endif %}>
+              <label class="form-check-label" for="featuredCheck">Show featured articles only</label>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
 

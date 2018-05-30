@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy, path, include
 from . import views
+from . import pet_views
 from django.contrib.auth.views import(
     LogoutView,
 )
@@ -17,16 +18,18 @@ urlpatterns = [
     path('login/', views.login_form, name='login'),
     path('login-register-modal/', views.LoginFormView.as_view(), name='login_register_modal'),
     path('register/', views.register, name='register'),
-    path('pet/add/', views.pet_add, name='pet_add'),
-    path('pet/<id>/add_info/', views.pet_add_info, name='pet_add_info'),
-    path('pet/<id>/', views.pet_profile, name='pet_profile'),
-    path('pet/<id>/edit/', views.pet_edit, name='pet_edit'),
-    path('pet/<id>/delete/', views.pet_delete, name='pet_delete'),
-    path('pet/<id>/upload_photo/', views.pet_upload_photo, name='pet_upload_photo'),
-    path('pet/<id>/delete_photo/', views.pet_delete_photo, name='pet_delete_photo'),
-    path('pet/<id>/adopt/', views.pet_adopt, name='pet_adopt'),
-    path('pet/<id>/unadopt/', views.pet_unadopt, name='pet_unadopt'),    
-    path('pet/<id>/adopter/', views.pet_adopter_info, name='pet_adopter_info'),        
+    path('pets/', pet_views.pet_list, name='pet_list'),
+    path('pets/cards', pet_views.pet_list_cards, name='pet_list_cards'),
+    path('pet/add/', pet_views.pet_add, name='pet_add'),
+    path('pet/<id>/add_info/', pet_views.pet_add_info, name='pet_add_info'),
+    path('pet/<id>/', pet_views.pet_profile, name='pet_profile'),
+    path('pet/<id>/edit/', pet_views.pet_edit, name='pet_edit'),
+    path('pet/<id>/delete/', pet_views.pet_delete, name='pet_delete'),
+    path('pet/<id>/upload_photo/', pet_views.pet_upload_photo, name='pet_upload_photo'),
+    path('pet/<id>/delete_photo/', pet_views.pet_delete_photo, name='pet_delete_photo'),
+    path('pet/<id>/adopt/', pet_views.pet_adopt, name='pet_adopt'),
+    path('pet/<id>/unadopt/', pet_views.pet_unadopt, name='pet_unadopt'),    
+    path('pet/<id>/adopter/', pet_views.pet_adopter_info, name='pet_adopter_info'),        
     path('user/<username>/', views.user_profile, name='user_profile'),
     path('user/<username>/edit/', views.user_edit, name='user_edit'),
     path('article/<id>/', views.article, name='article'),
