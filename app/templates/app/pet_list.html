@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="{% static 'css/pet_card.css' %}">
 <script>
   $(() => {
-    $(".pet-filter > .form-group").addClass('d-inline-block col-md-3')
+    $(".pet-filter > .form-group").addClass('col-md-4 col-sm-6')
 
     $('#petListFilterForm').on("submit", (event) => {
       event.preventDefault()
@@ -24,15 +24,15 @@
 
 
 <form id="petListFilterForm" data-url="{% url 'pet_list_cards' %}" method="get">
-  <div class="pet-filter">
+  <div class="pet-filter row">
     {{ base_filter.form|as_bootstrap }}
-    <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    <a class="col-md-4 my-5" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
       Show advanced filters
       <i class="fa fa-angle-down"></i>
     </a>
   </div>
   <div class="collapse" id="collapseExample">
-    <div class="pet-filter">
+    <div class="pet-filter row">
       {{ advanced_filter.form|as_bootstrap }}
     </div>
   </div>
