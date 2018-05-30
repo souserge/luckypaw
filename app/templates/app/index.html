@@ -70,7 +70,7 @@
 
   <div class="screen-page" id="searchPetsPage">
     <div style="background-color: #fff7f5;position: relative;">
-      <h1 class="display-5  text-black overlay-centered" style="width:100%;text-align: center;">Make the world a better place by adopting a pet!</h1>
+      <h1 class="display-5  text-black overlay-centered" style="z-index: 10;width:100%;text-align: center;">Make the world a better place by adopting a pet!</h1>
       <div id="searchHeader"></div>
     </div>
 
@@ -80,15 +80,19 @@
     </div>
   </div>
 
-  <div class="screen-page" style="position:relative;">
-      <div id="featuredArticlesPage" class="screen-page">
-          <div class="container overlay-centered" style="height: 100vh;">
-              <h1 style="width:100%;text-align: center;">Don't know where to start from? Check out these articles</h1>
-              <div class="container" id="featuredArticles" data-url="{% url 'featured_articles' %}"></div>
-          </div>
-          <div id="featuredArticlesPageBackground"></div>
+  <div class="screen-page">
+    <div id="featuredArticlesPage" class="pb-3 screen-page">
+      <div class="py-5 container">
+        <h1 style="width:100%;text-align: center;">Don't know where to start from? Check out these articles</h1>
+        <div class="container" id="featuredArticles" data-url="{% url 'featured_articles' %}"></div>
+        <button class="btn btn-lg btn-link btn-scroll-to float-lg-right mt-3" data-scroll-to="frontPageCarousel" role="button">Return to top &uarr;</button>
       </div>
     </div>
+    <footer class="py-3">
+      <div class="text-dark text-center container">Copyright © Lucky Paw 2018</div>
+    </footer>
+  </div>
+
 </body>
 
 </html>

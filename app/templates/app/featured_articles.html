@@ -1,19 +1,27 @@
 <style>
+    .featured-article {
+        opacity: 0.8;
+        transition-property: opacity;
+        transition-duration: 0.3s;
+    }
 
+    .featured-article:hover {
+        opacity: 1;
+    }
 </style>
 
 <div class="row mt-5">
 {% for article in feat_articles %}
-    <div class="col-md-4 col-sm-6 shadow-sm">
-        <!-- <a href="{% url 'article' id=article.id %}" style="text-decoration: none;"> -->
-            <div class="card shadow-sm">
+    <div class="col-lg-4 col-sm-12 featured-article mt-sm-4">
+        <a href="{% url 'article' id=article.id %}" style="color:black;text-decoration: none;">
+            <div class="card my-card">
                 <img class="card-img-top" style="object-fit: cover; min-height: 60%" src="{{ article.photo.url }}" alt="Card image cap">
                 <div class="card-body">
-                    <h5 class="card-title">{{ article.title }}</h5>
+                    <h4 class="card-title">{{ article.title }}</h4>
                     <p class="card-text text-dark text-regular">{{ article.body|truncatechars_html:180 }} <a href="{% url 'article' id=article.id %}" class="text-header">Read more</a></p>
                 </div>
             </div>
-        <!-- </a> -->
+        </a>
     </div>
 {% empty %}
         <h4> No pets were found :(</h4>
