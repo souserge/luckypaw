@@ -18,8 +18,17 @@
       }
       fcn()
 
+      $('#featuredArticles').load($('#featuredArticles').attr("data-url"))
       $("#searchPets").load($("#searchPets").attr("data-url"))
 
+    })
+
+    $(document).ready(function () {
+      $('.btn-scroll-to').click(function() {
+        $('html, body').animate({
+          scrollTop: $("#" + $(this).attr('data-scroll-to')).offset().top
+        }, 1000)
+      })
     })
   </script>
 </head>
@@ -50,6 +59,8 @@
         </p>
 
         <p>
+          <button class="btn btn-dark btn-lg btn-scroll-to" data-scroll-to="featuredArticlesPage" role="button">Goto featured articles</button>
+          <button class="btn btn-dark btn-lg btn-scroll-to" data-scroll-to="searchPetsPage" role="button">Goto pet search</button>
           <a class="btn btn-dark btn-lg" href="https://github.com/souserge/luckypaw" role="button">
             <img class="img-fluid" style="max-width: 2em; height: auto;" src="{% static 'images/Octocat.png' %}"> Github repo</a>
         </p>
@@ -57,9 +68,9 @@
     </div>
   </header>
 
-  <div class="" style="min-height: 100vh">
+  <div class="screen-page" id="searchPetsPage">
     <div style="background-color: #fff7f5;position: relative;">
-      <h1 class="display-5  text-black overlay-centered" style="z-index: 10;width:100%;text-align: center;">Make the world a better place by adopting a pet!</h1>
+      <h1 class="display-5  text-black overlay-centered" style="width:100%;text-align: center;">Make the world a better place by adopting a pet!</h1>
       <div id="searchHeader"></div>
     </div>
 
@@ -67,11 +78,17 @@
       <h5 class="text-muted">Select the properties and click 'Find your pet'</h5>
       <div class="mt-1" id="searchPets" data-url="{% url 'pet_list' %}"></div>
     </div>
-
   </div>
-  <div id="featuredArticles" data-url="#url_with_featured_articles"></div>
 
-  {% include 'app/base_footer.html' %}
+  <div class="screen-page" style="position:relative;">
+      <div id="featuredArticlesPage" class="screen-page">
+          <div class="container overlay-centered" style="height: 100vh;">
+              <h1 style="width:100%;text-align: center;">Don't know where to start from? Check out these articles</h1>
+              <div class="container" id="featuredArticles" data-url="{% url 'featured_articles' %}"></div>
+          </div>
+          <div id="featuredArticlesPageBackground"></div>
+      </div>
+    </div>
 </body>
 
 </html>
