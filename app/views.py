@@ -85,14 +85,6 @@ def support_us(request):
 def thank_you(request):
     return render(render, 'app/thank_you.html')
 
-def login_site(self, request, *args, **kwargs):
-    login_form = LoginForm(self.request.GET or None)
-    register_form = RegistrationForm(self.request.GET or None)
-    context = self.get_context_data(**kwargs)
-    context['login_form'] = login_form
-    context['register_form'] = register_form
-    return self.render_to_response(context)
-
 def user_profile(request, username):
     user = User.objects.get(username=username)
     supervisor = get_object_or_404(models.Supervisor, user=user) 
@@ -142,7 +134,7 @@ def login_form(request, *args, **kwargs):
             username = login_form.cleaned_data.get('username')
             raw_password = login_form.cleaned_data.get('password')
             user = authenticate(username=username, password=raw_password)
-            login(request, user)
+            login_supervisor(request, user)
             if request.is_ajax():
                 return HttpResponse(reverse('index'))
 
@@ -161,7 +153,7 @@ def register(request):
             username = register_form.cleaned_data.get('username')
             raw_password = register_form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
-            login(request, user)
+            login_supervisor(request, user)
             if request.is_ajax():
                 return HttpResponse(reverse('index'))
 
@@ -171,3 +163,15 @@ def register(request):
 
     register_form = RegistrationForm()
     return render(request, 'app/register.html', { 'form': register_form })
+
+
+def login_supervisor(request, user):
+    sup, created = models.Supervisor.objects.get_or_create(user=user)
+    if created:
+        print("created")
+        sup.user = user
+        sup.save()
+    else:
+        print("not created")
+
+    login(request, user)

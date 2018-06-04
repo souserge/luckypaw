@@ -11,13 +11,23 @@
       </div>
         <div class="w-100">
           <div class="card-body px-3">
-            <h4 class="card-title">{{ user.get_full_name }}</h4>
-            <p class="card-subtitle text-muted">{{ supervisor.city }}, {{ supervisor.country }} <i class="fa fa-map-marker"></i></p>
+            <h4 class="card-title">{{ user.get_full_name|default:user.username }}</h4>
+            {% if supervisor.city or supervisor.country %}
+              <p class="card-subtitle text-muted">
+                {% if supervisor.city and supervisor.country %}
+                  {{ supervisor.city }}, {{ supervisor.country }}
+                {% else %}
+                  {{ supervisor.city }}{{ supervisor.country }}
+                {% endif %}
+                 <i class="fa fa-map-marker"></i></p>
+            {% endif %}
             <p class="card-text"></p>
-                <ul class="list-group">
-                    <li class="list-group-item"><i class="fa fa-envelope"></i> {{ user.email }}</li>
+              <ul class="list-group">
+                  <li class="list-group-item"><i class="fa fa-envelope"></i> {{ user.email }}</li>
+                  {% if supervisor.telephone %}
                     <li class="list-group-item"><i class="fa fa-phone"></i> {{ supervisor.telephone }}</li>
-                </ul>
+                  {% endif %}
+              </ul>
             </p>
             <p class="card-text">{{ supervisor.description }}</p>
           </div>
