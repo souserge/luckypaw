@@ -15,5 +15,7 @@ django-filter = "*"
 social-auth-app-django = "*"
 pillow = "*"
 django-forms-bootstrap = "*"
+"boto3" = "*"
+django-storages = "*"
 
 [dev-packages]
