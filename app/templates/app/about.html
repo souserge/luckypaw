@@ -7,11 +7,28 @@
 {% block title %}About{% endblock %}
 
 {% block content %}
-<h2>About</h2>
+<h1>About</h1>
 <p>
-The web portal "Lucky Paw" was established by a group of students
-in order to help homeless pets to find their new home. Our mission is to connect the pets with potentioan
+  The web portal "Lucky Paw" was established by a group of students
+in order to help homeless pets to find their new home. Our mission is to connect the pets with thier potentional adopters.
+This is achieved by providing to the amazing people who have rescued a homeless pet – we call such folks <i>supervisors</i> –
+the means to tell the world about the poor animal and their need to have a loving family and cozy home. <strong>If you're seeking home for a pet, please <a class='text-regular' href="{% url 'register' %}">register on our website</a> to become a supervisor.</strong>
+<br>
+<br>
+  However, the service is created with the other type of users in priority – <i>adopters</i>. Needless to say, these awesome people are the ones who want to provide a loving family for a pet.
+Adopting a pet is a great decision – the benefits are countless. Not only will you find a loyal friend and companion, but you will also become more at peace with yourself, since animals are the key to understaning the human condition (wise people say).
+<br>
+<br>
+  But keep in mind – <strong>adopting a pet is a serious decision, and comes with great responsibility.</strong>
+  By adopting, you are signing up for a long mutual journey, and you vow to provide food, shelter, medical help, and, most importantly, a lot of love and care.
+  A pet is not a toy, but a <i>living sentient being</i>. So, once again, think twice before deciding to adopt.
+  <br>
+  <strong>Supervisors, you must ensure an adopter is providing and will continue to provide all of the above!</strong> You also bear responsibility for the pets you entrust, even after their adoption. Thus, we highly recommend to check up on them every month or so for quite some time after the adoption, and we provide the functionality of managing the adopted pets to help you out with it.
+  <br>
+  <br>
+  If, for any reason, you cannot adopt a pet, but still want to help the cause, we encourage you to spread the word about Lucky Paw, and <a class='text-regular' href="{% url 'support_us' %}">support us</a> by donating to our service.
+  <br>
+  <br>
+  <span class='lead'>Whether you're a supervisor, a potential adopter, or just an inquisitive Internet user, we thank you for your interest in Lucky Paw, and we hope you're having a pleasant stay on our website. Stay awesome!</span>
 </p>
-<p>Status : WIP (⌐ ͡■ ͜ʖ ͡■)</p>
-<img src="{% static 'images/cat_program.gif' %}" alt="log in picture">
 {% endblock %}
