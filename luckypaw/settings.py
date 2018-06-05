@@ -145,6 +145,10 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_ACCOUNT')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_ACCOUNT')
 DEFAULT_TO_EMAIL = os.environ.get('EMAIL_ACCOUNT')
+SERVER_EMAIL = 'admin@luckypaw.com'
+ADMINS = [
+    'serge@korzh.com',
+]
 
 
 # AWS S3 settings

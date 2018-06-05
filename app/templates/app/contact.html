@@ -6,6 +6,25 @@
 <script>
   $(() => {
     $('.form-group').children('label').remove()
+
+    $('#emailForm').submit(function(event) {
+      event.preventDefault()
+      const elem = $(this)
+      const url =  elem.attr('action')
+      const data = elem.serialize()
+      $.post(url, data)
+        .done((response) => {
+          console.log("success")
+          $("#contactModalLabel").text('Thank You!').addClass('text-success')
+          $('#contactModalBody').text('Your message was sent to our administrators, we will reply as soon as possible.')
+          $('#contactModal').modal('show')
+        })
+        .fail((xhr,errmsg,err) => {
+          $("#contactModalLabel").text('Oops!').addClass('text-danger')
+          $('#contactModalBody').text('Something went wrong, but we are already trying to fix it. In the meantime, you can still contact us by sending an email on admin@luckypaw.com')
+          $('#contactModal').modal('show')
+        })
+    })
   })
 </script>
 {% endblock %}
@@ -15,7 +34,7 @@
 <div class="container col-md-8 mb-5">
 
     <div class="form-area">
-      <form role="form" enctype="multipart/form-data" action="" method="post">
+      <form id="emailForm" role="form" enctype="multipart/form-data" action="{% url 'contact' %}" method="post">
         <br style="clear:both">
         <h3 style="margin-bottom: 25px; text-align: center;">Contact Us</h3>
         {% csrf_token %}
@@ -23,6 +42,23 @@
         <button class="btn btn-lg btn-info" type="submit">Send</button>
       </form>
     </div>
+</div>
+
+<div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="contactModalLabel"></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="contactModalBody"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}

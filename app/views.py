@@ -13,6 +13,7 @@ from django.urls import reverse
 from django.views import View
 from django.utils.decorators import method_decorator
 from django.db.models import Q
+from django.conf import settings
 
 from django.core.mail import send_mail, BadHeaderError
 
@@ -44,12 +45,14 @@ def contact(request):
 
             subject = form.cleaned_data['subject']
             from_email = form.cleaned_data['from_email']
-            message = form.cleaned_data['name'] + '\n' + form.cleaned_data['message']
+            message = 'Name: ' + form.cleaned_data['name'] + '\nEmail: ' + from_email + '\n\n' + form.cleaned_data['message']
             try:
-                send_mail(subject, message, from_email, ['serge@korzh.com'])
-            except BadHeaderError:
-                return HttpResponse('Invalid header found.')
-            return HttpResponse('Success! Thank you for your message.')
+                staff_emails = User.objects.filter(is_staff=True).values_list('email', flat=True)
+                to_emails = set(staff_emails) | set(settings.ADMINS)
+                send_mail(subject, message, from_email, to_emails)
+            except:
+                return HttpResponse('error', status=500)
+            return HttpResponse('success')
     return render(request, "app/contact.html", {'form': form})
 
 def blog(request):
