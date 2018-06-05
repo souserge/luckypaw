@@ -2,6 +2,8 @@
 {% load staticfiles %}
 {% load bootstrap_tags %}
 
+{% block title %}{{ pet.name }}'s Adopter Details{% endblock %}
+
 {% block content %}
 <h1>{{ pet.name }} – adopter contact details</h1>
 <table class="table">
