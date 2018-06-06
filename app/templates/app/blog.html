@@ -38,7 +38,7 @@
               {% if article.featured %}<i title="This is a featured article" style="color: gold;" class="fa fa-star"></i>{% endif %}
                {{ article.title }}
             </h2>
-            <p class="card-text">{{ article.body|truncatechars_html:220 }}</p>
+            <p class="card-text">{{ article.body|striptags|truncatechars_html:220 }}</p>
             <a href="{% url 'article' id=article.id %}" class="btn btn-info">Read More &rarr;</a>
           </div>
           <div class="card-footer text-muted">
