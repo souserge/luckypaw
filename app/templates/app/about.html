@@ -8,7 +8,7 @@
 
 {% block content %}
 <h1>About</h1>
-<p>
+<p style="font-size: 1.1em;">
   The web portal "Lucky Paw" was established by a group of students
 in order to help homeless pets to find their new home. Our mission is to connect the pets with thier potentional adopters.
 This is achieved by providing to the amazing people who have rescued a homeless pet – we call such folks <i>supervisors</i> –
@@ -26,9 +26,12 @@ Adopting a pet is a great decision – the benefits are countless. Not only will
   <strong>Supervisors, you must ensure an adopter is providing and will continue to provide all of the above!</strong> You also bear responsibility for the pets you entrust, even after their adoption. Thus, we highly recommend to check up on them every month or so for quite some time after the adoption, and we provide the functionality of managing the adopted pets to help you out with it.
   <br>
   <br>
-  If, for any reason, you cannot adopt a pet, but still want to help the cause, we encourage you to spread the word about Lucky Paw, and <a class='text-regular' href="{% url 'support_us' %}">support us</a> by donating to our service.
+  If, for any reason, you cannot adopt a pet, but still want to help the cause, we encourage you to spread the word about Lucky Paw, and <a class='text-regular' href="{% url 'support_us' %}">support us</a> by donating to our service. We guarantee that every your donated penny will benefit the service and any spare money will go straight to the shelters we're in contact with. We will be indefinitely grateful for any help :)
   <br>
   <br>
-  <span class='lead'>Whether you're a supervisor, a potential adopter, or just an inquisitive Internet user, we thank you for your interest in Lucky Paw, and we hope you're having a pleasant stay on our website. Stay awesome!</span>
 </p>
+<span class="h4 text-header">Whether you're a supervisor, a potential adopter, or just an inquisitive Internet user, we thank you for your interest in Lucky Paw, and we hope you're having a pleasant stay on our website. Stay awesome!</span>
+<div class="text-center mt-4">
+  <img class="img-fluid w-100" src="{% static 'images/about-dog.jpg'%}">
+</div>
 {% endblock %}

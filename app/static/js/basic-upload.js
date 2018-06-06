@@ -26,6 +26,7 @@ $(function () {
                 const name = data.result.name
                 const url = data.result.url
                 const id = data.result.pet_id
+                $("#noPhotosProvided").remove()
                 $("#gallery").prepend(`
                 <div class="col-lg-3 col-md-4 col-xs-6">
                   <img class="img-fluid img-thumbnail" src="${url}" alt="${name.split('/').slice(-1)[0]}">
