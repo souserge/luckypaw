@@ -29,7 +29,7 @@
               <a class="nav-link {% if request.path == url %}active{% endif %}" href="{{ url }}">Blog</a>
           </li>
           <li class="nav-item">
-              {% url 'support' as url %}
+              {% url 'support_us' as url %}
               <a class="nav-link {% if request.path == url %}active{% endif %}" href="{{ url }}">Support us</a>
           </li>
           {% if request.user.is_authenticated %}

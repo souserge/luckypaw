@@ -1,8 +1,10 @@
 {% extends 'app/base.html' %}
 
+{% block title %}Your Pets{% endblock %}
+
 {% block content %}
 <h2>{{ supervisor.user.username }}'s pets</h2>
-
+<p class="text-muted">Here you can manage the pets you supervise. Add a new pet by clicking the button bellow.</p>
   <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item">
       <a class="nav-link active" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="true">All</a>
@@ -25,5 +27,5 @@
     <div class="tab-pane fade" id="adopted" role="tabpanel" aria-labelledby="adopted-tab">
       {% include 'app/pets_cards.html' with pets=adopted_pets is_supervisor=True %}
     </div>
-  <a class="btn btn-info mt-4" href="{% url 'pet_add' %}">Add new pet</a>
+  <a class="btn btn-lg btn-info mt-4" href="{% url 'pet_add' %}">Add new pet</a>
 {% endblock %}

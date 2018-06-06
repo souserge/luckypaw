@@ -2,6 +2,8 @@
 {% load staticfiles %}
 {% load bootstrap_tags %}
 
+{% block title %}Edit Pet {{ pet.name }}{% endblock %}
+
 {% block extra_head %}
 <script>
   $(() => {
@@ -64,7 +66,7 @@
           <img class="img-fluid img-thumbnail" src="{{ photo.url }}" alt="{{ photo.name }}">
         </div>
       {% empty %}
-        <p>No photos provided.</p>
+        <p id="noPhotosProvided">No photos provided.</p>
       {% endfor %}
     </div>
 
@@ -92,6 +94,6 @@
   <button class="btn btn btn-info d-inline-block mt-5" type="submit"><i class="fa fa-save"></i> Save changes</button>
 
   <a class="btn btn btn-danger d-inline-block float-right align-middle mt-5" id="deleteModalButton" data-url="{% url 'pet_delete' id=id %}" href="#delete"><i class="fa fa-trash"></i> Delete pet</a>
-  <div id="deleteModalContainer"></div>
 </form>
+<div id="deleteModalContainer"></div>
 {% endblock %}

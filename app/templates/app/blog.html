@@ -12,6 +12,8 @@
 </style>
 {% endblock %}
 
+{% block title %}Blog{% endblock %}
+
 {% block content %}
 
 
@@ -20,11 +22,14 @@
   <!-- Blog Entries Column -->
   <div class="col-lg-8 order-12 order-lg-1">
 
-    {% if request.GET.q %}
-      <h1 class="my-4 mr-3 d-inline-block">Results for '{{ request.GET.q }}'</h1><span ><a href="{% url 'blog' %}">return to all</a></span>
-    {% else %}
-      <h1 class="my-4">All articles</h1>
-    {% endif %}
+    <div class="my-4">
+      {% if request.GET.q %}
+        <h1 class="mr-3 d-inline-block">Results for '{{ request.GET.q }}'</h1><span ><a href="{% url 'blog' %}">return to all</a></span>
+      {% else %}
+        <h1>All articles</h1>
+        <p class="text-muted">Here you can find useful articles concerning pet adoption and care, as well as other related topics.</p>
+      {% endif %}
+    </div>
 
 
     {% for article in articles %}
@@ -36,7 +41,7 @@
               {% if article.featured %}<i title="This is a featured article" style="color: gold;" class="fa fa-star"></i>{% endif %}
                {{ article.title }}
             </h2>
-            <p class="card-text">{{ article.body|truncatechars_html:220 }}</p>
+            <p class="card-text">{{ article.body|striptags|truncatechars_html:220 }}</p>
             <a href="{% url 'article' id=article.id %}" class="btn btn-info">Read More &rarr;</a>
           </div>
           <div class="card-footer text-muted">

@@ -2,6 +2,8 @@
 {% load staticfiles %}
 {% load bootstrap_tags %}
 
+{% block title %}Edit Your Profile{% endblock %}
+
 {% block content %}
 <form class="container col-md-9 mb-5" enctype="multipart/form-data" action="" method="post">
   {% csrf_token %}
