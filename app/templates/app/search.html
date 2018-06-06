@@ -16,6 +16,9 @@
 {% endblock %}
 
 {% block content %}
-    <h1 class="mb-4">Find your perfect pet!</h1>
-    <div id="petList" data-url="{% url 'pet_list' %}"></div>
+  <div class="mb-4">
+    <h1>Find your perfect pet!</h1>
+    <p class="text-muted">Fill in the parameters of your perfect pet. Click on the button and find it!</p>
+  </div>
+  <div id="petList" data-url="{% url 'pet_list' %}"></div>
 {% endblock %}
