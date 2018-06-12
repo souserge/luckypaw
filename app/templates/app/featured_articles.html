@@ -12,7 +12,7 @@
 
 <div class="row mt-5">
 {% for article in feat_articles %}
-    <div class="col-lg-4 col-sm-12 featured-article mt-sm-4">
+    <div class="col-md-4 col-12 featured-article mb-4">
         <a href="{% url 'article' id=article.id %}" style="color:black;text-decoration: none;">
             <div class="card my-card">
                 <img class="card-img-top" style="object-fit: cover; min-height: 60%" src="{{ article.photo.url }}" alt="Card image cap">

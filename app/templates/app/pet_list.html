@@ -14,7 +14,7 @@
     const $elem = $('#petListFilterForm')
     const data = $elem.serialize()
 
-    $("#petCards").html(`<img src="https://orig00.deviantart.net/05c8/f/2017/119/a/7/__we_can_stay_forever_young___by_mellowkun-db7keio.gif" style="width: 64px; height:auto;">`)
+    $("#petCards").html(`<p class="text-center"><img src="https://orig00.deviantart.net/05c8/f/2017/119/a/7/__we_can_stay_forever_young___by_mellowkun-db7keio.gif" style="width: 64px; height:auto;"></p>`)
     $.get($elem.attr('data-url'), data).done((petList) => {
       $("#petCards").html(petList)
     })
