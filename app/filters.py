@@ -12,7 +12,7 @@ class PetFilter(django_filters.FilterSet):
         
 
 class PetBaseFilter(django_filters.FilterSet):
-    animaltype = django_filters.ChoiceFilter(name='animaltype', label="Animal type")
+    animaltype = django_filters.ChoiceFilter(name='animaltype', label="Animal type", choices=Pet.animaltype_choice)
     location = django_filters.CharFilter(name='location', label='Location', lookup_expr='icontains')
     
     class Meta:
@@ -22,7 +22,7 @@ class PetBaseFilter(django_filters.FilterSet):
 class PetAdvancedFilter(django_filters.FilterSet):
     breed = django_filters.CharFilter(name='breed', label='Breed', lookup_expr='icontains')
     color = django_filters.CharFilter(name='color', label='Colour', lookup_expr='icontains')
-    specialcare = django_filters.ChoiceFilter(name='specialcare', label='Special care')
+    specialcare = django_filters.BooleanFilter(name='specialcare', label='Special care')
 
     class Meta:
         model = Pet
