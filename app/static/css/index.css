@@ -16,16 +16,19 @@
 .carousel-inner > .carousel-item {
     background-color: #000000;
     height: 100vh;
+    min-height: 550px;
 }
 
 #frontPageCarousel {
     width: 100%;
     height: 100vh;
+    min-height: 550px;
 }
 
 #searchHeader {
     width: 100%;
     height: 37vh;
+    min-height: 200px;
     background-repeat: no-repeat;
     opacity: 0.8;
     background: linear-gradient(transparent, #fff7f5), url("http://vaccinateyourpet.net/sites/vaccinateyourpet/files/banner-dog-cat_1.jpg") ;
@@ -34,6 +37,7 @@
 }
 
 .screen-page {
+    min-height: 550px;
     min-height: 100vh;
 }
 
@@ -60,7 +64,7 @@
     position: absolute;
     width: 100%;
     top: 0;
-    z-index: 999999;
+    z-index: 1000;
 }
 
 footer {
@@ -80,8 +84,20 @@ footer {
     background-color: rgba(255, 255, 255, 0.5);
 }
 
+.btn-big {
+    font-size: 1.8em;
+}
+
 @media (max-width: 992px) { 
     #mainNav {
         background-color: rgba(0, 0, 0, 0.966)
+    }
+
+    .big-text {
+        font-size: 1.2em;
+    }
+
+    .btn-big {
+        font-size: 1.2em;
     }
 }
